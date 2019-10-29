@@ -1,0 +1,38 @@
+<ion-view view-title="幸运大转盘">
+    <div class="wheelObj-nav" ng-if="resData">
+        <div class="box">
+            <div class="wheelObj-nav-arrow" back-button="" nav-direction="back"><i class="jyicon fs22 color-fff">&#xe638;</i></div>
+        </div>
+    </div>
+    <ion-content class="wheelObj" ng-style="wheelObj">
+        <div ng-style="wheelBgObj" ng-if="resData">
+            <div style="padding: 55% 0 10% 0;">
+                <div class="wheelCenterObj">
+                    <img ng-src="{{resData.outerPic}}" alt="">
+                    <div class="wheelInnerObj" ng-style="wheelInnerRotateObj">
+                        <img ng-src="{{resData.bgPic}}" alt="">
+                        <div class="wheelProduct">
+                            <ul>
+                                <li class="wheelLi{{$index}}" ng-repeat="item in prizeInfos"><img ng-src="{{item.accessPath}}" alt=""></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="wheelBtnObj">
+                        <img ng-src="{{resData.btnPic}}" on-tap="startDrawLottery()" alt="" ng-if="show==true">
+                        <img ng-src="{{resData.btnPic}}"  alt="" ng-if="show==false">
+                        <!--<img class={{resData.lotteryActivityStatus=='ACTIVE'?'':'disabledBtn'}} ng-src="{{resData.btnPic}}" on-tap="startDrawLottery()" alt="">-->
+                    </div>
+                </div>
+                <p class="pt20 color-fff text-center" style="font-size: 1rem;">剩余抽奖次数: {{remainingFrequency?remainingFrequency:0}}次</p>
+                <div class="mt20"><img src="./img/award-line.png" alt=""></div>
+                <div class="ruleText" ng-bind-html="ruleText"></div>
+
+                <div class="text-center color-fff fs20 mb20">中奖名单公布</div>
+                <marquee align="middle" behavior="scroll" direction="up" height="250"  hspace="0" vspace="0" loop="-1" scrollamount="4" scrolldelay="0">
+                    　<div class="ruleText text-center mt30 color-fff" ng-bind-html="winText"></div>
+            　  </marquee >
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

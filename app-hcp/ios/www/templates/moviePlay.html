@@ -1,0 +1,82 @@
+<ion-view view-title="视频播放" ng-controller="moviePlayCtrl as controller">
+    <ion-header-bar align-title="center" class="bar-default pd0 iphone-x-head">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <h1 class="title">{{movieTit}}</h1>
+    </ion-header-bar>
+
+    <ion-content overflow-scroll='false' scrollbar-y="false" class="iphone-x-content">
+        <!--<div class="videogular-container">-->
+            <videogular vg-player-ready="controller.onPlayerReady($API)" vg-theme="controller.config.theme.url">
+                <vg-media vg-src="controller.config.sources"
+                          vg-tracks="controller.config.tracks" vg-preload="controller.config.preload">
+                </vg-media>
+                <vg-controls>
+                    <vg-play-pause-button class="fs30"></vg-play-pause-button>
+                    <vg-time-display class="fs12">{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+                    <vg-scrub-bar>
+                        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                    </vg-scrub-bar>
+                    <vg-time-display class="fs12">{{ timeLeft | date:'mm:ss':'+0000' }}</vg-time-display>
+                    <vg-volume>
+                        <vg-mute-button></vg-mute-button>
+                        <vg-volume-bar></vg-volume-bar>
+                    </vg-volume>
+                    <vg-fullscreen-button></vg-fullscreen-button>
+                </vg-controls>
+
+                <vg-overlay-play class="fs12"></vg-overlay-play>
+                <vg-buffering></vg-buffering>
+                <vg-poster vg-url='controller.config.plugins.poster'></vg-poster>
+            </videogular>
+        <!--</div>-->
+
+
+        <div class="video-intro">
+            <div class="video-l">
+                <div><img src="img/test01.jpg"></div>
+                <div class="video-text">
+                    <h2 class="fs16">星际迷航3:超越星辰</h2>
+                    <p class="fs12">2016-09-02 大陆上映</p>
+                </div>
+            </div>
+            <div class="video-r">
+                <div class="text-right"><span><sub>8</sub>.<sup>6</sup></span></div>
+                <div style="margin-top: 3px;"><a ui-sref="theatre" class="btn-buy">购票</a></div>
+            </div>
+        </div>
+        <div class="video-block">
+            <div class="row video-block-tit pd0" tabs-click="">
+                <a class="col col-50 active">视频(88)</a>
+                <a class="col col-50">评论(36)</a>
+            </div>
+        </div>
+        <ion-slide-box active-slide="slideTo()" show-pager="false" on-slide-changed="slideHasChanged($index)">
+            <ion-slide>
+                <div class="list activity-list" ng-repeat="item in hotActivityList">
+                    <a class="item item-thumbnail-left" href="#" style="border-right:0;">
+                        <img ng-src="{{item.imgSrc}}">
+                        <h2 class="fs16">{{item.tit}}</h2>
+                        <p class="fs12"><span>观看: {{item.time}}</span> 评论:{{item.comment}}</p>
+                    </a>
+                </div>
+            </ion-slide>
+            <ion-slide>
+                <div class="list">
+                    <a class="item item-avatar" href="#">
+                        <img src="img/test01.jpg">
+                        <h2 class="color-666 fs12">jy0001</h2>
+                        <p class="color-333">资源已有,沙发,随意打赏!</p>
+                        <span class="commentTime fs12 color-999">22小时前</span>
+                    </a>
+                    <a class="item item-avatar" href="#">
+                        <img src="img/test02.jpg">
+                        <h2 class="color-666 fs12">jy0002</h2>
+                        <p class="color-333">资源已有,沙发,随意打赏!</p>
+                        <span class="commentTime fs12 color-999">1天前</span>
+                    </a>
+                </div>
+            </ion-slide>
+        </ion-slide-box>
+    </ion-content>
+
+</ion-view>

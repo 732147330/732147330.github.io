@@ -1,0 +1,134 @@
+<ion-view view-title="我的会员卡">
+  <ion-header-bar align-title="center" class="iphone-x-head">
+    <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+    <div class="h1 title">我的会员卡</div>
+  </ion-header-bar>
+
+  <ion-content scrollbar-y="false" class="iphone-x-content">
+    <div class="list vip-home-list" ng-if="obj.memFlag">
+      <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+      <div>
+        <div class="ml20 mr20 mb20">
+          <div class="cardPic pos" ui-sref="myPin" nav-direction="forward">
+            <!--<img src="./img/tuhaoka.jpg" alt="">-->
+            <img ng-src={{userInfo.cardUrl}} alt="">
+            <div style="position: absolute;left: 16px;bottom: 15px;font-size: 14px;color: #fff;padding: 0 10px;border-radius: 3px;text-shadow: 0 0 5px #8a692c, 0 0 10px #84601d, 0 0 15px #e2c78f, 0 0 40px #84601d, 0 0 70px #8a692c;">NO:{{userInfo.cardNumber}}</div>
+          </div>
+          <div class="box text-center">
+            <div class="box1" style="border-right: 1px solid #f5f5f5;">
+              积分
+              <div class="color-998278">{{userInfo.integro?userInfo.integro:'0'}}</div>
+            </div>
+            <div class="box1" style="border-right: 1px solid #f5f5f5;">
+              余额
+              <div class="color-998278">{{userInfo.cardBalance?userInfo.cardBalance:'0.00'}}元</div>
+            </div>
+            <div class="box1">
+              等级
+              <div class="color-998278">{{userInfo.level}}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="myCharge" ui-sref="recharge">充值</div>
+        <div class="text-center fs12 mb20 color-666" ui-sref="rechargeRecord" nav-direction="forward">充值明细</div>
+
+        <a class="item item-icon-right color-666 fs14" ui-sref="hyqy">
+          <span style="color: #666;"> 会员权益</span>
+          <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+        </a>
+        <a class="item item-icon-right fs14" ui-sref="myPin">
+          <span style="color: #666;"> 会员卡电子码</span>
+          <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+        </a>
+        <a class="item item-icon-right fs14" ui-sref="yhj" ng-if="userInfo.level=='腾讯王卡联名卡'">
+          <span style="color: #666;"> 赠送礼券</span>
+          <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+        </a>
+      </div>
+    </div>
+    <div ng-if="obj.noMemFlag">
+      <p class="fs12 color-999 text-center pt30">亲,您暂未绑定会员卡!</p>
+      <div class="ml15 mr15">
+        <button ui-sref="bindCard" nav-direction="forward" class="button button-jy button-block">立即绑定</button>
+      </div>
+      <div class="pl15 pr15 pt30">
+        <h2 class="fs14 hyTit">网上会员权益</h2>
+        <div ng-bind-html="jydtTit"></div>
+        <style>
+          .hyUl li {
+            display: flex;
+          }
+          .hyCon img {
+            width: 2rem;
+            vertical-align: middle;
+            display: none;
+          }
+          .hyCon h3 {
+            font-weight: bold;
+          }
+        </style>
+        <!--<ul class="hyUl">
+            <li class="flex">
+                <div class="hyIcon"><i class="ion-film-marker"></i></div>
+                <div class="hyCon">
+                    <h3>购票优惠</h3>
+                    <p>会员购票可享受线上线下低至正价5折优惠</p>
+                </div>
+            </li>
+            <li class="flex">
+                <div class="hyIcon"><i class="ion-ios-body"></i></div>
+                <div class="hyCon">
+                    <h3>免费直升厅（金逸·腾讯王卡会员专享）</h3>
+                    <p style="word-break: break-all;">会员每月享有2张升厅券：①升厅券当月有效，不能累计，每月为自然月；
+                        ②用券可将3D电影票（除首开赠票）免费升级为IMAX/4D/VIP/床厅等特殊厅，IMAX/4D/VIP/床厅等特殊厅之间不可用升级券。</p>
+                </div>
+            </li>
+            &lt;!&ndash;<li class="flex">
+                <div class="hyIcon"><i class="ion-android-playstore"></i></div>
+                <div class="hyCon">
+                    <h3>满购送话费（仅限VIP+观影卡会员）</h3>
+                    <p>会员在金逸线上（金逸官网/金逸电影APP/金逸官微/官方微博）、线下（金逸旗下直营影城门店）当月消费满150元（特价商品除外），次月底前赠送腾讯王卡20元日租宝话费，当月超过150元的部分不计入到下月的消费中。话费每月限赠送一次（上述“每月”均为“自然月”）。</p>
+                </div>
+            </li>&ndash;&gt;
+            <li class="flex">
+                <div class="hyIcon"><i class="ion-cash"></i></div>
+                <div class="hyCon">
+                    <h3>积分兑换</h3>
+                    <p>会员每消费1元可获得1积分，积分可兑换卖品、电影衍生品、电影票等权益。</p>
+                </div>
+            </li>
+            <li class="flex">
+                <div class="hyIcon"><i class="ion-aperture"></i></div>
+                <div class="hyCon">
+                    <h3>明星见面会（仅限VIP+观影卡会员）</h3>
+                    <p>会员每月至少可享受一次线上抢票活动（金逸官网/金逸电影APP/金逸官微/官方微博），包含明星见面会门票。</p>
+                </div>
+            </li>
+            <li class="flex">
+                <div class="hyIcon"><i class="ion-ios-people"></i></div>
+                <div class="hyCon">
+                    <h3>生日赠券</h3>
+                    <p>会员生日当天可凭有效身份证明在全国任一金逸直营影城前台免费领取2D\3D电影赠券一张（赠票限在领取的影城使用）。</p>
+                </div>
+            </li>
+            <li class="flex">
+                <div class="hyIcon"><i class="ion-mic-c"></i></div>
+                <div class="hyCon">
+                    <h3>会员活动</h3>
+                    <p>定期举办主题会员活动（金逸官网/金逸电影APP/金逸官微/官方微博）。</p>
+                </div>
+            </li>
+            <li class="flex">
+                <div class="hyIcon"><i class="ion-ios-film"></i></div>
+                <div class="hyCon">
+                    <h3>自主退票</h3>
+                    <p>持卡会员采用会员卡支付且未取票的影票订单，影票开场前2小时可自主退票（限退6张/天）。</p>
+                </div>
+            </li>
+        </ul>-->
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>

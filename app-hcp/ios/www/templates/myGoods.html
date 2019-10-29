@@ -1,0 +1,188 @@
+<ion-view view-title="衍生品订单">
+    <style>
+        .box{
+            height: 100%;
+        }
+    </style>
+    <ion-header-bar align-title="center" class="top-xian iphone-x-head">
+        <a ui-sref="myOrder" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">衍生品订单</div>
+    </ion-header-bar>
+    <div class="pos clearfix iphonex-mt" tabs-click="" style="margin-top: 64px">
+        <a class="stap step1" style="width: 20%;" ng-class="activeIndex==0?'active':''">全部</a>
+        <a class="stap step2" style="width: 20%;" ng-class="activeIndex==1?'active':''">待付款</a>
+        <a class="stap step1" style="width: 20%;" ng-class="activeIndex==2?'active':''">待收货</a>
+        <a class="stap step1" style="width: 20%;" ng-class="activeIndex==3?'active':''">待提货</a>
+        <a class="stap step2" style="width: 20%;" ng-class="activeIndex==4?'active':''">退货退款</a>
+    </div>
+    <ion-content overflow-scroll="false" scrollbar-y="false" has-bouncing="false" class="iphone-x-content" style="top: 114px">
+        <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+
+        <ion-slide-box active-slide="slideTo()" show-pager="false" on-slide-changed="slideHasChanged($index)">
+            <ion-slide class="slider-slide-vh myTicketsSlide mt5" >
+                <div class="list mb10" ng-repeat="item in allData">
+                    <p class="color-999 pl10">{{item.orderCode}}</p>
+                    <div class="row" style="padding: 0 10px;">
+                        <div class="col col-100 fs14 text-left">{{item.orderTime}}</div>
+                        <div class="col fs14 text-right" style="color: #ff5715">{{item.orderStatusName}}</div>
+                    </div>
+                    <a class="item item-thumbnail-left" style="margin-bottom: 1px;min-height: 100px" ng-repeat="row in item.lineInfoList" ui-sref="orderDetails({tid:'{{item.tid}}'})">
+                        <img style="height: auto!important;" ng-src="{{row.accessPath}}">
+                        <p class="myGood-p">{{row.title}}</p>
+                        <div class="color-999 fs14 mt10">
+                            <span ng-repeat="rowchild in row.salesData">{{rowchild.propName}}:{{rowchild.propValue}} </span>
+                        </div>
+                        <!--<p class="pt5" ng-repeat="rowchild in row.salesData">{{rowchild.propName}} {{rowchild.propValue}}</p>-->
+                        <!--<p class="pt5 fs14">{{item.orderTime}}</p>-->
+                        <div style="position: absolute;top: 8px;right: 14px">
+                            <p>￥{{row.price | number:2}}</p>
+                            <p class="color-999"  style="text-decoration: line-through;">￥{{row.price | number:2}}</p>
+                            <p class="pt5 pl15">x{{row.num}}</p>
+                        </div>
+                        <!--<div class="text-right myGoods-cbtn" ng-if="row.refundStatus&&item.status=='PAID'"-->
+                             <!--style="margin-top: 42px;font-size: 13px" ui-sref="refunds({tid:item.tid,oid:row.oid})" >退款进度</div>-->
+                    </a>
+                    <div class="row" style="padding: 0 10px;height: 40px">
+                        <div class="text-left mt10">共{{item.lineInfoList.length}}件商品 合计：￥{{item.totalAmount| number:2}}</div>
+                    <div class="myGoods-btn text-right" ng-if="item.status=='UNPAID'" on-tap="goPay({{item}})">去支付</div>
+                    <div class="text-right myGoods-cbtn" ng-if="item.status=='UNPAID'" on-tap="cancelOrder({{item.tid}})">取消订单</div>
+                    <div class="text-right myGoods-cbtn" ng-if="item.deliveryMode=='SINCE_ADDRESS'&&item.status=='PAID'&&!item.lineInfoList[0].refundStatus" ui-sref="pickUpProgress({tid:item.tid,oid:item.lineInfoList[0].oid})">提货进度</div>
+                    <div class="text-right myGoods-cbtn" ng-if="item.deliveryMode=='DELIVERY_ADDRESS'&&item.status=='PAID'"
+                         ui-sref="checkLogistics({expressCode:item.lineInfoList[0].expressCode,deliveryOrderCode:item.lineInfoList[0].deliveryOrderCode,accessPath:item.lineInfoList[0].accessPath})">查看物流</div>
+                    <!--<div class="text-right myGoods-cbtn" ng-if="item.lineInfoList[0].refundStatus&&item.status=='PAID'"-->
+                         <!--ui-sref="refunds({tid:item.tid,oid:item.lineInfoList[0].oid})">退货进度</div>-->
+                </div>
+                    <div class="my-divider"></div>
+                </div>
+                <div ng-if="allData.length==0" class="text-center pt100 color-999">{{languageSetting.noDataTip}}</div>
+            </ion-slide>
+
+            <ion-slide class="slider-slide-vh myTicketsSlide mt5">
+                <div class="list mb10" ng-repeat="item in unpaidData">
+                    <p class="color-999 pl10">{{item.orderCode}}</p>
+                    <div class="row" style="padding: 0 10px;">
+                        <div class="col col-100 fs14 text-left">{{item.orderTime}}</div>
+                        <div class="col fs14 text-right" style="color: #ff5715">{{item.orderStatusName}}</div>
+                    </div>
+
+                    <a class="item item-thumbnail-left" style="margin-bottom: 1px;min-height: 100px" ng-repeat="row in item.lineInfoList"  ui-sref="orderDetails({tid:'{{item.tid}}'})">
+                        <img style="height: auto!important;" ng-src="{{row.accessPath}}">
+                        <p class="myGood-p">{{row.title}}</p>
+                        <div class="color-999 fs14 mt10">
+                            <span ng-repeat="rowchild in row.salesData">{{rowchild.propName}}:{{rowchild.propValue}} </span>
+                        </div>
+                        <!--<p class="pt5" ng-repeat="rowchild in row.salesData">{{rowchild.propName}} {{rowchild.propValue}}</p>-->
+                        <!--<p class="pt5 fs14">{{item.orderTime}}</p>-->
+                        <div style="position: absolute;top: 8px;right: 30px">
+                            <p>￥{{row.price | number:2}}</p>
+                            <p class="color-999"  style="text-decoration: line-through;">￥{{row.price | number:2}}</p>
+                            <p class="pt5 pl15">x{{row.num}}</p>
+                        </div>
+                    </a>
+                    <div class="row" style="padding: 0 10px;height: 40px">
+                        <div class="text-left mt10">共{{item.lineInfoList.length}}件商品 合计：￥{{item.totalAmount| number:2}}</div>
+                        <div class="myGoods-btn text-right"  on-tap="goPay({{item}})">去支付</div>
+                        <div class="text-right myGoods-cbtn" on-tap="cancelOrder({{item.tid}})">取消订单</div>
+                    </div>
+                    <div class="my-divider"></div>
+                </div>
+                <div ng-if="unpaidData.length==0" class="text-center pt100 color-999">{{languageSetting.noDataTip}}</div>
+            </ion-slide>
+
+            <ion-slide class="slider-slide-vh myTicketsSlide mt5">
+                <div class="list mb10" ng-repeat="item in deliveryData">
+                    <p class="color-999 pl10">{{item.orderCode}}</p>
+                    <div class="row" style="padding: 0 10px;">
+                        <div class="col col-100 fs14 text-left">{{item.orderTime}}</div>
+                        <div class="col fs14 text-right" style="color: #ff5715">{{item.orderStatusName}}</div>
+                    </div>
+                    <a class="item item-thumbnail-left" style="margin-bottom: 1px;min-height: 100px" ng-repeat="row in item.lineInfoList"  ui-sref="orderDetails({tid:'{{item.tid}}'})">
+                        <img style="height: auto!important;" ng-src="{{row.accessPath}}">
+                        <p class="myGood-p">{{row.title}}</p>
+                        <div class="color-999 fs14 mt10">
+                            <span ng-repeat="rowchild in row.salesData">{{rowchild.propName}}:{{rowchild.propValue}} </span>
+                        </div>
+                        <!--<p class="pt5" ng-repeat="rowchild in row.salesData">{{rowchild.propName}} {{rowchild.propValue}}</p>-->
+                        <!--<p class="pt5 fs14">{{item.orderTime}}</p>-->
+                        <div style="position: absolute;top: 8px;right: 30px">
+                            <p>￥{{row.price | number:2}}</p>
+                            <p class="color-999"  style="text-decoration: line-through;">￥{{row.price | number:2}}</p>
+                            <p class="pt5 pl15">x{{row.num}}</p>
+                        </div>
+                    </a>
+                    <div class="row" style="padding: 0 10px;height: 40px">
+                        <div class="text-left mt10">共{{item.lineInfoList.length}}件商品 合计：￥{{item.totalAmount| number:2}}</div>
+                        <div class="text-right myGoods-cbtn"  ui-sref="checkLogistics({expressCode:item.lineInfoList[0].expressCode,deliveryOrderCode:item.lineInfoList[0].deliveryOrderCode,accessPath:item.lineInfoList[0].accessPath})">查看物流</div>
+                    </div>
+                    <div class="my-divider"></div>
+                </div>
+                <div ng-if="paidData.length==0" class="text-center pt100 color-999">{{languageSetting.noDataTip}}</div>
+            </ion-slide>
+
+
+            <ion-slide class="slider-slide-vh myTicketsSlide mt5">
+                <div class="list mb10" ng-repeat="item in sinceData">
+                    <p class="color-999 pl10">{{item.orderCode}}</p>
+                    <div class="row" style="padding: 0 10px;">
+                        <div class="col col-100 fs14 text-left">{{item.orderTime}}</div>
+                        <div class="col fs14 text-right" style="color: #ff5715">{{item.orderStatusName}}</div>
+                    </div>
+                    <a class="item item-thumbnail-left" style="margin-bottom: 1px;min-height: 100px" ng-repeat="row in item.lineInfoList"  ui-sref="orderDetails({tid:'{{item.tid}}'})">
+                        <img style="height: auto!important;" ng-src="{{row.accessPath}}">
+                        <p class="myGood-p">{{row.title}}</p>
+                        <div class="color-999 fs14 mt10">
+                            <span ng-repeat="rowchild in row.salesData">{{rowchild.propName}}:{{rowchild.propValue}} </span>
+                        </div>
+                        <!--<p class="pt5" ng-repeat="rowchild in row.salesData">{{rowchild.propName}} {{rowchild.propValue}}</p>-->
+                        <!--<p class="pt5 fs14">{{item.orderTime}}</p>-->
+                        <div style="position: absolute;top: 8px;right: 30px">
+                            <p>￥{{row.price | number:2}}</p>
+                            <p class="color-999"  style="text-decoration: line-through;">￥{{row.price | number:2}}</p>
+                            <p class="pt5 pl15">x{{row.num}}</p>
+                        </div>
+                    </a>
+                    <div class="row" style="padding: 0 10px;height: 40px">
+                        <div class="text-left mt10">共{{item.lineInfoList.length}}件商品 合计：￥{{item.totalAmount| number:2}}</div>
+                        <div class="text-right myGoods-cbtn" ui-sref="pickUpProgress({tid:item.tid,oid:item.lineInfoList[0].oid})">提货进度</div>
+                    </div>
+                    <div class="my-divider"></div>
+                </div>
+                <div ng-if="paidData.length==0" class="text-center pt100 color-999">{{languageSetting.noDataTip}}</div>
+            </ion-slide>
+
+            <ion-slide class="slider-slide-vh myTicketsSlide mt5">
+            <div class="list mb10" ng-repeat="item in refundData">
+                <p class="color-999 pl10">{{item.orderCode}}</p>
+                <div class="row" style="padding: 0 10px;">
+                    <div class="col col-100 fs14 text-left">{{item.orderTime}}</div>
+                    <div class="col fs14 text-right" style="color: #ff5715">{{item.orderStatusName}}</div>
+                </div>
+                <a class="item item-thumbnail-left pos" style="margin-bottom: 1px;min-height: 130px;" ng-repeat="row in item.lineInfoList"  ui-sref="orderDetails({tid:'{{item.tid}}'})">
+                    <img style="height: auto!important;" ng-src="{{row.accessPath}}">
+                    <p class="myGood-p">{{row.title}}</p>
+                    <div class="color-999 fs14 mt10">
+                        <span ng-repeat="rowchild in row.salesData">{{rowchild.propName}}:{{rowchild.propValue}} </span>
+                    </div>
+                    <!--<p class="pt5" ng-repeat="rowchild in row.salesData">{{rowchild.propName}} {{rowchild.propValue}}</p>-->
+                    <!--<p class="pt5 fs14">{{item.orderTime}}</p>-->
+                    <div style="position: absolute;top: 8px;right: 30px">
+                        <p>￥{{row.price | number:2}}</p>
+                        <p class="color-999"  style="text-decoration: line-through;">￥{{row.price | number:2}}</p>
+                        <p class="pt5 pl15">x{{row.num}}</p>
+                    </div>
+
+                        <div class="text-right myGoods-cbtn" style="top: 83px;font-size: 13px" ui-sref="refunds({tid:item.tid,oid:row.oid})" >退款进度</div>
+
+                </a>
+                <div class="row" style="padding: 0 10px;height: 40px">
+                    <div class="text-left mt10">共{{item.lineInfoList.length}}件商品 合计：￥{{item.totalAmount| number:2}}</div>
+                    <!--<div class="text-right myGoods-cbtn" ui-sref="refunds({tid:item.tid,oid:item.lineInfoList[0].oid})" >退款进度</div>-->
+                </div>
+                <div class="my-divider"></div>
+            </div>
+                <div ng-if="refundData.length==0" class="text-center pt100 color-999">{{languageSetting.noDataTip}}</div>
+            </ion-slide>
+        </ion-slide-box>
+        <ion-infinite-scroll ng-if="!noMorePage" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+    </ion-content>
+</ion-view>

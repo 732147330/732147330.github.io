@@ -1,0 +1,235 @@
+<ion-view view-title="商城" class="yd-home">
+    <!--<div class="yd-bk">-->
+        <!--<img src="./img/yd-bk.png">-->
+    <!--</div>-->
+    <div class="mall-banner {{colorFlag?'active':''}} iphone-x-head" >
+        <div class="box pt20 pb10">
+            <div ui-sref="selectCity" class="fs12 mall-city">{{currentCity}} <i class="iconfont jyicon">&#xe616;</i></div>
+            <div class="box1">
+                <div class="mall-search box" style="margin-right: 20px; margin-left: -4px;">
+                    <div class="mall-search-filter" stop-propagation="" on-tap="showList($event)">{{currentType.name}} <i class="iconfont jyicon">&#xe611;</i>
+                        <div class="mall-search-layer {{showFlag?'active':''}}">
+                            <ul>
+                                <li ng-repeat="item in searchList" on-tap="getFilter($index,$event)">{{item.name}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mall-bor"></div>
+                    <div class="box1 ml10 mr10">
+                        <input type="text" placeholder="搜索" ng-model="current.title">
+                    </div>
+                    <div class="mall-icon" on-tap="search()"><i style="position: relative;top: 0;right: 0;" class="iconfont jyicon color-03a9f4 fs20">&#xe62a;</i></div>
+                </div>
+            </div>
+
+            <div ng-if="userInfo" class="fs12 mall-cart pos" ui-sref="myCart" nav-direction="forward" style="padding-right: 20px">
+                <i class="iconfont jyicon">&#xe68c;</i>
+                <span ng-if="cartNum>0" class="badge badge-assertive" style="position: absolute;border-radius:50%;top:-3px;left:18px;padding: 1px 5px;width: 18px;height: 18px;line-height: 18px">{{cartNum}}</span>
+            </div>
+            <div ng-if="!userInfo" class="fs12 mall-cart" ui-sref="login" nav-direction="forward">
+                <i class="iconfont jyicon">&#xe68c;</i>
+            </div>
+        </div>
+        <!--<div style=" position: absolute;top: 38px;left: 0px;" class="iphonex-yd-head-mall">-->
+            <!--<img src="./img/yd-head.png">-->
+        <!--</div>-->
+    </div>
+    <ion-content class="yd-ml-mr iphone-x-content" scrollbar-y="false" on-scroll="scrollContent()" style="top: 65px">
+        <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+        <div class="swiper-container swiper-container-focus " style="height: 100%;">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-slide-focus" ng-repeat="item in carouselData">
+                    <a href="javascript:;"><img class="animated fadeIn" ng-src="{{item.url}}"></a>
+                </div>
+            </div>
+        </div>
+
+        <!--mall 导航-->
+      <div class="swiper-container swiper-container-mall {{newCategoryData.length>1?'pb30':'pb20'}}">
+        <div class="swiper-wrapper" ng-if="newCategoryData.length>0">
+          <div class="swiper-slide" ng-repeat="item in newCategoryData track by $index" style="height: 83px">
+            <div class="flex mt10">
+              <div ng-if="item.subData.length==5" class="flex-20" ng-repeat="subItem in item.subData" on-tap="categoryGo(subItem.catId,$index)"  >
+                <div class="mall-nav-item nav-bg{{$index}}" ><img ng-src="{{subItem.catImageUrl}}" alt=""></div>
+                <div class="mall-nav-item-text">{{subItem.catName}}</div>
+              </div>
+              <div ng-if="item.subData.length==4" class="flex-25" ng-repeat="subItem in item.subData" on-tap="categoryGo(subItem.catId,$index)"  >
+                <div class="mall-nav-item nav-bg{{$index}}" ><img ng-src="{{subItem.catImageUrl}}" alt=""></div>
+                <div class="mall-nav-item-text">{{subItem.catName}}</div>
+              </div>
+              <div ng-if="item.subData.length==3" class="flex-33" ng-repeat="subItem in item.subData" on-tap="categoryGo(subItem.catId,$index)"  >
+                <div class="mall-nav-item nav-bg{{$index}}" ><img ng-src="{{subItem.catImageUrl}}" alt=""></div>
+                <div class="mall-nav-item-text">{{subItem.catName}}</div>
+              </div>
+              <div ng-if="item.subData.length==2" class="flex-50" ng-repeat="subItem in item.subData" on-tap="categoryGo(subItem.catId,$index)" >
+                <div class="mall-nav-item nav-bg{{$index}}" ><img ng-src="{{subItem.catImageUrl}}" alt=""></div>
+                <div class="mall-nav-item-text">{{subItem.catName}}</div>
+              </div>
+              <div ng-if="item.subData.length==1" class="flex-100" ng-repeat="subItem in item.subData" on-tap="categoryGo(subItem.catId,$index)"  >
+                <div class="mall-nav-item nav-bg{{$index}}" ><img ng-src="{{subItem.catImageUrl}}" alt=""></div>
+                <div class="mall-nav-item-text">{{subItem.catName}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-pagination" style="bottom: 3px;" ng-if="newCategoryData.length>1"></div>
+        <ion-spinner class="spinLoading" icon="ios-small" ng-if="!newCategoryData"></ion-spinner>
+      </div>
+
+        <div class="mall-division" ng-if="guessData.length!=0">
+            <div class="box ml30 mr30">
+                <div class="mall-division-l box1 text-right mr10"></div>
+                <div><i  class="jyicon iconfont">&#xe601;</i> 猜你喜欢</div>
+                <div class="mall-division-l box1 text-left ml10"></div>
+            </div>
+        </div>
+
+        <div class="color-999 text-center fs12 pt100" ng-if="guessData.length==0&&filmData.length==0&&specialOfferData.length==0" style="margin-bottom: 30px">
+            <div class="color-cacaca">敬请期待...</div>
+        </div>
+
+        <div class="flex flexBox pos" style="min-height: 200px;" ng-if="guessData.length!=0">
+            <div class="flex-50" ng-repeat="item in guessData" ng-if="guessData.length>0">
+                <div ui-sref="productDetail({skuId:item.skuId})" nav-direction="forward" class="flexBoxInner {{$index%2==0?'flexBoxInner-r':'flexBoxInner-l'}}">
+                    <div class="categoryImg pos" style="overflow: hidden">
+                        <img ng-src="{{item.sourceSkuUrl}}" alt="">
+                        <div class="hui" ng-if="item.activityFlag=='Y'">惠</div>
+                    </div>
+                    <div class="fs14 color-000 mb10" style="height: 20px;overflow: hidden;">{{item.titleAlt}}</div>
+                    <div class="color-ff5715"><span class="fs15">{{item.price/100 | currency:'¥'}}</span></div>
+                </div>
+            </div>
+            <!--<ion-spinner class="spinLoading" icon="ios-small" ng-if="!guessData"></ion-spinner>-->
+        </div>
+
+        <div class="mall-division" style="margin-top:-5px;" ng-if="filmData.length!=0">
+            <div class="box ml30 mr30">
+                <div class="mall-division-l box1 text-right mr10"></div>
+                <div ><i class="jyicon iconfont">&#xe60d;</i> 电影系列</div>
+                <div class="mall-division-l mall-division-l box1 text-left ml10"></div>
+            </div>
+        </div>
+
+        <!-- Swiper -->
+        <div class="mall-index-slide" ng-if="filmData.length!=0">
+            <div class="swiper-container swiper-container-mall-index" style="min-height: 100px;">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" ng-click="slidesTo($index)" ng-repeat="item in filmData" ng-if="filmData.length>0">
+                        <img ng-src="{{item.sourceTypeUrl}}" alt="">
+                    </div>
+                </div>
+                <div style="width: 100%;height: 100%;position: absolute;z-index:0;top:0;-webkit-filter: blur(15px);filter: blur(15px);opacity:.5;" ng-style="{'background':'url('+filmData[activeIndex].sourceTypeUrl+') no-repeat','backgroundSize':'cover'}"></div>
+                <div class="triangle_border_up2">
+                    <span></span>
+                </div>
+                <!--<ion-spinner class="spinLoading" icon="ios-small" ng-if="!filmData"></ion-spinner>-->
+            </div>
+            <!--<div style="width: 100%;height: 100%;position: absolute;z-index:0;top:0;-webkit-filter: blur(15px);filter: blur(15px);opacity:.5;" ng-style="{'background':'url('+filmData[activeIndex].sourceTypeUrl+') no-repeat','backgroundSize':'cover'}"></div>-->
+        </div>
+
+        <div class="pos" style="padding: 10px 0;background: #fff" ng-if="filmData.length!=0">
+            <div class="swiper-container swiper-container-mall-con" style="min-height: 100px;">
+                <div class="swiper-wrapper" ng-if="subFilmData.length>0">
+                    <div class="swiper-slide" ui-sref="productDetail({skuId:item.skuId})" nav-direction="forward" ng-repeat="item in subFilmData">
+                        <div class="swiper-container-mall-con-wrap">
+                            <div class="swiper-container-mall-con-img pos" style="overflow: hidden">
+                                <img ng-src="{{item.sourceSkuUrl}}" alt="">
+                                <div class="hui" ng-if="item.activityFlag=='Y'">惠</div>
+                            </div>
+                            <div class="swiper-container-mall-con-tit color-000 mb5">{{item.titleAlt}}</div>
+                            <div class="swiper-container-mall-con-price">{{item.price/100 | currency:'¥'}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<ion-spinner class="spinLoading" icon="ios-small" ng-if="!subFilmData"></ion-spinner>-->
+        </div>
+
+        <div class="mall-division" ng-if="specialOfferData.length!=0">
+            <div class="box ml30 mr30">
+                <div class="mall-division-l box1 text-right mr10" ></div>
+                <div ><i class="jyicon iconfont">&#xe60d;</i> 优惠特价</div>
+                <div class="mall-division-l box1 text-left ml10"></div>
+            </div>
+        </div>
+
+        <div class="flex flexBox pos" style="min-height: 200px;" ng-if="specialOfferData.length!=0">
+            <div class="flex-50" ng-repeat="item in specialOfferData" ng-if="specialOfferData.length>0">
+                <div ui-sref="productDetail({skuId:item.skuId})" nav-direction="forward" class="flexBoxInner {{$index%2==0?'flexBoxInner-r':'flexBoxInner-l'}}">
+                    <div class="categoryImg pos" style="overflow: hidden">
+                        <img ng-src="{{item.sourceSkuUrl}}" alt="">
+                        <div class="hui" ng-if="item.activityFlag=='Y'">惠</div>
+                    </div>
+                    <div class="fs14 color-000 mb5" style="height: 20px;overflow:hidden;">{{item.titleAlt}}</div>
+                    <div class="box">
+                        <div class="color-ff5715"><span class="fs15">{{item.price/100 | currency:'¥'}}</span></div>
+                        <!--<div class="box1 text-right color-999 fs14">已售：{{item.saleMonth}}</div>-->
+                    </div>
+                </div>
+            </div>
+            <!--<ion-spinner class="spinLoading" icon="ios-small" ng-if="!specialOfferData"></ion-spinner>-->
+        </div>
+
+        <!--<div ng-if="((currentPage-1)*pageSize+specialOfferData.length)<total" class="text-center pb30 mt20" ng-click="getMore()"><a>查看更多</a></div>-->
+
+    </ion-content>
+
+    <ion-footer-bar class="yd-bar-footer iphonexFoot">
+        <div class="row homeNav">
+            <div class="col" ui-sref="home" nav-direction="none">
+                <i class="icon jyicon">&#xe601;</i>
+                <p class="fs12">推荐</p>
+            </div>
+            <div class="col" ui-sref="activity" nav-direction="none">
+                <i class="icon jyicon">&#xe68a;</i>
+                <p class="fs12">活动</p>
+            </div>
+            <div class="col" ui-sref="mall" nav-direction="none">
+                <i class="icon jyicon color-998278">&#xe82f;</i>
+                <p class="fs12 color-998278">商城</p>
+            </div>
+            <div class="col" ui-sref="forum" nav-direction="none">
+                <i class="icon jyicon">&#xe67b;</i>
+                <p class="fs12">圈子</p>
+            </div>
+            <div class="col" ui-sref="account" nav-direction="none">
+                <i class="icon jyicon">&#xe605;</i>
+                <p class="fs12">我的</p>
+            </div>
+        </div>
+    </ion-footer-bar>
+    <!--<ion-footer-bar class="yd-bar-footer iphonexFoot">-->
+        <!--<div class="row homeNav" style="color: white">-->
+            <!--<div class="col pos" ui-sref="home" nav-direction="none">-->
+                <!--<div class="yd-2018">-->
+                    <!--<img src="./img/yd-2018.png">-->
+                <!--</div>-->
+                <!--<p class="fs12 color-403d38" style="margin-top: 20px">推荐</p>-->
+            <!--</div>-->
+            <!--<div class="col pos" ui-sref="activity" nav-direction="none">-->
+                <!--<div class="yd-ydkl">-->
+                    <!--<img src="./img/yd-y.png">-->
+                <!--</div>-->
+                <!--<p class="fs12" style="margin-top: 20px">活动</p>-->
+            <!--</div>-->
+            <!--<div class="col pos" ui-sref="mall" nav-direction="none">-->
+                <!--<div class="yd-ydkl">-->
+                    <!--<img src="./img/yd-d.png">-->
+                <!--</div>-->
+                <!--<p class="fs12" style="margin-top: 20px">商城</p>-->
+            <!--</div>-->
+            <!--<div class="col pos" ui-sref="forum" nav-direction="none">-->
+                <!--<div class="yd-ydkl">-->
+                    <!--<img src="./img/yd-k.png">-->
+                <!--</div>-->
+                <!--<p class="fs12" style="margin-top: 20px">圈子</p>-->
+            <!--</div>-->
+            <!--<div class="col pos" ui-sref="account" nav-direction="none">-->
+                <!--<div class="yd-ydkl">-->
+                    <!--<img src="./img/yd-l.png">-->
+                <!--</div>-->
+                <!--<p class="fs12" style="margin-top: 20px">我的</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</ion-footer-bar>-->
+</ion-view>

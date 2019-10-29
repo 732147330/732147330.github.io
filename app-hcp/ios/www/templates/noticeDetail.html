@@ -1,0 +1,10 @@
+<ion-view view-title="文章详情">
+    <ion-header-bar align-title="center" class="iphone-x-head">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">{{noticeDetailData.noticeTitle}}</div>
+    </ion-header-bar>
+
+    <ion-content scrollbar-y="false" scroll="true" overflow-scroll="true" class="iphone-x-content">
+        <div class="pl15 pr15 pt20" ng-bind-html="noticeDetailData.noticeContent"></div>
+   </ion-content>
+</ion-view>

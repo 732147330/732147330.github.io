@@ -1,0 +1,42 @@
+<ion-view view-title="消息中心">
+  <ion-header-bar align-title="center" class="top-xian iphone-x-head">
+    <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+    <div class="h1 title">消息中心</div>
+  </ion-header-bar>
+  <ion-content overflow-scroll="false" scrollbar-y="false" has-bouncing="false" class="iphone-x-content" style="background: #fff;">
+    <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+    <div class="pos clearfix row" tabs-click="" style="text-align: center;">
+      <a class="col-40 tonggao-sixin" ng-class="activeIndex==0?'active':''">私信
+        <div class="messageCenter-tg" ng-if="readsFlag">{{reads}}</div>
+      </a>
+      <a class="col-40 col-offset-10 tonggao-sixin" ng-class="activeIndex==1?'active':''">通告</a>
+
+    </div>
+    <div class="my-divider"></div>
+    <ion-slide-box active-slide="slideTo()" show-pager="false" on-slide-changed="slideHasChanged($index)">
+
+      <ion-slide class="slider-slide-vh">
+        <ul class="list noticeList">
+          <li class="item itemBor0" ng-repeat="item in msgData" style="white-space: normal"
+              ui-sref="personalLetter({id:'{{item.messageRecordId}}',platform:'{{item.platform}}',messageContent:'{{item.messageContent}}'})" nav-direction="forward">
+            <i class="icon jyicon icon-message" ng-show="item.readFlag=='N'">&#xe72c;</i>
+            <div style="padding: 5px 16px">
+              <p style="height: 20px;overflow: hidden" ng-bind-html="item.messageContent"></p>
+              <p class="color-999 fs12" >{{item.creationDate | date:'M月dd'}}</p>
+              <i class="ion-ios-arrow-right fs30 noticeArrow"></i>
+            </div>
+          </li>
+        </ul>
+      </ion-slide>
+      <ion-slide class="slider-slide-vh">
+        <ul class="list noticeList">
+          <li ui-sref="noticeDetail({id:'{{item.noticeId}}'})" nav-direction="forward" class="item itemBor0 pr40" ng-repeat="item in noticeData">
+            <p ng-bind-html="item.noticeTitle" style="overflow: hidden;text-overflow: ellipsis;height:20px;"></p>
+            <div class="color-999 fs12 pt10">{{item.creationDate | date:'M月dd'}}</div>
+            <i class="ion-ios-arrow-right fs30 noticeArrow"></i>
+          </li>
+        </ul>
+      </ion-slide>
+    </ion-slide-box>
+  </ion-content>
+</ion-view>

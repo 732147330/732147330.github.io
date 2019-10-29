@@ -1,0 +1,17 @@
+<ion-view view-title="昵称">
+    <ion-header-bar align-title="center" class="top-xian iphone-x-head">
+    <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+    <div class="h1 title">修改昵称</div>
+    <button class="button button-clear iphone-x-button" on-tap="saveName()">
+        保存
+    </button>
+</ion-header-bar>
+    <ion-content scrollbar-y="false" class="iphone-x-content">
+        <div class="list passlist">
+            <label class="item item-input label-pg">
+                <span class="input-label">昵称:</span>
+                <input type="text" ng-model="userInfo.mmbName">
+            </label>
+        </div>
+    </ion-content>
+</ion-view>

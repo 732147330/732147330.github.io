@@ -1,0 +1,28 @@
+<ion-view view-title="摇一摇">
+    <ion-header-bar align-title="center" class="iphone-x-head">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">摇一摇发现附近的影城</div>
+    </ion-header-bar>
+    <ion-content class="shakeBg iphone-x-content" overflow-scroll='false' scrollbar-y="false" scrollbar-x="false">
+        <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+
+        <audio id="myAudio" src="lib/shake_sound.mp3"></audio>
+        <div class="shake"></div>
+        <div class="shake-res" ui-sref="schedule({movieId:'-1',theatreId:theatreId,city:city})" nav-direction="forward" ng-class="{true:'animated slideInDown'}[shakeFlag]" ng-show="shakeFlag">
+            <div class="row pd0">
+                <div class="col-25">
+                    <img style="display: block;" ng-src="{{currentTheatreData.url}}" alt=""/>
+                </div>
+                <div class="col-75 shake-txt">
+                    <p><strong>{{currentTheatreData.cinemaName}}</strong></p>
+                    <p>{{currentTheatreData.address1}}</p>
+                    <p class="color-999" ng-if="currentTheatreData.distance>=1000">距离 {{currentTheatreData.distance/1000 | number:1}}km</p>
+                    <p class="color-999" ng-if="currentTheatreData.distance<1000">距离 {{currentTheatreData.distance | number:1}}m</p>
+                </div>
+                <i style="top: 50%;position: absolute;margin-top: -12px;right: 10px;" class="ion-ios-arrow-right fs24"></i>
+            </div>
+        </div>
+        <div ng-if="tipFlag" style="height: 50px;line-height: 50px;width:100%;position: absolute;bottom: 0;background: #fff;" class="text-center"><span style="position: relative;right: 3px;top: 3px;" class="fs22 ion-ios-refresh" on-tap="getCurrentPos()"></span> 抱歉,未能获取您的位置</div>
+    </ion-content>
+    <div id="allmap"></div>
+</ion-view>

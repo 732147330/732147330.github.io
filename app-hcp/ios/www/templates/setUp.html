@@ -1,0 +1,40 @@
+<ion-view view-title="设置">
+    <ion-header-bar class="calm-border iphone-x-head" align-title="center">
+        <a ui-sref="account" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">设置</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" class="setScroll iphone-x-content">
+        <ul class="block list mb0 pt0">
+            <li class="item item-toggle">
+                推送设置
+                <label class="toggle toggle-jy">
+                    <input type="checkbox">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+            <li class="item" ng-if="userInfo" ui-sref="feedBack" nav-direction="forward">
+                意见反馈
+                <i class="ion-ios-arrow-right fs28"></i>
+            </li>
+            <li class="item" ng-if="!userInfo" ui-sref="login({'viewName':'feedBack'})" nav-direction="forward">
+                意见反馈
+                <i class="ion-ios-arrow-right fs28"></i>
+            </li>
+            <li class="item" ui-sref="aboutUs" nav-direction="forward">
+                关于我们
+                <i class="ion-ios-arrow-right fs28"></i>
+            </li>
+            <li class="item" on-tap="clearCache()">
+                清除缓存
+                <i class="ion-ios-arrow-right fs28"></i>
+            </li>
+        </ul>
+        <div class="bor"></div>
+
+        <div ng-if="data.loginFlag" class="loginOut fs16" on-tap="loginOut()">
+            退出登录
+        </div>
+    </ion-content>
+</ion-view>

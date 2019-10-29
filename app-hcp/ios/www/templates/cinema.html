@@ -1,0 +1,21 @@
+<ion-view view-title="选择自提影院">
+    <ion-header-bar align-title="center" class="iphone-x-head">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">选择影院</div>
+    </ion-header-bar>
+    <!--<div class="theatreImg" style="top: 44px;" ><img class="animated fadeIn" style="display: block;" ng-src="{{theatreBanner}}"></div>-->
+    <ion-content scrollbar-y="false" class="iphone-x-content">
+
+        <!--<ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>-->
+        <ion-list>
+            <ion-radio class="sinceTheaterWrap" on-tap="querySel($index)" ng-model="data.selSinceTheater" ng-value="item.cinemaId" ng-repeat="item in sinceTheaterData">
+                <div style="padding: 5px 0;">
+                    <h2 class="fs16">{{item.cinemaNameAlt}}</h2>
+                    <p class="listCon-address fs12">{{item.address1}}</p>
+                    <!--<p class="fs12">7.11km</p>-->
+                </div>
+            </ion-radio>
+        </ion-list>
+    </ion-content>
+
+</ion-view>

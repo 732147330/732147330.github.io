@@ -1,0 +1,31 @@
+<ion-view view-title="演员详情">
+    <a back-button="" nav-direction="back" class="backButton noBar"><i class="ion-ios-arrow-left fs32"></i></a>
+    <ion-content scrollbar-y="false" has-bouncing="true">
+        <div class="actorBanner pos">
+            <img ng-src="{{actorBanner}}" alt=""/>
+            <div class="actorInfo">
+                <div><strong class="fs20 mr10">{{actorData.actorName}}</strong>
+                    <span ng-if="index==0">{{'导演'}}</span>
+                    <span ng-if="index!=0">{{actorData.actorTypeAlt}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="actorTit fs16 pl15 pt10 color-000 mb10">人物介绍</div>
+       <div class="actorCon">
+           {{actorData.actorDescription?actorData.actorDescription:'暂无相关内容'}}
+       </div>
+        <div style="height: 10px;background: #f2f2f2;"></div>
+        <div class="actorTit fs16 pl15 pt10 color-000 mb10">相关电影</div>
+
+        <div class="swiper-container swiper-container10 pb50 pt5 pl15">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-slide-index" ng-repeat="item in actorProductData" ui-sref="movieDetail({movieId:'{{item.filmId}}'})">
+                    <img ng-src="{{item.url}}">
+                    <div class="text">
+                        <p>{{item.filmName}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
