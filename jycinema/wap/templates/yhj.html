@@ -1,0 +1,103 @@
+<ion-view view-title="{{title}}">
+    <ion-header-bar align-title="center">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">{{'我的优惠券'}}</div>
+        <span class="quan-add" on-tap="addQuan()" style="top: 10px">添加</span>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" has-bouncing="false" class="quan-list-content">
+        <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+        <div class="pos clearfix" tabs-click="" style="background: #fff">
+            <a class="stap step1" ng-class="activeIndex==0?'active':''">未使用
+                <div class="yhj-youhui" ng-if="vouLifetimeCountFlag">{{vouLifetimeCount}}</div>
+            </a>
+            <a class="stap step2" ng-class="activeIndex==1?'active':''">已使用</a>
+            <a class="stap step3" ng-class="activeIndex==2?'active':''">已过期</a>
+        </div>
+        <ion-slide-box style="padding-top: 10px;" active-slide="slideTo()" show-pager="false" on-slide-changed="slideHasChanged($index)">
+            <ion-slide class="slider-slide-vh">
+                <div class="box yhj-layer" on-tap="showRules(item,$event)" style="width: auto;margin: 7px 12px;" ng-repeat="item in notSaleData">
+                    <div class="yhj-layer-main">
+                        <div ng-if="item.voucherType!='TONGDUI_VOUCHER' && item.voucherType!='COUPON_VOUCHER'&&item.voucherName!='升厅券'">
+                            <!--<div class="text-center mt15"><span class="fs18">￥</span><span class="fs30">{{item.voucherAmount}}</span></div>-->
+                            <!--<div class="text-center fs12">{{item.voucherTypeAlt}}</div>-->
+                            <div class="text-center mt15">
+                                <span ng-if="item.voucherType!='GOOD_DISCOUNT_VOUCHER' && item.voucherType!='DISCOUNT_VOUCHER'" class="fs18">￥</span>
+                                <span class="fs30">{{item.voucherAmount}}</span>
+                                <span ng-if="item.voucherType=='GOOD_DISCOUNT_VOUCHER' || item.voucherType=='DISCOUNT_VOUCHER'" class="fs18">折</span></div>
+                            <div class="text-center fs12">{{item.voucherTypeAlt}}</div>
+                        </div>
+                        <div class="text-center fs20" style="line-height: 70px;" ng-if="item.voucherType=='TONGDUI_VOUCHER' || item.voucherType=='COUPON_VOUCHER' || item.voucherName=='升厅券'">
+                            {{item.voucherName}}
+                        </div>
+                    </div>
+                    <div class="box1 yhj-layer-content" style="background: #fff">
+                        <div class="fs14 yhj-layer-content-tit">
+                            {{item.voucherDescribe}}
+                            <i class="ion jyicon" style="color: #998278">&#xe60b;</i>
+                        </div>
+                        <p class="fs12 color-999">{{item.startDateActive | date:'yyyy.MM.dd'}}-{{item.endDateActive | date:'yyyy.MM.dd'}}</p>
+                        <div ng-if="item.voucherType!='GOOD_VIEWING_VOUCHER'" ui-sref="theatre({movieId:-1})" nav-direction="forward" class="yhj-layer-radio fs12 yhj-layer-btn">立即使用</div>
+                        <div ng-if="item.voucherType==='GOOD_VIEWING_VOUCHER'" ui-sref="productDetail({skuId: {{item.skuId}},itemId: {{item.itemId}}})" nav-direction="forward" class="yhj-layer-radio fs12 yhj-layer-btn">立即使用</div>
+                    </div>
+                </div>
+                <div ng-if="notSaleData.length==0 && !noMorePage1" class="text-center pt50 color-999">暂无优惠券可用！</div>
+                <div ng-if="noMorePage1" class="text-center pd20">暂无更多数据</div>
+            </ion-slide>
+
+            <ion-slide class="slider-slide-vh">
+                <div class="box yhj-layer" style="width: auto;margin: 7px 12px;" ng-repeat="item in TURNED_BACKData">
+                    <div class="yhj-layer-main yhj-layer-main-disabled">
+                        <div ng-if="item.voucherType!='TONGDUI_VOUCHER' && item.voucherType!='COUPON_VOUCHER'&&item.voucherName!='升厅券'">
+                            <div class="text-center mt15">
+                                <span ng-if="item.voucherType!='GOOD_DISCOUNT_VOUCHER'&& item.voucherType!='DISCOUNT_VOUCHER'" class="fs18">￥</span>
+                                <span class="fs30">{{item.voucherAmount}}</span>
+                                <span ng-if="item.voucherType=='GOOD_DISCOUNT_VOUCHER' || item.voucherType=='DISCOUNT_VOUCHER'" class="fs18">折</span></div>
+                            <div class="text-center fs12">{{item.voucherTypeAlt}}</div>
+                        </div>
+                        <div class="text-center fs20" style="line-height: 70px;" ng-if="item.voucherType=='TONGDUI_VOUCHER' || item.voucherType=='COUPON_VOUCHER' || item.voucherName=='升厅券'">
+                            {{item.voucherName}}
+                        </div>
+
+                    </div>
+                    <div class="box1 yhj-layer-content" style="background: #fff">
+                        <div class="fs14 pr30">{{item.voucherDescribe}}</div>
+                        <p class="fs12 color-999">{{item.startDateActive | date:'yyyy.MM.dd'}}-{{item.endDateActive | date:'yyyy.MM.dd'}}</p>
+                        <div class="yhj-layer-radio fs12 yhj-layer-btn yhj-layer-btn-disabled">已使用</div>
+                    </div>
+                </div>
+                <div ng-if="TURNED_BACKData.length==0 && !noMorePage2" class="text-center pt50 color-999">暂无使用记录！</div>
+                <div ng-if="noMorePage2" class="text-center pd20">暂无更多数据</div>
+
+            </ion-slide>
+
+            <ion-slide class="slider-slide-vh">
+                <div class="box yhj-layer" style="width: auto;margin: 7px 12px;" ng-repeat="item in EXPIREDData">
+                    <div class="yhj-layer-main yhj-layer-main-disabled">
+                        <div ng-if="item.voucherType!='TONGDUI_VOUCHER' && item.voucherType!='COUPON_VOUCHER'&&item.voucherName!='升厅券'">
+                            <!--<div class="text-center mt15"><span class="fs18">￥</span><span class="fs30">{{item.voucherAmount}}</span></div>-->
+                            <!--<div class="text-center fs12">{{item.voucherTypeAlt}}</div>-->
+                            <div class="text-center mt15">
+                                <span ng-if="item.voucherType!='GOOD_DISCOUNT_VOUCHER' && item.voucherType!='DISCOUNT_VOUCHER'" class="fs18">￥</span>
+                                <span class="fs30">{{item.voucherAmount}}</span>
+                                <span ng-if="item.voucherType=='GOOD_DISCOUNT_VOUCHER' || item.voucherType=='DISCOUNT_VOUCHER'" class="fs18">折</span></div>
+                            <div class="text-center fs12">{{item.voucherTypeAlt}}</div>
+                        </div>
+                        <div class="text-center fs20" style="line-height: 70px;" ng-if="item.voucherType=='TONGDUI_VOUCHER' || item.voucherType=='COUPON_VOUCHER' || item.voucherName=='升厅券'">
+                            {{item.voucherName}}
+                        </div>
+                    </div>
+                    <div class="box1 yhj-layer-content" style="background: #fff">
+                        <div class="fs14 pr30">{{item.voucherDescribe}}</div>
+                        <p class="fs12 color-999">{{item.startDateActive | date:'yyyy.MM.dd'}}-{{item.endDateActive | date:'yyyy.MM.dd'}}</p>
+                        <div class="yhj-layer-radio fs12 yhj-layer-btn yhj-layer-btn-disabled">已过期</div>
+                    </div>
+                </div>
+                <div ng-if="EXPIREDData.length==0 && !noMorePage3" class="text-center pt50 color-999">暂无过期记录！</div>
+                <div ng-if="noMorePage3" class="text-center pd20">暂无更多数据</div>
+            </ion-slide>
+        </ion-slide-box>
+
+        <ion-infinite-scroll ng-if="!noMorePage" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+
+    </ion-content>
+</ion-view>

@@ -1,0 +1,55 @@
+<ion-view view-title="每日签到">
+    <ion-header-bar align-title="center" class="top-xian">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">每日签到</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false">
+        <div class="dailCheck-div">
+                <div class="dailCheck-div1" style="top:16px">
+                    <div class="dailCheck-div2">
+                        <p class="fs16 mt20">点击</p>
+                        <p class="fs16">签到</p>
+                    </div>
+                </div>
+        </div>
+        <div class="fs16" style="text-align: center;padding: 5px">
+            已签到,连续{{lianXuSignNum}}天
+        </div>
+        <div class="rich_media">
+            <div id="page-content">
+                <div class="container-fluid">
+                    <div class="row-fluid" id="calendar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="padding: 0px 10px" ng-if="activityDescData">
+           <p style="font-size: 16px">签到活动规则:</p>
+            <p ng-repeat="item in activityDescData">{{item}}</p>
+        </div>
+        <div style="height: 50px"></div>
+    </ion-content>
+    <style type="text/css">
+            .rich_media th{
+              width: 20px;
+                text-align: center;
+            }
+            .rich_media td{
+                height: 40px;
+                text-align: center;
+                padding-top: 10px;
+            }
+            .rich_media tr{
+                height: 30px;
+            }
+            .rich_media table{
+                width: 100%;
+                margin-top: 10px;
+            }
+            .rich_media .on{
+                background: #998278;
+                color: white;
+                border-radius: 100%;
+            }
+    </style>
+</ion-view>

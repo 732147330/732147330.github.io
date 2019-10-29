@@ -1,0 +1,96 @@
+<ion-view view-title="我的影票">
+    <style>
+        .box{
+            height: 100%;
+        }
+    </style>
+    <ion-header-bar align-title="center" class="top-xian">
+        <a ui-sref="myOrder" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">我的影票</div>
+    </ion-header-bar>
+    <div class="pos clearfix" tabs-click="" style="margin-top: 44px">
+        <a class="stap step1" ng-class="activeIndex==0?'active':''">未取票</a>
+        <a class="stap step2" ng-class="activeIndex==1?'active':''">已取票</a>
+        <a class="stap step3" ng-class="activeIndex==2?'active':''">未支付</a>
+    </div>
+    <ion-content overflow-scroll="false" scrollbar-y="false" has-bouncing="false" style="top: 88px">
+        <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+
+        <ion-slide-box active-slide="slideTo()" show-pager="false" on-slide-changed="slideHasChanged($index)">
+            <ion-slide class="slider-slide-vh myTicketsSlide">
+                <div ng-repeat="item in untakeData">
+                    <a class="item item-thumbnail-left" ui-sref="orderSuccessfully({ordNum:'{{item.orderCode}}',fromPage:'myTickets'})">
+                        <img ng-src="{{item.url}}">
+                        <h2 class="fs14">{{item.filmName}}</h2>
+                        <p class="fs12 ticketsNum">
+                            X {{item.num}}张
+                            <div class="text-right" ng-if="item.goods && tem.goods.length>0">(含观影套餐)</div>
+                        </p>
+                        <p class="fs12">{{item.seatdetailMessage}}</p>
+                        <p class="fs12 color-999 ticketsTime">下单时间:{{item.orderTime}}</p>
+                    </a>
+                    <div class="text-right pr10 pt5 pb5" ng-if="item.disBtn"><button ui-sref="orderSuccessfully({ordNum:'{{item.orderCode}}'})" class="fs12 button button-small button-tickets button-tickets-active">去取票</button>
+                        <button ng-if="item.payMethodCode=='CARD'" on-tap="refund(item.orderCode)" class="fs12 button button-small button-tickets button-tickets-refund ml5">退票</button>
+                    </div>
+                    <div class="my-divider"></div>
+                </div>
+                <div ng-if="untakeData.length==0" class="text-center pt100 color-999">{{languageSetting.noDataTip}}</div>
+            </ion-slide>
+
+            <ion-slide class="slider-slide-vh myTicketsSlide">
+                <div ui-sref="orderSuccessfully({ordNum:'{{item.orderCode}}',fromPage:'myTickets'})" ng-repeat="item in takedData">
+                    <a class="item item-thumbnail-left">
+                        <img ng-src="{{item.url}}">
+                        <h2 class="fs14">{{item.filmName}}</h2>
+                        <p class="fs12 ticketsNum">
+                            X {{item.num}}张
+                            <div class="text-right" ng-if="item.goods && tem.goods.length>0">(含观影套餐)</div>
+                        </p>
+                        <p class="fs12">{{item.seatdetailMessage}}</p>
+                        <p class="fs12 color-999 ticketsTime">{{item.orderTime}}</p>
+                    </a>
+                    <div class="text-right pr10 pt5 pb5"><button class="fs12 button button-small button-tickets button-tickets-refund">查看</button></div>
+                    <div class="my-divider"></div>
+                </div>
+                <div ng-if="takedData.length==0" class="text-center pt100 color-999">{{languageSetting.noDataTip}}</div>
+            </ion-slide>
+
+            <ion-slide class="slider-slide-vh myTicketsSlide">
+                <div ng-if="item.status=='未支付'" ng-repeat="item in unpaidData">
+                    <a class="item item-thumbnail-left">
+                        <img ng-src="{{item.url}}">
+                        <h2 class="fs14">{{item.filmName}}</h2>
+                        <p class="fs12 ticketsNum">
+                            X {{item.num}}张
+                            <div class="text-right" ng-if="item.goods && tem.goods.length>0">(含观影套餐)</div>
+                        </p>
+                        <p class="fs12">{{item.seatdetailMessage}}</p>
+                        <p class="fs12 color-999 ticketsTime">{{item.orderTime}}</p>
+                    </a>
+                    <div class="text-right pr10 pt5 pb5">
+                        <button on-tap="goPay({{item}})" class="fs12 button button-small button-tickets button-tickets-active">去支付</button>
+                        <button on-tap="cancelOrder(item.tid)" class="fs12 button button-small button-tickets button-tickets-refund ml5">取消订单</button>
+                    </div>
+                    <div class="my-divider"></div>
+                </div>
+                <div ng-if="item.status=='已取消'" ng-repeat="item in unpaidData">
+                    <a class="item item-thumbnail-left">
+                        <img ng-src="{{item.url}}">
+                        <h2 class="fs14">{{item.filmName}}</h2>
+                        <p class="fs12 ticketsNum">
+                            X {{item.num}}张
+                            <div class="text-right" ng-if="item.goods && tem.goods.length>0">(含观影套餐)</div>
+                        </p>
+                        <p class="fs12">{{item.seatdetailMessage}}</p>
+                        <p class="fs12 ticketsTime">{{item.orderTime}}</p>
+                    </a>
+                    <div class="text-right pr10 pt5 pb5"><button class="fs12 button button-disabled button-small button-tickets button-tickets-refund">已取消</button>
+
+                    </div>
+                    <div class="my-divider"></div>
+                </div>
+                <div ng-if="unpaidData.length==0" class="text-center pt100 color-999">{{languageSetting.noDataTip}}</div>
+            </ion-slide>
+        </ion-slide-box>
+    </ion-content>
+</ion-view>

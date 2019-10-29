@@ -1,0 +1,29 @@
+<ion-view view-title="配送方式">
+    <ion-header-bar align-title="center" class="top-xian">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">选择配送方式</div>
+        <button class="button button-clear" on-tap="save()">
+            确定
+        </button>
+    </ion-header-bar>
+    <ion-content overflow-scroll="false" scrollbar-y="false" has-bouncing="false">
+        <div style="height: 30px;padding: 5px 10px;position: relative">
+            <i class="icon jyicon fs24 icon-car">&#xe620;</i>
+            <span class="delivery-sp">配送方式</span>
+        </div>
+        <div class="flex" style="padding: 15px 10px">
+            <div style="width: 50%">
+                <span ng-class="{true:'delivery-selected',false:'delivery-unselected'}[isSelected1]" on-tap="checkbox(1)" style="border: 1px solid #b2b2b2; padding: 5px 10px;border-radius: 3px;">影院自提</span>
+            </div>
+            <div style="width: 50%">
+                <span ng-class="{true:'delivery-selected',false:'delivery-unselected'}[isSelected2]" on-tap="checkbox(2)" style="border: 1px solid #b2b2b2; padding: 5px 10px;border-radius: 3px;">快递配送</span>
+            </div>
+        </div>
+
+
+            <div class="bor"></div>
+
+            <div class="delivery-tishi">温馨提示：自提商品需要在自提门店营业时间内去领取，当面确认物品，若无质量损坏，自提商品不支持退货退款</div>
+
+    </ion-content>
+</ion-view>

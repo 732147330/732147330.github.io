@@ -1,0 +1,38 @@
+<ion-view view-title="扫码活动">
+
+        <ion-content scrollbar-y="false" delegate-handle="mainScroll" >
+            <div>
+                <img src="./img/scan1.jpg">
+            </div>
+                <label class="item item-input item-input-lg">
+                    <span class="input-label color-000">手机号</span>
+                    <input class="mr80" type="tel" ng-model="loginData.tel2" ng-pattern="/[0-9]{11}/" minlength="11" maxlength="11" required placeholder="仅支持中国大陆手机号">
+                    <div ng-if="yzmFlag" ng-disabled="{true:'disabled'}[!loginData.tel2]" class="button button-small button-register yzmBtn" style="top:15px;right:15px;" on-tap="yzmLogic(loginData.tel2)">获取验证码</div>
+                    <button ng-if="!yzmFlag" stop-propagation="" disabled="disabled" class="button button-small button-register yzmBtn" style="top:15px;right:15px;">{{leftTime}}s后重新获取</button>
+                </label>
+                <label class="item item-input item-input-lg">
+                    <span class="input-label color-000">验证码</span>
+                    <input  class="mr80" type="number" ng-pattern="/\d{6}/" maxlength="6" ng-model="loginData.captcha" required placeholder="请输入验证码">
+                </label>
+                <div class="member-box3 pos" on-tap="show()" style="border-top: none;font-size: 16px">
+                    <p>开卡类型</p>
+                    <span style="position: absolute;top: 15px;right: 10%;color: #998278;">{{loginData.tip}}</span>
+                    <i class="ion jyicon">&#xe61d;</i>
+                </div>
+            <div>
+                <img src="./img/scan2.jpg">
+            </div>
+            <div>
+                <img src="./img/scan3.jpg">
+            </div>
+            <div>
+                <img src="./img/scan4.jpg">
+            </div>
+            <div style="height: 100px"></div>
+        </ion-content>
+    <div class="mall-p-group-btn" >
+        <div class="box">
+            <div on-tap="buy()" class="box1" style="background: #998278;color: #fff;" >确定</div>
+        </div>
+    </div>
+</ion-view>

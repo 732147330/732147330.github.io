@@ -1,0 +1,127 @@
+<ion-view view-title="影评">
+    <ion-header-bar align-title="center">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">影评</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" has-bouncing="false" class="bg-f5f5f5" on-scroll="scrollContent()">
+
+        <div ng-repeat="item in commentFilmDetailHeadData">
+            <div class="yingp-box" style="height: 100%;position: relative;background: white;">
+                <div class="row" style="padding-bottom: 0px;margin-left: -8px">
+                    <div class="col col-20" style="margin-right: -14px" ui-sref="homePage({'memberId':{{item.memberId}}})" nav-direction="forward">
+                        <img ng-src="{{item.logoImageUrl}}" style="width: 60%;;border-radius: 28px;" ng-if="item.logoImageUrl">
+                        <img src="./img/user.png" style="width: 60%;;border-radius: 28px;" ng-if="!item.logoImageUrl">
+                    </div>
+                    <div class="col col-60 text-left">
+                        <p>{{item.memberName}}</p>
+                        <div class="flex" style="width: 60px;">
+                            <div style="width: 20%" ng-repeat="row in item.starArr" >
+                                <img style="" src="./img/star.png"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-20 ml30" style="position: relative;z-index: 2">
+                        <i style="position: relative;z-index: 2;color: #998278;" class="icon jyicon fs20" ng-click="showList(item,$event)" >&#xe652;</i>
+                        <div class="movie-search-layer {{item.showFlag?'active':''}}">
+                            <div style="color: white" on-tap="getFilter({{item.commentFilmDetailId}})" ng-if="item.isReport=='N'">
+                                <i class="icon jyicon">&#xe6e0;</i>
+                                举报
+                            </div>
+                            <div style="color: white;font-size: 13px" ng-if="item.isReport=='Y'">
+                                <i class="icon jyicon">&#xe6e0;</i>
+                                已举报
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 2px 24px;padding-left: 0px;margin-left: 15%;">
+                    {{item.content}}
+                </div>
+                <div class="box" style="margin-right: 24px;margin-left: 15%;margin-bottom: 10px;margin-top: 10px">
+                    <div class="box1 text-left">
+                        <span class="fs12" ng-if="item.date!='今天'">{{item.date}}天前</span>
+                        <span class="fs12" ng-if="item.date=='今天'">{{item.date}}</span>
+                    </div>
+                    <div class="box1 text-right">
+                        <i class="icon jyicon fs18" on-tap="updateCommentFilmDetail(item)" ng-if="item.isFabulous=='N'">&#xe662;</i>
+                        <i class="icon jyicon fs18" style="color: #ff5715" on-tap="updateCommentFilmDetail(item)" ng-if="item.isFabulous=='Y'">&#xe8c6;</i>
+                        <span class="fs15 mr10">{{item.fabulous}}</span>
+                        <i class="icon jyicon fs15" on-tap="recall()">&#xe63c;</i>
+                        <span class="fs15" on-tap="recall()">{{item.commentCount}}</span>
+                    </div>
+                </div>
+                <div class="triangle_border_up2" style="border-color:transparent transparent #f5f5f5;margin-left: -44%;">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        <div ng-repeat="row in commentFilmDetailLineData">
+        <div class="yingp-box" style="height: 100%;position: relative;background: #f5f5f5;border-bottom: 1px solid #ddd;max-height: 100%" >
+            <div class="row" style="margin-left: 0px;padding-bottom: 0px;">
+                <div class="col col-20" style="margin-right: -22px" ui-sref="homePage({'memberId':{{row.memberId}}})" nav-direction="forward">
+                    <img ng-src="{{row.logoImageUrl}}" style="width: 60%;margin-left: -20px;border-radius: 28px;" ng-if="row.logoImageUrl">
+                    <img src="./img/user.png" style="width: 60%;margin-left: -20px;border-radius: 28px;" ng-if="!row.logoImageUrl">
+                </div>
+                <div class="col col-60 text-left">
+                    <p>{{row.memberName}}</p>
+                    <!--<div class="flex" style="width: 100%">-->
+                        <p class="fs12">{{row.date}}</p>
+                    <!--</div>-->
+                </div>
+                <div class="col col-20" style="position: relative;z-index: 2;margin-left: 32px">
+                    <i style="position: relative;z-index: 2;color: #998278;" class="icon jyicon fs20" ng-click="showListLine(row,$event)" >&#xe652;</i>
+                    <div class="movie-search-layer {{row.showFlagLine?'active':''}}">
+                        <div style="color: white" on-tap="getFilterLine({{row.commentFilmDetailId}})" ng-if="row.isReport=='N'">
+                            <i class="icon jyicon">&#xe6e0;</i>
+                            举报
+                        </div>
+                        <div style="color: white;font-size: 13px" ng-if="row.isReport=='Y'">
+                            <i class="icon jyicon">&#xe6e0;</i>
+                            已举报
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="film-detail"  ng-repeat="rowChild in row.list" ng-class="{true:'opened',false:''}[!row.filmFlag]">
+                <div class="san-jiao">
+                    <span></span>
+                </div>
+                <div style="color: #aaa">回复{{rowChild.memberName}}:</div>
+                <div style="margin-top: 6px">{{rowChild.content}}</div>
+            </div>
+            <div class="text-center mb0"  on-tap="toggleVflag(row)" ng-repeat="rowChild in row.list">
+                <i class="fs22 color-999" ng-class="{true:'ion-ios-arrow-down',false:'ion-ios-arrow-up'}[row.filmFlag]"></i>
+            </div>
+            <div style="padding: 2px 24px; margin-left: 15%; padding-left: 0px;padding-right: 10px">
+             {{row.content}}
+            </div>
+
+            <div class="box" style="margin: 8px;margin-right: 25px;">
+                <!--<div class="box1 text-left">-->
+                    <!--<span class="fs12">{{item.date}}天前</span>-->
+                <!--</div>-->
+                <div class="box1 text-right">
+                    <i class="icon jyicon fs18" on-tap="updateCommentFilmLineDetail(row)" ng-if="row.isFabulous=='N'">&#xe662;</i>
+                    <i class="icon jyicon fs18" style="color: #ff5715" on-tap="updateCommentFilmLineDetail(row)" ng-if="row.isFabulous=='Y'">&#xe8c6;</i>
+                    <span class="fs15 mr10">{{row.fabulous}}</span>
+                    <i class="icon jyicon fs15" on-tap="recallOther(row)">&#xe63c;</i>
+                    <span class="fs15" on-tap="recallOther(row)">{{row.commentCount}}</span>
+                </div>
+            </div>
+        </div>
+
+                </div>
+            <ion-infinite-scroll ng-if="!noMorePage" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+            <div ng-if="noMorePage&&!noDataFlag" class="text-center pd20">暂无更多评论</div>
+
+    </ion-content>
+    <ion-footer-bar class="flex pb10" style="height: auto !important; background: #f8f6f3;" id="comment">
+        <textarea class="textarea" id="abc" placeholder="{{text}}" ng-model="comment"></textarea>
+        <div class="fa-song" on-tap="pass()" ng-if="comment">
+            发表
+        </div>
+        <div class="fa-song" style="background: #b2b2b2;" ng-if="!comment">
+           发表
+        </div>
+    </ion-footer-bar>
+</ion-view>

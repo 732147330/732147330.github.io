@@ -1,0 +1,144 @@
+<ion-view view-title="圈子" class="yd-home">
+
+    <ion-content scrollbar-y="false" has-bouncing="false" class="quan-list-content" delegate-handle="mainScroll">
+
+        <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+
+        <div class="swiper-container swiper-container-focus yd-swiper-container" style="height: 100%">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-slide-focus" ng-repeat="item in carouselData">
+                    <a ng-if="item.sourceType=='FILM'" ui-sref="movieDetail({movieId:'{{item.sourceNameId}}'})" nav-direction="forward" style="display: block;"><img class="animated fadeIn" ng-src="{{item.url}}"></a>
+                    <a ng-if="item.sourceType=='CINEMA'" ui-sref="theatreDetail({theatreId:'{{item.sourceNameId}}'})" nav-direction="forward" style="display: block;"><img class="animated fadeIn" ng-src="{{item.url}}"></a>
+                    <a ng-if="item.sourceType=='ACTIVITY'" ui-sref="activityDetail({activityGroupId:'{{item.sourceNameId}}'})" nav-direction="forward" style="display: block;"><img class="animated fadeIn" ng-src="{{item.url}}"></a>
+                    <a href="javascript:" ng-if="item.sourceType!='FILM' && item.sourceType!='CINEMA' && item.sourceType!='ACTIVITY'"><img class="animated fadeIn" ng-src="{{item.url}}"></a>
+                    <!--<a href="javascript:"><img class="animated fadeIn" ng-src="{{item.url}}"></a>-->
+                </div>
+            </div>
+        </div>
+        <div class="pos clearfix" tabs-click="" style="background: #fff">
+            <a class="stap step1" ng-class="activeIndex==0?'active':''">购票活动
+                <div class="yhj-youhui" ng-if="vouLifetimeCountFlag">{{vouLifetimeCount}}</div>
+            </a>
+            <a class="stap step2" ng-class="activeIndex==1?'active':''">抽奖活动</a>
+            <a class="stap step3" ng-class="activeIndex==2?'active':''">影评</a>
+        </div>
+        <ion-slide-box style="padding-top: 10px;" active-slide="slideTo()" show-pager="false" on-slide-changed="slideHasChanged($index)">
+            <ion-slide class="slider-slide-vh myTicketsSlide">
+                <div class="bxjg-activity" ng-if="findActivityGuidanceInfoData.length>0">
+                    <ul class="activityItems">
+                        <li ng-repeat="item in findActivityGuidanceInfoData">
+                            <div ng-if="item.sourceType!='JOINTLY_ACTIVITY'" style="height: 20vh;background: url({{item.THUMBNAIL}}) no-repeat center;background-size:cover;" ui-sref="activityDetail({activityGroupId:item.activityGroupId})" nav-direction="forward" class="activityItems-banner {{item.flag=='END'?'opc8':''}}"></div>
+                            <div ng-if="item.sourceType==='JOINTLY_ACTIVITY'" style="height: 20vh;background: url({{item.THUMBNAIL}}) no-repeat center;background-size:cover;" class="activityItems-banner {{item.flag=='END'?'opc8':''}}">
+                                <a id="kaola-link" style="display: inline-block; width: 100%; height: 100%" href="http://private.jycinema.com/wapprivate/kaola?type=wap&jointlyHeaderId={{item.sourceNameId}}" target="_blank"></a>
+                            </div>
+                            <h2 class="activityItems-tit box">
+                                <div class="box1" style="line-height: 24px;">{{item.promotionalCopy}}</div>
+                            </h2>
+
+                            <div class="activityItems-dec color-666">
+                                <div class="pos text-right activityItems-dec">
+                                    <div class="text-left jyAct-num"><i class="icon jyicon mr5 fs14">&#xe62c;</i> {{item.numberOfParticipants}}人参与</div>
+                                    <i class="icon jyicon fs14">&#xe61c;</i>
+                                    <span ng-if="item.flag=='NOT_START'">{{item.leftTime}}</span>
+                                    <span ng-if="item.flag=='START'">{{item.leftTime}}</span>
+                                    <span ng-if="item.flag=='END'">{{'已结束'}}</span>
+
+                                </div>
+                            </div>
+                            <span class="day_num"></span><span class="hour_num"></span><span class="min_num"></span><span class="sec_num"></span>
+                            <div ng-if="item.flag=='END'" class="activity-end"><i style="color: #838383;" class="icon jyicon fs60">&#xe608;</i></div>
+                        </li>
+                    </ul>
+                </div>
+
+            </ion-slide>
+            <ion-slide class="slider-slide-vh myTicketsSlide">
+                <div class="color-999 text-center fs12 pt100"  ng-if="!awardList">
+                    <div class="color-cacaca">敬请期待...</div>
+                </div>
+                <ul class="activityItems">
+                    <li ng-repeat="item in awardList" on-tap="goAward($index)">
+                        <div style="height: 20vh;background: url({{item.lotteryDrawPic}}) no-repeat center;background-size:cover;" class="activityItems-banner {{item.flag=='END'?'opc8':''}}"></div>
+                        <h2 class="activityItems-tit box">
+                            <div class="box1" style="line-height: 24px;">{{item.promotionalCopy}}</div>
+                        </h2>
+                        <div class="activityItems-dec color-666">
+                            <div class="pos text-right activityItems-dec">
+                                <div class="text-left jyAct-num"><i class="icon jyicon mr5 fs14">&#xe62c;</i>
+                                    <span ng-if="item.lotteryActivityStatus=='NOTSTART'">未开始</span>
+                                    <span ng-if="item.lotteryActivityStatus=='ACTIVE'">进行中</span>
+                                    <span ng-if="item.lotteryActivityStatus=='PAUSE' || item.lotteryActivityStatus=='END'">已结束</span>
+                                </div>
+                                <i class="icon jyicon fs14">&#xe61c;</i>
+                                <span ng-if="item.lotteryActivityStatus=='NOTSTART'">{{item.leftTime}}</span>
+                                <span ng-if="item.lotteryActivityStatus=='ACTIVE'">{{item.leftTime}}</span>
+                                <span ng-if="item.lotteryActivityStatus=='PAUSE' || item.lotteryActivityStatus=='END' ">{{'已结束'}}</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </ion-slide>
+
+            <ion-slide class="slider-slide-vh">
+                <div ng-if="jytjFlag" class="list pt10 mb0" style="position: relative" ng-repeat="item in artData">
+                    <div class=" box" ui-sref="articleDetail({id:'{{item.articleId}}'})" nav-direction="forward">
+                        <div class="defaultBg-jytj" style="margin-left: 4px;margin-right: 4px">
+                            <img ng-src="{{item.url}}" >
+                        </div>
+                        <div class="box1 tuijianCon">
+                            <div class="forum-title">{{item.articleTitle}}</div>
+                            <div class="forum-sp">
+                                <span class="articleFlag" ng-repeat="row in item.strs">{{row}}</span>
+                            </div>
+                            <div class="box">
+                                <div class="box1 text-left" style=" height: 20px;overflow: hidden;">
+                                    <span class="fs12">{{item.date}}</span>
+                                </div>
+                                <div class="box1 text-right" style="margin-left: -20px">
+                                    <i class="icon jyicon">&#xe601;</i>
+                                    <span class="fs12">{{item.fabulous}}</span>
+                                    <i class="icon jyicon">&#xe63c;</i>
+                                    <span class="fs12">{{item.commentCount}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="noMorePage" class="text-center pd20">暂无更多文章</div>
+
+            </ion-slide>
+        </ion-slide-box>
+        <ion-infinite-scroll ng-if="!noMorePage" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+        <ion-infinite-scroll ng-if="!noMorePage1" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+
+    </ion-content>
+
+
+    <ion-footer-bar style="border-top:  1px solid #f5f5f5;">
+        <div class="row homeNav">
+            <div class="col" ui-sref="home" nav-direction="none">
+                <i class="icon jyicon">&#xe601;</i>
+                <p class="fs12">推荐</p>
+            </div>
+            <div class="col" ui-sref="category({catId:4,index:0})" nav-direction="none">
+                <i class="icon jyicon">&#xe619;</i>
+                <p class="fs12">商城</p>
+            </div>
+            <div class="col">
+            </div>
+            <div class="col" ui-sref="forum" nav-direction="none">
+                <i class="icon jyicon color-998278">&#xe67d;</i>
+                <p class="fs12">圈子</p>
+            </div>
+            <div class="col" ui-sref="account" nav-direction="none">
+                <i class="icon jyicon">&#xe605;</i>
+                <p class="fs12">我的</p>
+            </div>
+        </div>
+        <div class="sogou" on-tap="sougou()">
+            <img src="img/sugou.png">
+        </div>
+    </ion-footer-bar>
+
+</ion-view>

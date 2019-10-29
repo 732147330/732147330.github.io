@@ -1,0 +1,76 @@
+<ion-view view-title="个人资料">
+    <ion-header-bar class="calm-border" align-title="center">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">个人资料</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false">
+        <div class="list">
+            <a class="item item-icon-right item-da-xiao" ui-sref="nickName" nav-direction="forward">
+                <span><span style="color: red">*</span> 昵称:</span>
+                <span class="span-left">{{userInfo.mmbName}}</span>
+                <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+            </a>
+
+            <a class="item item-icon-right item-da-xiao" on-tap="changePhone()">
+                <span> <span style="color: red">*</span>手机:</span>
+                <span class="span-left">{{userInfo.mobileNumber}}</span>
+                <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+            </a>
+
+            <a class="item item-icon-right item-da-xiao" ui-sref="address({person:'person'})" nav-direction="forward">
+                <span><span style="color: red">*</span>地址管理</span>
+                <span class="span-left"></span>
+                <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+            </a>
+
+            <a class="item item-icon-right item-da-xiao" ui-sref="changeEmail" nav-direction="forward">
+                <span><span style="color: red">*</span>邮箱:</span>
+                <span class="span-left">{{userInfo.emailAddress}}</span>
+                <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+            </a>
+
+            <a class="item item-icon-right item-da-xiao" on-tap="showDatePicker()">
+                <span><span style="color: red">*</span> 生日:</span>
+                <span class="pos">
+                     <input  style="padding: 10px;border:0;width: 100%;background: none;text-align: left"  ng-model="userInfo.birthDay" mobiscroll-date="settings" mobiscroll-instance="demo" placeholder="请选择生日" />
+                </span>
+                <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+            </a>
+
+            <a class="item item-icon-right item-da-xiao" on-tap="show()">
+                <span> <span style="color: red">*</span>性别:</span>
+                <span class="span-left" ng-if="userInfo.sex">{{userInfo.sex=='MALE'?'男':'女'}}</span>
+                <span class="span-left" ng-if="!userInfo.sex"></span>
+                <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+            </a>
+
+            <a class="item item-icon-right item-da-xiao" ui-sref="changeSignature" nav-direction="forward">
+                <span> 个性签名:</span>
+                <span class="span-left">{{userInfo.selfIntroduction}}</span>
+                <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+            </a>
+
+            <a class="item item-icon-right item-da-xiao ppp" ui-sref="changePassword" nav-direction="forward">
+                <span> 密码:</span>
+                <!--<input type="password" ng-model="personInfo.encryptedPassword">-->
+                <span class="span-left">{{'******'}}</span>
+                <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+            </a>
+
+            <a class="item item-icon-right item-da-xiao pos" ui-sref="otherBuild" nav-direction="forward">
+                <span> <span style="color: red">*</span>第三方绑定</span>
+                <div class="icons">
+                    <div class="iconfont icon fs24 {{qqBindStatus?'color-03a9f4':'color-999'}}" style="right: 20px;">&#xe63e;</div>
+                    <div class="iconfont icon fs24 {{wxBindStatus?'color-4caf50':'color-999'}}" style="right:55px;top:-3px;">&#xe693;</div>
+                    <div class="iconfont icon fs24 {{weiboBindStatus?'color-ff9800':'color-999'}}" style="right:90px;">&#xe641;</div>
+                    <!--<div class="iconfont icon fs24 {{zfbBindStatus?'color-03A5EF':'color-999'}}" style="right:125px;">&#xe640;</div>-->
+                </div>
+            </a>
+            <a class="item item-icon-right item-da-xiao" on-tap="showInvitedScan(userInfo.mmbName,invitedCode,'qrcode_Invited',150,150,userInfo.logoImageUrl)">
+                <span> 邀请码</span>
+                <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+            </a>
+        </div>
+    </ion-content>
+</ion-view>
+

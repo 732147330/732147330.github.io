@@ -1,0 +1,92 @@
+<ion-view view-title="选择自提影院">
+    <ion-header-bar align-title="center">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">选择自提影院</div>
+        <span class="scan">
+            <a ui-sref="selectCity" nav-direction="forward" class="fs12">{{currentCity}} <i ui-sref="selectCity" nav-direction="forward" class="ion-chevron-down"></i></a>
+        </span>
+    </ion-header-bar>
+    <!--<div class="theatreImg" style="top: 44px;" ><img class="animated fadeIn" style="display: block;" ng-src="{{theatreBanner}}"></div>-->
+    <ion-content scrollbar-y="false" >
+        <div class="swiper-container swiper-container-focus" style="height: 100%" ng-if="itemId&&skuId">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-slide-focus" ng-repeat="item in carouselData">
+                    <a href="javascript:"><img class="animated fadeIn" ng-src="{{item.url}}"></a>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="itemId&&skuId&&cinemaBySkuData.length==0">
+            <div class="no-moreRight">
+                <i class="icon jyicon" style="font-size: 100px; color: #FF6600;">&#xe8c4;</i>
+            </div>
+            <div class="fs16 text-center mt20">小主,我被抢光了!
+                <a class="fs16" ui-sref="mall" nav-direction="forward" style="text-decoration: underline">去其它逛逛></a>
+            </div>
+        </div>
+        <!--<ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>-->
+        <ion-list ng-if="!itemId&&!skuId">
+            <ion-radio class="sinceTheaterWrap" on-tap="querySel($index)" ng-model="data.selSinceTheater" ng-value="item.cinemaId" ng-repeat="item in sinceTheaterData">
+                <div style="padding: 5px 0;">
+                    <h2 class="fs16">{{item.cinemaNameAlt}}</h2>
+                    <p class="listCon-address fs12">{{item.address1}}</p>
+                    <!--<p class="fs12">7.11km</p>-->
+                </div>
+            </ion-radio>
+        </ion-list>
+        <ion-list ng-if="itemId&&skuId">
+            <ion-radio class="sinceTheaterWrap" on-tap="querySel($index)"  ng-value="item.cinemaId" ng-repeat="item in cinemaBySkuData">
+                <div style="padding: 5px 0;">
+                    <h2 class="fs16">{{item.cinemaNameAlt}}</h2>
+                    <p class="listCon-address fs12">{{item.address1}}</p>
+                    <!--<p class="fs12">7.11km</p>-->
+                </div>
+            </ion-radio>
+        </ion-list>
+    </ion-content>
+    <!--手机号码直接注册或登录-->
+    <!--<div id="phonelogin" ng-if="needBind">
+        <div id="phonelogin-inner">
+            <div class="fs16 text-center mb10"><strong>登陆</strong></div>
+            <div class="phoneloginWrap">
+                <div class="box">
+                    <div class="box1"><input ng-model="bindPhone.mobileNumber"  maxlength="11" type="tel" placeholder="请输入手机号码"></div>
+                    <div class="phonelogin_yzm fs12" on-tap="sendYzm()">{{sendYzmFlag}}</div>
+                </div>
+            </div>
+            <div class="phoneloginWrap"><input ng-model="bindPhone.vertifyCode" type="text" placeholder="请输入验证码"></div>
+            <label class="item item-input item-input-lg" style="padding: 6px 0 0px 4px;border: 1px solid #ddd;">
+                <span class="input-label color-000 fs14">图形码</span>
+                <input type="number" ng-pattern="/\d{5}/" maxlength="5" ng-model="bindPhone.captcha1" required placeholder="请输入图形码">
+                <div class="mr10" on-tap="getCode()" style="width:140px!important;"><img ng-src="{{yzmCode}}" alt=""/></div>
+            </label>
+            <div class="mt10"><button style="background: #998278" class="button button-block button-assertive" on-tap="login()">立即登录</button></div>
+            <div style="text-align: center;text-decoration: underline;" on-tap="goLogin()">使用其它登陆方式</div>
+            <div on-tap="hide()" class="icon jyicon fs16" style="border-top-right-radius: 8px;position: absolute;top: 0;right: 0;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 5px;background: #f2f2f2;border-bottom-left-radius: 5px;color: #666;">&#xe651;</div>
+        </div>
+    </div>-->
+    <div id="phonelogin" ng-if="needBind">
+        <div id="phonelogin-inner" style="height: 150px;top: 58%">
+            <div class="fs16 text-center mb10"><strong>登陆</strong></div>
+            <!--<div class="phoneloginWrap">-->
+            <!--<div class="box">-->
+            <!--<div class="box1"><input ng-model="bindPhone.mobileNumber"  maxlength="11" type="tel" placeholder="请输入手机号码"></div>-->
+            <!--<div class="phonelogin_yzm fs12" on-tap="sendYzm()">{{sendYzmFlag}}</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="phoneloginWrap"><input ng-model="bindPhone.vertifyCode" type="text" placeholder="请输入验证码"></div>-->
+            <!--<label class="item item-input item-input-lg" style="padding: 6px 0 0px 4px;border: 1px solid #ddd;">-->
+            <!--<span class="input-label color-000 fs14">图形码</span>-->
+            <!--<input type="number" ng-pattern="/\d{5}/" maxlength="5" ng-model="bindPhone.captcha1" required placeholder="请输入图形码">-->
+            <!--<div class="mr10" on-tap="getCode()" style="width:140px!important;"><img ng-src="{{yzmCode}}" alt=""/></div>-->
+            <!--</label>-->
+
+            <div class="mt10 pos">
+                <i class="ion jyicon login-ion">&#xe66a;</i>
+                <button style="background: #998278;margin-top: 22px;" class="button button-block button-assertive" on-tap="weixinLogin()">微信登录</button>
+            </div>
+            <div style="text-align: center;text-decoration: underline;margin-top: 15px;" on-tap="goLogin()">使用其它登录方式</div>
+            <div on-tap="hide()" class="icon jyicon fs16" style="border-top-right-radius: 8px;position: absolute;top: 0;right: 0;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 5px;background: #f2f2f2;border-bottom-left-radius: 5px;color: #666;">&#xe651;</div>
+        </div>
+    </div>
+</ion-view>

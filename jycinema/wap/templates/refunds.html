@@ -1,0 +1,63 @@
+<ion-view view-title="退货退款">
+    <ion-header-bar align-title="center" class="top-xian">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">退货退款</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" overflow-scroll='false' scrollbar-x="false" >
+        <div ng-if="currentOrderDetailData">
+            <div>
+                <a class="item item-thumbnail-left" style="background-color:#f8f8f8 ">
+                    <div class="refund-img" >
+                        <img ng-src="{{currentOrderDetailData.accessPath}}">
+                    </div>
+                    <div class="refund-p">
+                        <p style="height: 40px;overflow: hidden;">{{currentOrderDetailData.title}}</p>
+                        <p class="refund-p2">
+                                <span ng-repeat="item in currentOrderDetailData.salesData">
+                                    {{item.propName}}:{{item.propValue}}&nbsp;
+                                </span>
+                        </p>
+                        <p class="pt5" style="color: red">{{currentOrderDetailData.price | currency:'¥'}}</p>
+                        <p class="refund-p3">x{{currentOrderDetailData.num}}</p>
+                    </div>
+                </a>
+                <div class="bcr"></div>
+                <div class="bbr"></div>
+            </div>
+            <div class="list">
+                <a class="item item-icon-right item-da-xiao" style="padding: 10px">
+                    <span>退款金额</span>
+                    <span class="span-left" style="color: red">{{currentOrderDetailData.refundFee?currentOrderDetailData.refundFee:currentOrderDetailData.applyForRefundAmount | currency:'¥'}}</span>
+                </a>
+                <a class="item item-icon-right item-da-xiao item-refund" style="padding: 5px">
+                    <span class="refund-sp">商品金额 {{currentOrderDetailData.num*currentOrderDetailData.price | currency:'￥'}}，
+                        邮费（{{currentOrderDetailData.postFeeNew | currency:'￥'}}）</span>
+                </a>
+                <a class="item item-icon-right item-da-xiao" style="padding-right: 17px" >
+                <span>退款进度：</span>
+                <p class="span-left pt10">{{currentOrderDetailData.refundScheduleName}}</p>
+                </a>
+            </div>
+        </div>
+
+        <div style="padding: 10px" ng-if="currentOrderDetailData.refundType=='RETURN_GOODS_AND_REFUND' && currentOrderDetailData.refundSchedule=='APPLY_SUCCESS_BOTH'">
+            <!--<p style="padding-bottom: 5px">退款退货信息：</p>-->
+            <!--<p style="padding-bottom: 5px">退款进度：退货退款申请审批通过，请用户尽快寄出物品，谢谢！</p>-->
+            <div data-tap-disabled="true" style="padding-bottom: 5px">
+                <span>退货物流：</span>
+                    <select style="width: 180px;border-radius: 2px" ng-model="selReason.refund">
+                        <option value="{{row.lookupCode}}" ng-repeat="row in refundData">{{row.description}}</option>
+                    </select>
+            </div>
+            <div style="padding-bottom: 5px">
+                <span>退货单号：</span>
+                <input style="width: 180px;border-radius: 2px"  ng-model="selReason.code"/>
+            </div>
+        </div>
+
+<div style="height:200px;"></div>
+    </ion-content>
+    <div class="bar bar-footer" style="background-color: #998278" ng-if="currentOrderDetailData.refundType=='RETURN_GOODS_AND_REFUND' && currentOrderDetailData.refundStatus=='REFUNDING'" >
+        <div class="title" style="color: white" on-tap="refunds()">提交</div>
+    </div>
+</ion-view>

@@ -1,0 +1,208 @@
+<ion-view view-title="活动列表" class="yd-home">
+    <!--<div class="yd-bk">-->
+        <!--<img src="./img/yd-bk.png">-->
+    <!--</div>-->
+    <ion-header-bar align-title="center" class="bxjg-h yd-bar-header pos">
+        <a back-button="" nav-direction="back" class="backButton"><i   class="ion-ios-arrow-left fs30"></i></a>
+        <div class="" style="width: 100%">
+            <ion-scroll overflow-scroll='false' class="jy-nav" scrollbar-x="false" scrollbar-y="false" direction="x">
+                <div class="jy-nav-inner row fs18" style="font-weight: 500;color: #46423f">
+                    <a class="col"  >活动</a>
+                </div>
+            </ion-scroll>
+        </div>
+        <!--<div class="h1 title" style="color: white;" >活动</div>-->
+        <!--<div style=" position: absolute;top: 19px;left: 0px;">-->
+            <!--<img src="./img/yd-head.png">-->
+        <!--</div>-->
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" class="bxjg-currentLine">
+        <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+        <!--轮播-->
+
+        <div class="swiper-container swiper-container-activity yd-swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-slide-activity" ng-repeat="item in activityResData">
+                    <a ng-if="item.sourceType=='FILM'" ui-sref="movieDetail({movieId:'{{item.sourceNameId}}'})" nav-direction="forward" style="background: url({{item.url}}) no-repeat center;background-size: cover;height: 140px;display: block;"></a>
+                    <a ng-if="item.sourceType=='CINEMA'" ui-sref="theatreDetail({theatreId:'{{item.sourceNameId}}'})" nav-direction="forward" style="background: url({{item.url}}) no-repeat center;background-size: cover;height: 140px;display: block;"></a>
+                    <a ng-if="item.sourceType=='ACTIVITY'"  ui-sref="activityDetail({activityGroupId:'{{item.sourceNameId}}'})" nav-direction="forward" style="background: url({{item.url}}) no-repeat center;background-size: cover;height: 140px;display: block;"></a>
+                    <a href="javascript:;" ng-if="item.sourceType!='FILM' && item.sourceType!='CINEMA' && item.sourceType!='ACTIVITY'"><img class="animated fadeIn" ng-src="{{item.url}}"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="pos mb10 clearfix" tabs-click="">
+            <a class="stap step1" style="width: 50%;" ng-class="activeIndex==0?'active':''">购票活动</a>
+            <a class="stap step2" style="width: 50%;" ng-class="activeIndex==1?'active':''">抽奖活动</a>
+        </div>
+
+        <ion-slide-box active-slide="slideTo()" show-pager="false" on-slide-changed="slideHasChanged($index)">
+            <ion-slide class="slider-slide-vh myTicketsSlide">
+                <div class="bxjg-activity" ng-if="findActivityGuidanceInfoData.length>0">
+                    <!--<h2 class="fs16 color-444 pt10 mb10" style="padding-left:12px;padding-right:12px;"><span class="barLine"></span> 全部活动</h2>-->
+                    <!--活动列表-->
+                    <ul class="activityItems">
+                        <li ng-repeat="item in findActivityGuidanceInfoData">
+                            <div style="height: 20vh;background: url({{item.THUMBNAIL}}) no-repeat center;background-size:cover;" ui-sref="activityDetail({activityGroupId:item.activityGroupId})" nav-direction="forward" class="activityItems-banner {{item.flag=='END'?'opc8':''}}"></div>
+                            <h2 class="activityItems-tit box">
+                                <div class="box1" style="line-height: 24px;">{{item.promotionalCopy}}</div>
+                                <!--<div ng-if="item.ruleInstanceType=='SHARE_RULE'" ng-click="showShare($index,$event)"><span ><i class="ion-android-share-alt color-998278 ml10 mr10 fs20"></i></span></div>-->
+                            </h2>
+
+                            <div class="activityItems-dec color-666">
+                                <div class="pos text-right activityItems-dec">
+                                    <div class="text-left jyAct-num"><i class="icon jyicon mr5 fs14">&#xe62c;</i> {{item.numberOfParticipants}}人参与</div>
+                                    <i class="icon jyicon fs14">&#xe61c;</i>
+                                    <span ng-if="item.flag=='NOT_START'">{{item.leftTime}}</span>
+                                    <span ng-if="item.flag=='START'">{{item.leftTime}}</span>
+                                    <span ng-if="item.flag=='END'">{{'已结束'}}</span>
+
+                                </div>
+                            </div>
+                            <span class="day_num"></span><span class="hour_num"></span><span class="min_num"></span><span class="sec_num"></span>
+                            <div ng-if="item.flag=='END'" class="activity-end"><i style="color: #838383;" class="icon jyicon fs60">&#xe608;</i></div>
+                        </li>
+                    </ul>
+                </div>
+            </ion-slide>
+            <ion-slide class="slider-slide-vh myTicketsSlide">
+                <div class="color-999 text-center fs12 pt100"  ng-if="!awardList">
+                    <div class="color-cacaca">敬请期待...</div>
+                </div>
+                <ul class="activityItems">
+                    <li ng-repeat="item in awardList" on-tap="goAward($index)">
+                        <div style="height: 20vh;background: url({{item.lotteryDrawPic}}) no-repeat center;background-size:cover;" class="activityItems-banner {{item.flag=='END'?'opc8':''}}"></div>
+                        <h2 class="activityItems-tit box">
+                            <div class="box1" style="line-height: 24px;">{{item.promotionalCopy}}</div>
+                            <!--<div ng-if="item.ruleInstanceType=='SHARE_RULE'" ng-click="showShare($index,$event)"><span ><i class="ion-android-share-alt color-998278 ml10 mr10 fs20"></i></span></div>-->
+                        </h2>
+                        <div class="activityItems-dec color-666">
+                            <div class="pos text-right activityItems-dec">
+                                <div class="text-left jyAct-num"><i class="icon jyicon mr5 fs14">&#xe62c;</i>
+                                    <span ng-if="item.lotteryActivityStatus=='NOTSTART'">未开始</span>
+                                    <span ng-if="item.lotteryActivityStatus=='ACTIVE'">进行中</span>
+                                    <span ng-if="item.lotteryActivityStatus=='PAUSE' || item.lotteryActivityStatus=='END'">已结束</span>
+                                </div>
+                                <i class="icon jyicon fs14">&#xe61c;</i>
+                                <span ng-if="item.lotteryActivityStatus=='NOTSTART'">{{item.leftTime}}</span>
+                                <span ng-if="item.lotteryActivityStatus=='ACTIVE'">{{item.leftTime}}</span>
+                                <span ng-if="item.lotteryActivityStatus=='PAUSE' || item.lotteryActivityStatus=='END' ">{{'已结束'}}</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </ion-slide>
+        </ion-slide-box>
+
+
+
+        <ion-infinite-scroll ng-show="!noMorePage" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+        <div ng-if="noMorePage" class="text-center pd20">暂无更多活动</div>
+    </ion-content>
+    <div class="bxjg-account-bg"></div>
+
+    <ion-footer-bar>
+        <div class="row homeNav">
+            <div class="col" ui-sref="home" nav-direction="none">
+                <i class="icon jyicon">&#xe601;</i>
+                <p class="fs12">推荐</p>
+            </div>
+            <div class="col" ui-sref="activity" nav-direction="none">
+                <i class="icon jyicon color-998278">&#xe624;</i>
+                <p class="fs12 color-998278">活动</p>
+            </div>
+            <div class="col" ui-sref="mall" nav-direction="none">
+                <i class="icon jyicon">&#xe619;</i>
+                <p class="fs12">商城</p>
+            </div>
+            <div class="col" ui-sref="forum" nav-direction="none">
+                <i class="icon jyicon">&#xe67b;</i>
+                <p class="fs12">圈子</p>
+            </div>
+            <div class="col" ui-sref="account" nav-direction="none">
+                <i class="icon jyicon">&#xe605;</i>
+                <p class="fs12">我的</p>
+            </div>
+        </div>
+    </ion-footer-bar>
+    <!--<ion-footer-bar class="yd-bar-footer">-->
+        <!--<div class="row homeNav" style="color: white;">-->
+            <!--<div class="col pos" ui-sref="home" nav-direction="none">-->
+                <!--<div class="yd-2018">-->
+                    <!--<img src="./img/yd-2018.png">-->
+                <!--</div>-->
+                <!--<p class="fs12 color-403d38" style="margin-top: 20px">推荐</p>-->
+            <!--</div>-->
+            <!--<div class="col pos" ui-sref="activity" nav-direction="none">-->
+                <!--<div class="yd-ydkl">-->
+                    <!--<img src="./img/yd-y.png">-->
+                <!--</div>-->
+                <!--<p class="fs12" style="margin-top: 20px">活动</p>-->
+            <!--</div>-->
+            <!--<div class="col pos" ui-sref="mall" nav-direction="none">-->
+                <!--<div class="yd-ydkl">-->
+                    <!--<img src="./img/yd-d.png">-->
+                <!--</div>-->
+                <!--<p class="fs12" style="margin-top: 20px">商城</p>-->
+            <!--</div>-->
+            <!--<div class="col pos" ui-sref="forum" nav-direction="none">-->
+                <!--<div class="yd-ydkl">-->
+                    <!--<img src="./img/yd-k.png">-->
+                <!--</div>-->
+                <!--<p class="fs12" style="margin-top: 20px">圈子</p>-->
+            <!--</div>-->
+            <!--<div class="col pos" ui-sref="account" nav-direction="none">-->
+                <!--<div class="yd-ydkl">-->
+                    <!--<img src="./img/yd-l.png">-->
+                <!--</div>-->
+                <!--<p class="fs12" style="margin-top: 20px">我的</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</ion-footer-bar>-->
+    <!--<div style="position: absolute;bottom: -3px;z-index: 10000">-->
+        <!--<img src="./img/yd-wap.png">-->
+    <!--</div>-->
+    <script id="templates/shareList.html" type="text/ng-template">
+        <style>
+            .modal-backdrop, .modal-backdrop-bg{
+                top: auto!important;
+                bottom: 0;
+                z-index: 100;
+                max-height:170px;
+            }
+            .modal-backdrop .modal-wrapper{
+                max-height:100%;
+                height: 100%;
+            }
+        </style>
+        <ion-modal-view class="layer">
+            <ion-content overflow-scroll="false" scrollbar-y="false">
+                <!-- 分享朋友 -->
+                <div class="pt10">
+                    <h2 class="text-center fs16 mb20">分享给朋友</h2>
+                    <div class="row" style="border-bottom: 1px solid #f5f5f5;">
+                        <div class="col" on-tap="shareWechat()">
+                            <div><i class="icon iconfont fs40" style="color: #4caf50;">&#xe693;</i></div>
+                            <p class="mt5">微信</p>
+                        </div>
+                        <div class="col" on-tap="shareWechatFriend()">
+                            <div><i class="icon iconfont fs40" style="color: #00bcd4;">&#xe694;</i></div>
+                            <p class="mt5">朋友圈</p>
+                        </div>
+                        <div class="col" on-tap="shareWeibo()">
+                            <div><i class="icon iconfont fs40" style="color: #ff9800;">&#xe641;</i></div>
+                            <p class="mt5">新浪微博</p>
+                        </div>
+                        <div class="col" on-tap="shareQq()">
+                            <div><i class="icon iconfont fs40" style="color: #03a9f4;">&#xe63e;</i></div>
+                            <p class="mt5">QQ</p>
+                        </div>
+
+                    </div>
+                    <div ng-click="hideShare($event)" class="text-center fs14 pt10 pb10 color-666">取消</div>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+</ion-view>

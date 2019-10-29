@@ -1,0 +1,27 @@
+<ion-view view-title="用户注册">
+    <ion-header-bar align-title="center" class="login-jy-header">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left"></i></a>
+        <div class="h1 title text-center" style="color: #fff!important;">注册</div>
+    </ion-header-bar>
+    <ion-content class="jyContent" scroll="false">
+        <form name="formRegister" novalidate ng-submit="register(formRegister)">
+            <div class="list registerList">
+                <label class="item item-input">
+                    <span class="input-label">手机号</span>
+                    <input style="margin-right: 110px;" type="tel" ng-model="registerData.tel" ng-pattern="/[0-9]{11}/" maxlength="11" required placeholder="请输入手机号">
+                    <div ng-if="yzmFlag" ng-disabled="{true:'disabled'}[!registerData.tel]" class="button button-small button-register yzmBtn" on-tap="getYzm()" style="margin: 6px 15px;">获取验证码</div>
+                    <button ng-if="!yzmFlag" stop-propagation="" disabled="disabled" class="button button-small button-register yzmBtn" style="margin: 6px 15px;">{{leftTime}}s后重新获取</button>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">验证码</span>
+                    <input type="number" ng-pattern="/\d{6}/" maxlength="6" required ng-model="registerData.captcha" placeholder="请输入验证码">
+                </label>
+                <!--<label class="item item-input">-->
+                <!--<span class="input-label">邀请码</span>-->
+                <!--<input type="text" ng-model="registerData.inviteCode" placeholder="选填">-->
+                <!--</label>-->
+            </div>
+            <div class="ml15 mt20 mr15"><button type="submit" ng-disabled="formRegister.$invalid" class="button button-jy button-block">下一步</button></div>
+        </form>
+    </ion-content>
+</ion-view>

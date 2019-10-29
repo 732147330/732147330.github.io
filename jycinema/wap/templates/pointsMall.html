@@ -1,0 +1,229 @@
+<ion-view view-title="会员商城">
+    <ion-header-bar class="calm-border" align-title="center">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">会员商城</div>
+    </ion-header-bar>
+    <ion-content class="" scrollbar-y="false">
+        <!--<div class="swiper-container swiper-container-focus" style="height: 100%">-->
+            <!--<div class="swiper-wrapper">-->
+                <!--<div class="swiper-slide swiper-slide-focus" ng-repeat="item in carouselData">-->
+                    <!--<a href="javascript:"><img class="animated fadeIn" ng-src="{{item.url}}"></a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--mall 导航-->
+        <!--<div class="points-box">-->
+            <!--<div class="points-box1 mt10" ui-sref="activity({obj:1})" nav-direction="forward">-->
+                <!--<i class="icon jyicon fs40" style="color: #ff5715">&#xe653;</i>-->
+
+                <!--<p class="fs12">抽奖活动</p>-->
+            <!--</div>-->
+            <!--<div class="points-box1 mt10" ui-sref="allPointsGood" nav-direction="forward">-->
+                <!--<i class="icon jyicon fs40" style="color: #ac8686">&#xe6f0;</i>-->
+                <!--<p class="fs12">所有商品</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="points-box">
+            <div class="points-box1" ng-class="navShow===0?'points-show':''" ng-click="switchTab(0)">
+                <p class="fs12">影城商品</p>
+            </div>
+            <div class="points-box1" ng-class="navShow===1?'points-show':''" ng-click="switchTab(1)">
+                <p class="fs12">积分商品</p>
+            </div>
+        </div>
+
+        <!--<div class="mall-division">-->
+            <!--<div class="box ml30 mr30">-->
+                <!--<div class="mall-division-l box1 text-right mr10" ></div>-->
+                <!--<div><i class="jyicon iconfont">&#xe632;</i> 精品推荐</div>-->
+                <!--<div class="mall-division-l box1 text-left ml10"></div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="pos clearfix" tabs-click="" style="position: relative;height: 42px;">
+            <div class="points-tab-wrapper">
+                <a class="stap step1" style="width: 25%;" ng-class="subNavShow===0?'active':''" ng-click="switchSubTab(0)">推荐</a>
+                <a class="stap step2" style="width: 25%;" ng-class="subNavShow===1?'active':''" ng-click="switchSubTab(1)">分类</a>
+                <a class="stap step3" style="width: 25%;" ng-class="subNavShow===2?'active':''" ng-click="switchSubTab(2)">筛选</a>
+                <a class="stap step4" style="width: 25%;" ng-class="subNavShow===3?'active':''" ng-click="switchSubTab(3)">
+                    <i class="icon ion-ios-search fs13"></i>
+                    搜索
+                </a>
+            </div>
+
+            <!--搜索框-->
+            <div class="points-search-wrapper">
+                <span class="stap points-search-input" style="border-bottom: 0px;">
+                    <i class="icon ion-ios-search placeholder-icon fs13 search-icon"></i>
+                    <input type="text" id="searchText" class="search-text" placeholder="请输入商品名称" ng-model="inputText.value">
+                    <i class="icon ion-android-cancel placeholder-icon fs13 cancel-icon" ng-show="cancelShow" ng-click="cleanText()"></i>
+                </span>
+                <span class="points-search-cancel" ng-click="cancelSearch()">
+                取消
+                </span>
+            </div>
+
+            <!--筛选框-->
+            <div class="points-condition-wrapper">
+                <div class="condition-tab">
+                    <span class="price-tab" ng-class="tabActive===0?'tab-light':''" ng-click="switchConditionTab(0)">
+                        价位
+                    </span>
+                    <span class="points-tab" ng-class="tabActive===1?'tab-light':''" ng-click="switchConditionTab(1)">
+                        积分
+                    </span>
+                    <span class="price-points-tab" ng-class="tabActive===2?'tab-light':''" ng-click="switchConditionTab(2)">
+                        价格+积分
+                    </span>
+                </div>
+                <div class="condition-content">
+                    <ul class="clearfix">
+                        <li ng-click="switchConditionRadio(0)">
+                            <div class="content-radio">
+                                <div class="radio" ng-class="radioActive===0?'radio-active':''"></div>
+                            </div>
+                            <span class="content-range">
+                                10~30
+                            </span>
+                            <span class="content-select">
+                                34%选择
+                            </span>
+                        </li>
+                        <li ng-click="switchConditionRadio(1)">
+                            <div class="content-radio">
+                                <div class="radio" ng-class="radioActive===1?'radio-active':''"></div>
+                            </div>
+                            <span class="content-range">
+                                30~50
+                            </span>
+                            <span class="content-select">
+                                30%选择
+                            </span>
+                        </li>
+                        <li ng-click="switchConditionRadio(2)">
+                            <div class="content-radio">
+                                <div class="radio" ng-class="radioActive===2?'radio-active':''"></div>
+                            </div>
+                            <span class="content-range">
+                                大于50
+                            </span>
+                            <span class="content-select">
+                                29%选择
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="condition-button">
+                    <span class="button-cancel" ng-click="conditionCancel()">
+                        取消
+                    </span>
+                    <span class="button-confirm" ng-click="conditionConfirm()">
+                        确定
+                    </span>
+                </div>
+            </div>
+
+            <!--蒙版-->
+            <div class="mask-wrapper">
+
+            </div>
+
+        </div>
+
+        <div class="banner-line"></div>
+
+        <ion-slide-box active-slide="slideTo()" show-pager="false" on-slide-changed="slideHasChanged($index)">
+            <ion-slide class="slider-slide-vh myTicketsSlide" >
+                <div class="color-999 text-center fs12 pt100" ng-if="guessData.length==0">
+                    <div class="color-cacaca">敬请期待...</div>
+                </div>
+
+                <div class="flex flexBox pos" style="min-height: 200px;"  ng-if="guessData.length!=0">
+                    <div class="flex-50" ng-repeat="item in guessData" >
+                        <div ui-sref="pointProductDetail({skuId:item.skuId})" nav-direction="forward" class="flexBoxInner {{$index%2==0?'flexBoxInner-r':'flexBoxInner-l'}} ">
+                            <div style="width: 135px;height: 145px;">
+                                <img ng-src="{{item.sourceSkuUrl}}" alt="">
+                            </div>
+                            <div class="fs14 color-000 mb5" style="height: 20px;overflow:hidden;">{{item.titleAlt}}</div>
+                            <div class="box">
+                                <div class="color-ff5715">
+                                    <strong class="fs15">{{item.pointsExPoint}}积分</strong>
+                                    <strong class="fs15" ng-if="item.pointsExPrice">+{{item.pointsExPrice/100 | currency:'¥'}}</strong>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <div class="box1  color-999 fs14">月售：{{item.saleMonth?item.saleMonth:0}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<ion-spinner class="spinLoading" icon="ios-small" ng-if="!specialOfferData"></ion-spinner>-->
+                </div>
+            </ion-slide>
+
+            <ion-slide class="slider-slide-vh myTicketsSlide">
+                <ion-content scrollbar-y="false">
+                    <div class="box subSort" >
+                        <div class="box" style="height:1000px;overflow: hidden;background: #f2f2f2;" ng-nicescroll nice-option="{cursorcolor: '#f2f2f2',cursorwidth: '10px'}">
+                            <ul style="width: 90px">
+                                <li style="border-bottom: 1px solid #ddd;" ng-repeat="item in pointGoodsListData" class="{{item.active?'active':''}}">
+                                    <div style="padding: 8px 0px;margin-left: -8px;" on-tap="changeCategoryListNew(item.catId,$index)">{{item.catName}}</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </ion-content>
+                <ion-content scrollbar-y="false" style="left: 90px;background: transparent" delegate-handle="mainScroll"  on-scroll="scrollContent()">
+                    <div ng-repeat="row in pointGoodsListData" >
+                        <div class="box" ng-repeat="item in row.itemSkuList">
+                            <div class="box1" style="height: 100%;border-bottom: 1px solid #f5f5f5;" >
+                                <div class="flex" ui-sref="productDetail({'skuId':{{item.skuId}},'ruleHeaderIdList':{{item.ruleHeaderIdList===undefined?[]:item.ruleHeaderIdList}}})" nav-direction="forward" on-tap="getcinemaBySku()">
+                                    <div style="width: 35%;padding: 8px 8px;">
+                                        <div style="width: 90px;height: 90px">
+                                            <img ng-src="{{item.appAbbImg}}">
+                                        </div>
+                                    </div>
+                                    <div style="width: 65%;padding-left: 12px" class="pos">
+                                        <h2 class="fs14 mb10" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;height: 16px;margin-top: 20px !important;">{{item.titleAlt}}</h2>
+                                        <p class="fs12 mb10" style="height: 20px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" ng-bind-html="item.specInfo"></p>
+                                        <p class="fs12" style="padding-bottom: 12px;">网购价: <span class="color-red">{{item.price/100 | currency:'¥'}}</span></p>
+                                    </div>
+                                </div>
+                                <div class="fs13 pos category-detail" ng-if="item.activityFlag=='Y'">
+                                    <span style="background: #e45016;color: white;padding: 2px 3px;">惠</span>
+                                    <span>{{item.activityInfo[0].activityGroupName}}</span>
+                                    <div style="position: absolute;top: -2px;left: 77%;" on-tap="showDetial(row.itemSkuList,$index)">
+                                        <span>详情</span>
+                                        <i class="ion jyicon fs22">&#xe6da;</i>
+                                    </div>
+                                </div>
+                                <div style="padding: 2px 5px;font-size: 13px;margin-left: 23px" class="showCon {{item.showCon?'showConActive':''}}">{{item.activityInfo[0].ruleDesc}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center" ng-if="pointGoodsListData" style="padding-bottom: 400px;padding-top: 20px">暂无更多商品</div>
+
+                </ion-content>
+            </ion-slide>
+        </ion-slide-box>
+
+        <!--<div ng-if="((currentPage-1)*pageSize+specialOfferData.length)<total" class="text-center pb30 mt20" ng-click="getMore()"><a>查看更多</a></div>-->
+
+    </ion-content>
+
+</ion-view>
+
+<style>
+    .mask-wrapper {
+        position: absolute;
+        top: 53px;
+        width: 100%;
+        height: 0px;
+        opacity: 0.6;
+        z-index: 99999;
+        background-color: #8f8f8f;
+        -webkit-transition: all 0s;
+        -moz-transition: all 0s;
+        -ms-transition: all 0s;
+        -o-transition: all 0s;
+        transition: all 0s;
+    }
+</style>

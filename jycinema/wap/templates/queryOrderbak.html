@@ -1,0 +1,113 @@
+<ion-view view-title="确认订单">
+    <ion-header-bar align-title="center">
+        <a on-tap="checkOrder()" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">确认订单{{card.password}}</div>
+    </ion-header-bar>
+    <ion-content overflow-scroll="false" scrollbar-y="false" has-bouncing="false">
+        <div class="orderTit fs16">
+            {{filmName}}
+        </div>
+        <div class="orderInfo dashBor">
+            <div class="row pb0">
+                <div class="col col-20">影厅:</div>
+                <div class="col col-80 text-left">{{cinemaName}} {{screenName}}</div>
+            </div>
+            <div class="row pb0">
+                <div class="col col-20">时间:</div>
+                <div class="col col-80 text-left">{{showtime | date:'yyyy-MM-dd HH:mm'}}</div>
+            </div>
+            <div class="row pb0">
+                <div class="col col-20">座位:</div>
+                <div class="col col-80 text-left clearfix">
+                    <div ng-if="flag!='M'" style="width: 33.33%;float: left;" ng-repeat="item in getSeatData">{{item.physicalName<65?item.physicalName:String.fromCharCode(item.physicalName)}}排{{item.id}}座</div>　
+                    <div ng-if="flag=='M'" style="width: 33.33%;float: left;" ng-repeat="item in getSeatData">{{item}}</div>　
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="item item-button-right button-change-block dashBor">
+            <div class="modifyTel pos"><input class="tel" type="text" required name="tel" ng-model="user.mobileNumber" ng-minlength="11" ng-maxlength="11" placeholder="请输入接收短信的手机号"><i on-tap="clearText()" class="ion-ios-close fs20 clearText"></i></div>
+        </div>
+        <div class="calculate dashBor pb10">
+            <div class="calculateTit fs16 color-000">结算信息</div>
+            <div class="pl10 pr10">
+                <table>
+                    <tr>
+                        <td  class="">票价:</td>
+                        <td class="text-right">{{price}} 元</td>
+                        <td>x  {{getSeatData.length}}</td>
+                        <td class="text-right">{{price*getSeatData.length}} 元</td>
+                    </tr>
+                    <tr>
+                        <td>手续费:</td>
+                        <td class="text-right">{{surchargeAmount}} 元</td>
+                        <td>x  {{getSeatData.length}}</td>
+                        <td class="text-right">{{surchargeAmount*getSeatData.length}} 元</td>
+                    </tr>
+                    <tr>
+                        <td>优惠金额:</td>
+                        <td class="text-right">{{discount}} 元</td>
+                        <td></td>
+                        <td class="text-right">{{discount}} 元</td>
+                    </tr>
+                    <tr>
+                        <td>应付金额：</td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-right"><span class="color-ff5715 fs20">{{needPay}}</span> <span class="color-ff5715">元</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="payBlock">
+            <div class="calculateTit fs16 color-000">支付方式:</div>
+            <div class="list list-inset" tabs-click="">
+                <a ng-show="isSelectCard" class="item" style="background: none!important;border:none;">
+                    <div class="row">
+                        <div class="col-20 col">
+                            <img src="img/vip.png">
+                        </div>
+                        <div class="col-70 pl10 pr10 col text-left">
+                            <div class="mb5">会员卡支付</div>
+                            <!--<p class="fs12">{{vipDiscount}}</p>-->
+                        </div>
+                        <div class="col-10 pt8 col">
+                            <i ng-class="{true:'ion-ios-checkmark color-green',false:'ion-ios-circle-outline'}[payIndex==0]" class="fs30"></i>
+                        </div>
+                    </div>
+                </a>
+                <a ng-show="!isWeixinFlag && !isSelectCard" class="item" style="background: none!important;border:none;">
+                    <div class="row">
+                        <div class="col-20 col">
+                            <img src="img/zfb1.png">
+                        </div>
+                        <div class="col-70 pl10 pr10 col text-left">
+                            <div class="pt14">支付宝支付</div>
+                        </div>
+                        <div class="col-10 pt17 col">
+                            <i ng-class="{true:'ion-ios-checkmark color-green',false:'ion-ios-circle-outline'}[payIndex==1]" class="fs30"></i>
+                        </div>
+                    </div>
+                </a>
+                <a ng-show="!isSelectCard" class="item" style="background: none!important;border:none;">
+                    <div class="row">
+                        <div class="col-20 col">
+                            <img src="img/weixin1.png">
+                        </div>
+                        <div class="col-70 pl10 pr10 col text-left">
+                            <div class="pt14">微信支付</div>
+                        </div>
+                        <div class="col-10 pt17 col">
+                            <i ng-class="{true:'ion-ios-checkmark color-green',false:'ion-ios-circle-outline'}[payIndex==2]" class="fs30"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </ion-content>
+    <div class="fixOrder">
+        <p class="tip fs12" ng-if="!isPay">提示:请您在<span><span ng-if="minute!='00'">{{minute}}分</span>{{second}}秒</span>之内支付,超时系统将自动取消订单.</p>
+        <div ng-if="isPay" class="pl10 pr10"><button disabled="disabled" class="button button-pay button-select button-block fs16">去支付</button></div>
+        <div ng-if="!isPay" class="pl10 pr10" nav-direction="forward"><button on-tap="paySubmit({{getSeatData}})" class="button button-pay button-select button-block fs16">去支付</button></div>
+    </div>
+</ion-view>

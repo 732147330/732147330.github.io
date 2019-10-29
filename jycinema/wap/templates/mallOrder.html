@@ -1,0 +1,348 @@
+<ion-view view-title="{{title}}">
+    <ion-header-bar align-title="center">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">{{'确认订单'}}</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" >
+    <div ng-if="mallOrderFlag">
+        <div class="mallOrder-banner" ng-if="allflag=='false'">
+            <div class="box">
+                <div class="mr10 mallOrder-banner-img"><img ng-src="{{productDetailData.appAbbImg}}" alt=""></div>
+                <div class="box1">
+                    <div class="mb10 color-000 fs15 mallOrder-banner-tit">{{productDetailData.titleAlt}}</div>
+                    <div class="color-999 mb10">
+                        <span ng-repeat="row in selectData">{{row.propName}}:{{row.propValue}} </span>
+                    </div>
+                    <div class="box" ng-if="status=='cart'">
+                        <div class="color-ff5715"><span class="fs18">{{productDetailData.price | currency:'¥'}}</span></div>
+                        <div class="box1 text-right">X {{productDetailData.qty}}</div>
+                    </div>
+                    <div class="box" ng-if="status!='cart'">
+                        <div class="color-ff5715" ng-if="productDetailData.pointsExFlag!='Y'"><span class="fs18">{{productDetailData.price/100 | currency:'¥'}}</span></div>
+                        <div class="color-ff5715" ng-if="productDetailData.pointsExFlag=='Y'">
+                            <span class="fs16" ng-if="productDetailData.pointsExPrice!=0">{{productDetailData.pointsExPrice/100 | currency:'¥'}} +</span>
+                            <span class="fs16">{{productDetailData.pointsExPoint}}积分</span>
+                        </div>
+                        <div class="box1 text-right">X {{productDetailData.qty}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mallOrder-banner" ng-if="allflag=='true'" ng-repeat="item in productDetailDataArr">
+            <div class="box">
+                <div class="mr10 mallOrder-banner-img"><img ng-src="{{item.accessPath}}" alt=""></div>
+                <div class="box1">
+                    <div class="mb10 color-000 fs15 mallOrder-banner-tit">{{item.titleAlt}}</div>
+                    <div class="color-999 mb10">
+                        <span ng-repeat="row in selectData">{{row.propName}}:{{row.propValue}} </span>
+                    </div>
+                    <div class="box" ng-if="status=='cart'">
+                        <div class="color-ff5715"><span class="fs18">{{item.price | currency:'¥'}}</span></div>
+                        <div class="box1 text-right">X {{item.quantity}}</div>
+                    </div>
+                    <div class="box" ng-if="status!='cart'">
+                        <div class="color-ff5715"><span class="fs18">{{item.price/100 | currency:'¥'}}</span></div>
+                        <div class="box1 text-right">X {{item.quantity}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="mallOrder-banner" ng-if="allflag=='true'">-->
+            <!--<div class="box">-->
+                <!--<div class="mr10 mallOrder-banner2-img" ng-repeat="item in productDetailDataArr"><img ng-src="{{item.accessPath}}" alt=""></div>-->
+                <!--&lt;!&ndash;<div class="box1">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="text-right mt20">  <span>共{{productDetailData.qty}}件</span>   <i class="ion-ios-arrow-right fs30"></i></div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="mallOrder-item">
+            <div class="box" ng-if="status!='cart'&&productDetailData.skuSourceType!='ONLINE_EQUITY_CARD'&&productDetailData.skuSourceType!='ONLINE_GIFT_CARDS'&&productDetailData.skuSourceType=='ONLINE_GOODS'">
+                <div class="box1">购买数量</div>
+                <div class="text-right">
+                    <span class="mall-qty reduce" on-tap="reduce()"><i class="jyicon iconfont">&#xe630;</i></span>
+                    <span class="mall-qty pl10 pr10">{{productDetailData.qty}}</span>
+                    <span class="mall-qty add" on-tap="add()"><i class="jyicon iconfont">&#xe643;</i></span>
+                </div>
+            </div>
+            <div ng-if="productDetailData.skuItemType!='ONLINE_VIRTUAL_GOODS'" class="box">
+                <div class="mt10" ng-if="productDetailData.skuItemType!='GROUND_GOODS'">配送方式:</div>
+                <div class="box1 text-right pos" ng-if="productDetailData.skuItemType!='GROUND_GOODS'" on-tap="delivery()">
+                    <div style="margin-right: 26px">
+                        <p ng-if="!deliveryId">快递配送</p>
+                        <p ng-if="!deliveryId">影院自提</p>
+                        <p ng-if="deliveryId" style="margin-top: 8px">{{deliveryId==1?'影院自提':'快递配送'}}</p>
+                    </div>
+                    <i class="iconfont jyicon fs20" style="position: absolute;top: 10px;right: 0px">&#xe61d;</i>
+                </div>
+                <div ng-if="productDetailData.skuItemType=='GROUND_GOODS'">配送方式:</div>
+                <div class="box1 text-right" ng-if="productDetailData.skuItemType=='GROUND_GOODS'">
+                    {{addressType[currentIndex].name}} ({{cinemaBySkuData.cinemaName}})
+                </div>
+            </div>
+
+            <div ng-if="deliveryId">
+                <div class="box" style="padding: 5px 0px">
+                    <div>{{deliveryId==1?'提货信息':'收货信息'}}</div>
+                    <!--<div ng-if="!addressListDefault" class="box1 text-right" ><i class="iconfont jyicon">&#xe61d;</i></div>-->
+                </div>
+                <!--<div ui-sref="address" nav-direction="forward" class="box1 text-right fs12" style="color: #1162ea;">修改</div>-->
+            </div>
+            <div ng-if="sinceFlag==2&&deliveryId" style="padding: 10px 0px;text-align: right;border-bottom: 1px solid #f5f5f5;" on-tap="address()" >
+                {{deliveryId==1?'请新增提货地址':'请新增配送地址'}}
+                <span><i class="iconfont jyicon">&#xe61d;</i></span>
+            </div>
+            <div ng-if="!deliveryFlag&&deliveryId&&sinceFlag!=2" style="padding: 10px 0px;text-align: right;border-bottom: 1px solid #f5f5f5;" on-tap="address()">
+                {{deliveryId==1?'请选择提货地址':'请选择配送地址'}}
+                <span><i class="iconfont jyicon">&#xe61d;</i></span>
+            </div>
+            <div ng-if="deliveryId&&addressListSelect|| deliveryId&&addressListDefault" class="box" style="padding-top:0;" on-tap="address()">
+                <div class="mr10 mt30"><i class="iconfont jyicon fs20">&#xe60a;</i></div>
+                <div class="box1">
+                    <div class="box mb5" style="border-bottom:0;padding-bottom:0;">
+                        <div class="color-000">{{deliveryId==1?'提货人':'收货人'}}:{{addressListSelect?addressListSelect.consignee:addressListDefault.consignee}}</div>
+                    </div>
+                    <div>{{addressListSelect?addressListSelect.moblie:addressListDefault.moblie}}</div>
+                    <div ng-if="deliveryId==1">{{addressListSelect?addressListSelect.address:addressListDefault.address}}</div>
+                    <div ng-if="deliveryId==2">{{addressListSelect?addressListSelect.addressSet:addressListDefault.addressSet}}</div>
+                </div>
+                <div class="ml20 mt25"><i class="iconfont jyicon">&#xe61d;</i></div>
+            </div>
+            <div class="box" ng-if="deliveryId==1">
+                <div class="mr10">自提时间</div>
+                <div class="box1 text-right">根据收到的短信通知时间为准</div>
+            </div>
+
+            <div class="box" ng-if="productDetailData.skuItemType!='GROUND_GOODS'&&productDetailData.skuItemType!='ONLINE_VIRTUAL_GOODS'">
+                <div class="mr10">买家留言</div>
+                <div class="box1"><input type="text" ng-model="params.remark" placeholder="选填;对本次交易的说明" style="border:0;width:100%;padding: 0 10px;"></div>
+            </div>
+
+            <!--<div ng-if="categoryListNewData.length>0" style="border-bottom: 1px solid #f9f9f9;padding: 7px 0px;">猜你喜欢</div>-->
+            <!--<div>-->
+                <!--<div class="box" ng-repeat="item in categoryListNewData" style="padding: 0px">-->
+                    <!--<div class="box1" style="height: 100%;border-bottom: 1px solid #f5f5f5;">-->
+                        <!--<div class="flex">-->
+                            <!--<div style="width: 31%;padding: 8px 8px;">-->
+                                <!--<div style="width: 90px;height: 90px">-->
+                                    <!--<img ng-src="{{item.accessPath}}">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div style="width: 69%;padding-left: 12px" class="pos">-->
+                                <!--<h2 class="fs14 mb10" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;height: 16px;margin-top: 20px !important;">{{item.titleAlt}}</h2>-->
+                                <!--<p class="fs12 mb10" style="height: 20px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" >{{item.title}}</p>-->
+                                <!--<p class="fs12" style="padding-bottom: 12px;">网购价: <span class="color-red">{{item.price/100 | currency:'￥'}}</span></p>-->
+                                <!--<div class="sales-qty" style="position: absolute; right: 3px;top: 75px;">-->
+                                    <!--<span on-tap="reduce1(item,$index)" class="reduce"><i class="jyicon fs24">&#xe661;</i></span>-->
+                                    <!--<span class="sales-qty-value">{{item.salesQty?item.salesQty:0}}</span>-->
+                                    <!--<span on-tap="add1(item,$index)" class="add active"><i class="jyicon fs24">&#xe677;</i></span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div ng-if="productDetailData.skuItemType=='GROUND_GOODS'">-->
+                <!--<div>-->
+                <!--活动块-->
+                <div class="activityBlock">
+                    <!--会员信息-->
+                    <div class="row pd0 pos" on-tap="selMemberCard()" ng-if="productDetailData.skuItemType=='GROUND_GOODS'">
+                        <div class="col col-25 plr0 text-left">会员卡</div>
+                        <div class="col col-75 plr0 text-right fs12">
+                            <ion-spinner ng-if="!memberCardInfo" class="spinner-sm" icon="ios-small"></ion-spinner>
+                            <span ng-if="selIndex==1">减{{discount}}元</span>
+                            <!--<span ng-if="memberCardInfo && selIndex!=1">{{minMemberCardTotal=='10000'?'不可用':'去使用'}}</span>-->
+                            <span ng-if="memberCardInfo && selIndex!=1 && binding!=true && minMemberCardTotal==10000">（余额不足）去充值</span>
+                            <span ng-if="memberCardInfo && selIndex!=1 && binding==true && minMemberCardTotal==10000">去绑定</span>
+                            <span ng-if="memberCardInfo && selIndex!=1 && minMemberCardTotal!=10000">去使用</span>
+                        </div>
+                        <div class="arrowIcon"><i class="ion-ios-arrow-forward color-999 fs18"></i></div>
+                    </div>
+
+                    <!--活动信息-->
+                    <div class="row pd0 pos">
+                        <div class="col col-25 plr0 text-left">优惠活动</div>
+                        <div class="col col-75 plr0 text-right fs12" on-tap="showModal(1)">
+                            <ion-spinner ng-if="!activityInfo" class="spinner-sm" icon="ios-small"></ion-spinner>
+                            <span ng-if="selIndex==2">减{{discount}}元</span>
+                            <span ng-if="activityInfo && selIndex!=2">{{minActivityInfo=='10000'?'不可用':'去使用'}}</span>
+                        </div>
+                        <div class="arrowIcon"><i class="ion-ios-arrow-forward color-999 fs18"></i></div>
+                    </div>
+
+                    <div class="row pd0 pos">
+                        <div class="col col-25 plr0 text-left">优惠券</div>
+                        <div class="col col-75 plr0 text-right fs12" on-tap="showModal(2)">
+                            <ion-spinner ng-if="!memberVoucherInfo" class="spinner-sm" icon="ios-small"></ion-spinner>
+                            <span ng-if="selIndex==3">减{{discount}}元</span>
+                            <!--<span ng-if="memberVoucherInfo && selIndex!=3">{{minMemberVoucherInfo=='10000'?'不可用':'去使用'}}</span>-->
+                            <span ng-if="memberVoucherInfo && selIndex!=3 &&minMemberVoucherInfo!=10000">去使用</span>
+                            <span ng-if="memberVoucherInfo && selIndex!=3 &&minMemberVoucherInfo==10000&&bindingVoucher!=true">不可用</span>
+                            <span ng-if="memberVoucherInfo && selIndex!=3 &&minMemberVoucherInfo==10000&&bindingVoucher==true">去绑定</span>
+                        </div>
+                        <div class="arrowIcon"><i class="ion-ios-arrow-forward color-999 fs18"></i></div>
+                    </div>
+
+                    <div class="row pd0 pos">
+                        <div class="col col-25 plr0 text-left">小计</div>
+                        <div class="col col-75 plr0 text-right color-red fs12" style="padding-right: 20px!important;">
+                            <span class="color-999 mr10" ng-if="selIndex==1">已选会员卡购买</span>
+                            <span class="color-999 mr10" ng-if="selIndex==2">已选活动购买</span>
+                            <span class="color-999 mr10" ng-if="selIndex==3">已选优惠券购买</span>
+                            <!--<span class="color-999 mr10" ng-if="selIndex==4">已选权益卡购票</span>-->
+                            <span class="color-999 mr10" ng-if="selIndex==0">已选正常购买</span>
+                            <span class="fs14">￥</span>{{endPrice | number:2}}
+                        </div>
+                    </div>
+                </div>
+                <div class="gap">
+
+                </div>
+
+            <!--</div>-->
+
+            <div ng-if="showRegulation" class="text-right fs12 mt20 color-999" ng-repeat="item in regulationList">
+                <input type="checkbox" ng-model="item.checkVal" ng-click="confirmMembershipRegulations()" style="vertical-align: middle;"> 阅读并同意接受 <a ng-click="goRegulationDetails($index)" style="color: #46423f; text-decoration: underline">《{{item.articleTitle}}》</a>
+            </div>
+
+            <div class="text-right mt20" ng-if="allflag=='false'&&productDetailData.skuItemType=='GROUND_GOODS'">共{{productDetailData.qty+endSum}}件商品 <span class="fs18 color-ff5715">￥{{endPrice | number:2}}</span></div>
+            <div class="text-right mt20" ng-if="allflag=='false'&&productDetailData.skuItemType!='GROUND_GOODS'&&status=='cart'">共{{productDetailData.qty+endSum}}件商品 <span class="fs18 color-ff5715">￥{{endPrice | number:2}}</span></div>
+            <div class="text-right mt20" ng-if="allflag=='false'&&productDetailData.skuItemType!='GROUND_GOODS'&&status!='cart'">共{{productDetailData.qty+endSum}}件商品
+                <span class="fs18 color-ff5715" ng-if="productDetailData.pointsExFlag!='Y'">￥{{endPrice | number:2}}</span>
+                <span class="fs16 color-ff5715" ng-if="productDetailData.pointsExPrice!=0&&productDetailData.pointsExFlag=='Y'">{{productDetailData.pointsExPrice*productDetailData.qty/100 | currency:'¥'}} +</span>
+                <span class="fs16 color-ff5715" ng-if="productDetailData.pointsExFlag=='Y'">{{productDetailData.pointsExPoint*productDetailData.qty}}积分</span>
+            </div>
+            <div class="text-right mt20" ng-if="allflag=='true'">共{{qty+endSum}}件商品 <span class="fs18 color-ff5715">￥{{endPrice | number:2}}</span></div>
+            <div class="text-right fs16 mt10" ng-if="allflag=='false'&&productDetailData.skuItemType!='GROUND_GOODS'&&status!='cart'&&deliveryId">
+                小计: <span class="color-ff5715 fs18" ng-if="productDetailData.pointsExFlag!='Y'">￥{{endpostFeeTotal?endpostFeeTotal:minPrice | number:2}}</span>
+                <span class="color-ff5715 fs16" ng-if="productDetailData.pointsExFlag=='Y'&&productDetailData.pointsExPrice!=0">{{productDetailData.pointsExPrice*productDetailData.qty/100+postFeeTotal | currency:'¥'}}</span>
+                <span class="color-ff5715 fs16" ng-if="productDetailData.pointsExFlag=='Y'">{{productDetailData.pointsExPoint*productDetailData.qty}}积分</span>
+                <span class="fs14" ng-if="postFeeTotal!=0">(含运费:{{postFeeTotal| currency:'¥'}})</span>
+                <span class="fs14"  ng-if="postFeeTotal==0">(卖家包邮)</span>
+            </div>
+            <div class="text-right fs16 mt10"  ng-if="allflag=='true'&&deliveryId">
+                小计: <span class="color-ff5715 fs18" ng-if="productDetailData.pointsExFlag!='Y'">￥{{endpostFeeTotal?endpostFeeTotal:minPrice | number:2}}</span>
+                <!--<span class="color-ff5715 fs16" ng-if="productDetailData.pointsExFlag=='Y'&&productDetailData.pointsExPrice!=0">{{totalAmount+postFeeTotal | currency:'¥'}}</span>-->
+                <!--<span class="color-ff5715 fs16" ng-if="productDetailData.pointsExFlag=='Y'">{{productDetailData.pointsExPoint*productDetailData.qty}}积分</span>-->
+                <span class="fs14" ng-if="postFeeTotal!=0">(含运费:{{postFeeTotal| currency:'¥'}})</span>
+                <span class="fs14"  ng-if="postFeeTotal==0">(卖家包邮)</span>
+            </div>
+            <div class="text-right fs16 mt10" ng-if="allflag=='false'&&productDetailData.skuItemType!='GROUND_GOODS'&&status=='cart'&&deliveryId">
+                小计: <span class="color-ff5715 fs18">￥{{endpostFeeTotal?endpostFeeTotal:minPrice | number:2}}</span>
+                <span class="fs14" ng-if="postFeeTotal!=0">(含运费:{{postFeeTotal| currency:'¥'}})</span>
+                <span class="fs14"  ng-if="postFeeTotal==0">(卖家包邮)</span>
+            </div>
+        </div>
+
+        <div style="height:200px;"></div>
+    </div>
+        <div style="position: absolute;left: 50%;top: 40%;margin-left: -14px;" ng-if="!mallOrderFlag">
+            <ion-spinner icon="ios-small"></ion-spinner>
+        </div>
+
+    </ion-content>
+    <ion-footer-bar align-title="center" style="padding: 12px 15px;height:68px;" ng-if="mallOrderFlag">
+        <button  ng-if="showRegulation" ng-click="buildOrder()"  nav-direction="forward" class="button button-select fs16" ng-disabled="confirmFlag" style="background: #998278;border-radius: 0px !important;">提交订单</button>
+        <button  ng-if="!showRegulation" ng-click="buildOrder()"  nav-direction="forward" class="button button-select fs16" style="background: #998278;border-radius: 0px !important;">提交订单</button>
+        <!--<div style="position: absolute;top: -8px;" ng-click="buildOrder()"  nav-direction="forward">-->
+            <!--<img src="./img/yd-dd.png">-->
+        <!--</div>-->
+        <!--<button ng-if="productDetailData.skuItemType=='GROUND_GOODS'" ng-click="buildSales()"  nav-direction="forward" class="button button-select fs16" style="background: #998278;border-radius: 0px !important;">提交订单</button>-->
+    </ion-footer-bar>
+
+
+
+    <script id="templates/mallactivityList.html" type="text/ng-template">
+        <style>
+            .modal-backdrop, .modal-backdrop-bg {
+                top: auto !important;
+                bottom: 0;
+                z-index: 100;
+                max-height: 400px;
+            }
+
+            .modal-backdrop .modal-wrapper {
+                max-height: 100%;
+                height: 100%;
+            }
+        </style>
+        <ion-modal-view class="layer" stop-propagation="">
+            <ion-header-bar class="bar bar-header bar-filter ">
+                <div class="text-center" style="width: 100%;line-height: 34px;font-weight: bold;" ng-if="currentShowIndex==1">
+                    优惠活动
+                </div>
+                <div class="text-center" style="width: 100%;line-height: 34px;font-weight: bold;" ng-if="currentShowIndex==2">
+                    优惠券
+                </div>
+                <div class="cancelBtn" on-tap="hideModal()"><i class="ion-ios-close-empty color-999 closeBtn fs26"></i></div>
+            </ion-header-bar>
+            <ion-content class="activityContent" overflow-scroll="false" scrollbar-y="false" style="background: #fff;">
+                <div ng-if="currentShowIndex==1" class="row pos mt5" ng-repeat="item in activityInfo" style="padding-top: 10px;">
+                    <div class="col col-10 {{item.lightingFlag=='N'?'opc':''}}" on-tap="toggleSelect(row,$index)">
+                        <i style="position: relative;top:2px;color: #998278;" class="icon jyicon fs24">{{item.isActive?'&#xe615;':'&#xe79f;'}}</i>
+                    </div>
+                    <div class="col col-80 pr0 text-left {{item.lightingFlag=='N'?'opc':''}}" on-tap="toggleSelect(row,$index)">
+                        <div class="color-000">{{item.promotionalCopy }} <span ng-if="tuijianActivityInfoId && tuijianActivityInfoId == item.ruleHeaderId" class="tuijian icon jyicon color-red fs24">&#xe69a;</span></div>
+                        <div class="fs12 mb5 color-999">
+                            优惠价:<span class="color-red mr10"> {{item.skuArray[0].newPriceincents}}元/个</span>
+                            <!--普通价:<span class="commonPrice">{{commonPrice}}元/个</span>-->
+                            <div>有效期：<span class="color-333">{{item.startDateActive | date:'yyyy.MM.dd'}}-{{item.endDateActive | date:'yyyy.MM.dd'}}</span>
+                            </div>
+                        </div>
+                        <div class="showCon {{item.showCon?'showConActive':''}}" ng-bind-html="item.ruleDesc"></div>
+                    </div>
+                    <div class="col col-10" style="position: absolute;top: 20px;right: 0;" on-tap="toggleDetail($index)">
+                        <div class="arrow-r {{item.showCon?'arrow-r-active':''}}"><i
+                                class="{{item.showCon?'ion-ios-arrow-right':'ion-ios-arrow-right'}} color-999"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="currentShowIndex==2" ng-repeat="item in memberVoucherInfo">
+                    <div  class="row pos mt5 mb10" style="border-bottom: 0!important;">
+                        <div class="box yhj-layer-box"  >
+                            <div class="yhj-layer-order" ng-class="item.lightingFlag=='N'?'opc':''">
+                                <div style="padding-top: 26px">
+                                    <div class="text-center fs12" ng-class="item.lightingFlag=='N'?'color-d6d6d6':''">{{item.voucherTypeName}}</div>
+                                </div>
+                            </div>
+                            <div class="box1 yhj-layer-order-box">
+                                <div class="yhj-layer-radio"   on-tap="toggleSelect(item,$index)">
+                                    <i class="fs24 icon jyicon" ng-class="item.lightingFlag=='N'?'color-d6d6d6':''">{{item.isActive?'&#xe615;':'&#xe79f;'}}</i>
+                                </div>
+                                <div class="pt3">
+                                    <p class="pl0" ng-class="item.lightingFlag=='N'?'color-d6d6d6':''">{{item.voucherDescribe}}*{{item.speciesCodeNum}}张
+                                        <i class="icon jyicon" ng-click="use(item)">&#xe60e;</i>
+                                    </p>
+                                </div>
+                                <!--<p style="color: red;padding-top: 10px">￥{{row.newPriceincents}}</p>-->
+                                <div class="box-order-count1" ng-class="item.lightingFlag=='N'?'color-d6d6d6':''" ng-click="decr(item)">
+                                    <span>-</span>
+                                </div>
+                                <span class="box-order-sp" ng-class="item.lightingFlag=='N'?'color-d6d6d6':''">{{item.num}}</span>
+                                <div class="box-order-count" ng-class="item.lightingFlag=='N'?'color-d6d6d6':''" ng-click="incr(item)">
+                                    <span>+</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="color-999 text-center fs12 pt100" ng-if="currentShowIndex==1 && activityInfo.length==0">
+                    <div class="mb10"><i class="icon jyicon fs50" style="color: #e0e0e0;">&#xe646;</i></div>
+                    <div class="color-cacaca">暂无数据</div>
+                </div>
+                <div class="color-999 text-center fs12 pt100" ng-if="currentShowIndex==2 && memberVoucherInfo.length==0">
+                    <div class="mb10"><i class="icon jyicon fs50" style="color: #e0e0e0;">&#xe646;</i></div>
+                    <div class="color-cacaca">暂无数据</div>
+                </div>
+            </ion-content>
+            <ion-footer-bar class="bar bar-footer bar-filter text-center" style="padding: 0;line-height:43px;text-align: center!important;">
+                <div style="width: 100%;background: #998278;color: #fff;" class="text-center fs16" on-tap="confirm()">确定</div>
+            </ion-footer-bar>
+        </ion-modal-view>
+    </script>
+
+</ion-view>

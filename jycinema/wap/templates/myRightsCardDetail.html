@@ -1,0 +1,85 @@
+<ion-view view-title="权益卡详情">
+    <ion-header-bar align-title="center">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">权益卡详情</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" has-bouncing="false" >
+        <div class="list">
+            <div class="my-rights-img">
+                <img ng-src="{{rightsDetailData.accessPath}}">
+                <div class="img-mask">
+                    <div class="img-mask-left">
+                        <p class="my-rights-bottom-no">NO: {{rightsDetailData.equitycardCode}}</p>
+                        <p class="my-rights-bottom-time">{{timeData}}</p>
+                    </div>
+                    <div class="img-mask-right">
+                        <p class="my-rights-bottom-name">{{rightsDetailData.equitycardModelName}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box text-center">
+            <div class="box1" style="border-right: 1px solid #f5f5f5;">
+                成长值
+                <div class="color-998278">{{rightsDetailData.growthValue}}</div>
+            </div>
+        </div>
+
+        <a class="item item-icon-right color-666 fs14" ui-sref="hyqy({'cardType':'rightsCard','title':'权益卡说明'})">
+            <span style="color: #666;"> 权益卡说明</span>
+            <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+        </a>
+
+        <!--<div class="pl15 pr15 pt30">-->
+            <!--<h2 class="fs14 hyTit">权益卡说明</h2>-->
+            <!--<div ng-bind-html="jydtTit"></div>-->
+        <!--</div>-->
+      <!--<div class="list" ng-repeat="item in rightsDetailData">-->
+        <!--<a class="item item-icon-right item-da-xiao">-->
+          <!--<span class="rights-color"> 绑定账号:</span>-->
+          <!--<span class="span-left">{{item.mmbName}}</span>-->
+        <!--</a>-->
+        <!--<a class="item item-icon-right item-da-xiao">-->
+          <!--<span class="rights-color"> 绑定手机号:</span>-->
+          <!--<span class="span-left">{{item.newmobileNumber}}</span>-->
+        <!--</a>-->
+        <!--<a class="item item-icon-right item-da-xiao" ng-if="item.equitycardType == 'FILM_PASS_EQUITYCARD'">-->
+          <!--<span class="rights-color">剩余次数:</span>-->
+          <!--<span class="span-left">{{item.equitycardResidue}}</span>-->
+        <!--</a>-->
+        <!--<a class="item item-icon-right item-da-xiao" ui-sref="myRights" nav-direction="forward">-->
+          <!--<span class="rights-color">使用说明</span>-->
+          <!--<div class="icon ion-ios-arrow-right ion-tu-biao"></div>-->
+        <!--</a>-->
+        <!--<a class="item item-icon-right item-da-xiao" ui-sref="myElectronicCode" nav-direction="forward">-->
+          <!--<span class="rights-color">电子码</span>-->
+          <!--<div class="icon ion-ios-arrow-right ion-tu-biao"></div>-->
+        <!--</a>-->
+        <!--<a class="item item-icon-right item-da-xiao" ui-sref="setMyRightsCard" nav-direction="forward" ng-if="item.equitycardType == 'FILM_PASS_EQUITYCARD'">-->
+          <!--<span class="rights-color">密码设置</span>-->
+          <!--<div class="icon ion-ios-arrow-right ion-tu-biao"></div>-->
+        <!--</a>-->
+          <!--<a class="item item-icon-right item-da-xiao" ui-sref="buyRightsDetail({'skuId':{{item.skuId}},'equitycardInfoId':{{item.equitycardInfoId}},'status':'renewalcard'})" nav-direction="forward">-->
+              <!--<span class="rights-color">立即续卡</span>-->
+              <!--<div class="icon ion-ios-arrow-right ion-tu-biao"></div>-->
+          <!--</a>-->
+        <!--</div>-->
+
+    </ion-content>
+    <!--<div class="fixOrder-kf" style="background: none;background-color: white">-->
+        <!--<a href="tel:400 000 8008" class="rightsPayBtn-kf"><i class="icon jyicon color-998278 icon-kf">&#xe7bf;</i>客服</a>-->
+        <!--<div class="rightsPayBtn" ng-repeat="item in rightsDetailData" on-tap="buildRightsSales()">￥{{item.sales}}{{status}}</div>-->
+    <!--</div>-->
+</ion-view>
+
+<style>
+    .list {
+        padding-top: 5%;
+        margin-bottom: 0px;
+    }
+    .box1 {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+</style>

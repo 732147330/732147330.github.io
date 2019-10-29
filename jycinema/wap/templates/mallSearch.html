@@ -1,0 +1,165 @@
+<ion-view view-title="商城分类" class="yd-home">
+    <div class="mall-category-banner">
+        <div class="box" style="padding-top: 5px">
+            <div class="fs12 mall-city" back-button=""><i class="ion-ios-arrow-left fs30"></i></div>
+            <div class="box1">
+                <div class="mall-search box">
+                    <div class="mall-search-filter" on-tap="showList($event)">{{currentType.name}} <i class="iconfont jyicon">&#xe611;</i>
+                        <div class="mall-search-layer {{showFlag?'active':''}}">
+                            <ul>
+                                <li ng-repeat="item in searchList" on-tap="getFilter($index,$event)">{{item.name}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mall-bor"></div>
+                    <div class="box1 ml10 mr10">
+                        <input type="text" ng-model="current.title" placeholder="搜索影片、影人...">
+                    </div>
+                    <div class="mall-icon" on-tap="search()"><i class="iconfont jyicon color-03a9f4 fs20">&#xe62a;</i></div>
+                </div>
+
+            </div>
+            <div ng-if="userInfo" class="fs12 mall-cart" ui-sref="myCart" nav-direction="forward"><i class="iconfont jyicon">&#xe68c;</i></div>
+            <div ng-if="!userInfo" class="fs12 mall-cart" ui-sref="login" nav-direction="forward"><i class="iconfont jyicon">&#xe68c;</i></div>
+        </div>
+        <!--<div style=" position: absolute;top: 20px;left: 0px;">-->
+            <!--<img src="./img/yd-head.png">-->
+        <!--</div>-->
+    </div>
+
+
+    <div class="category-tab">
+        <div class="box">
+            <div class="box1 {{item.active?'active':''}}" ng-repeat="item in categoryTabs" on-tap="showCategory($index)">{{item.name}} <i class="jyicon iconfont">&#xe616;</i></div>
+        </div>
+        <div ng-show="showCategoryFlag" class="categoryCon">
+            <div ng-show="currentIndex==0">
+                <ul>
+                    <li ng-repeat="item in categoryTabs[currentIndex].subCategory" on-tap="getSubActive($index)">
+                        <div class="box">
+                            <div class="subName {{item.active?'active':''}}">{{item.name}}</div>
+                            <div class="box1 text-right"><i ng-if="item.active" class="icon jyicon fs20" style="color: #dd4415;">&#xe756;</i></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div ng-if="currentIndex==1">
+                <div class="box subSort">
+                    <div style="width: 100px;height:280px;overflow: hidden" ng-nicescroll nice-option="{cursorcolor: '#f2f2f2',cursorwidth: '10px'}">
+                        <ul>
+                            <li class="{{item.active?'active':''}}" ng-repeat="item in categoryData" on-tap="getSortSubActive($index)">
+                                <div>{{item.catName}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="box1" style="background: #f2f2f2">
+                        <div class="flex">
+                            <div class="flex-48 {{item.active?'active':''}}" ng-repeat="item in categoryDtailData" on-tap="goSearch($index)"><div class="subCatName">{{item.catName}}</div></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div ng-if="currentIndex==2">
+                <ul>
+                    <li ng-repeat="item in categoryTabs[currentIndex].subCategory" on-tap="getSubActive($index)">
+                        <div class="box">
+                            <div class="subName {{item.active?'active':''}}">{{item.propValue}}</div>
+                            <div class="box1 text-right"><i ng-if="item.active" class="icon jyicon fs20" style="color: #dd4415;">&#xe756;</i></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+    <ion-content class=" bg-f2f2f2" scrollbar-y="false" style="top:100px">
+
+        <div class="color-999 text-center fs12 pt100" style="margin-bottom: 30px" ng-if="categoryListData.length==0">
+            <div class="color-cacaca">敬请期待...</div>
+        </div>
+
+        <div class="box category-list" ng-if="categoryListData.length!=0">
+            <div class="box1" ng-repeat="item in categoryListData"  ui-sref="productDetail({'skuId':{{item.skuId}}})" nav-direction="forward">
+                <div class="category-list-inner {{$index%2==0?'mr5':'ml5'}}">
+                    <div class="categoryImg pos" style="overflow: hidden">
+                        <img ng-src="{{item.appAbbImg}}" alt="">
+                        <div class="hui" ng-if="item.activityFlag=='Y'">惠</div>
+                    </div>
+                    <div class="category-list-tit">{{item.titleAlt}}</div>
+                    <div class="box">
+                        <div class="color-ff5715"><span class="fs16">{{item.price/100 | currency:'¥'}}</span> <span class="color-999 fs12 ml5" style="text-decoration: line-through;">{{item.mktPrice? item.mktPrice/100:0 | currency:'¥'}}</span></div>
+                        <div class="box1 text-right fs12 color-999">{{item.city}}</div>
+                    </div>
+                    <div class="text-right fs12 color-999" style="margin-top: -5px;">月销{{item.monthSale?item.monthSale:0}}笔</div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div ng-if="showCategoryFlag" on-tap="hideMask()" class="category-mask"></div>
+    </ion-content>
+
+    <ion-footer-bar>
+        <div class="row homeNav">
+            <div class="col" ui-sref="home" nav-direction="none">
+                <i class="icon jyicon">&#xe601;</i>
+                <p class="fs12">推荐</p>
+            </div>
+            <div class="col" ui-sref="activity" nav-direction="none">
+                <i class="icon jyicon">&#xe68a;</i>
+                <p class="fs12">活动</p>
+            </div>
+            <div class="col" ui-sref="mall" nav-direction="none">
+                <i class="icon jyicon color-998278">&#xe82f;</i>
+                <p class="fs12 color-998278">商城</p>
+            </div>
+            <div class="col" ui-sref="forum" nav-direction="none">
+                <i class="icon jyicon">&#xe67b;</i>
+                <p class="fs12">圈子</p>
+            </div>
+            <div class="col" ui-sref="account" nav-direction="none">
+                <i class="icon jyicon">&#xe605;</i>
+                <p class="fs12">我的</p>
+            </div>
+        </div>
+    </ion-footer-bar>
+    <!--<ion-footer-bar class="yd-bar-footer">-->
+        <!--<div class="row homeNav" style="color: white">-->
+            <!--<div class="col pos" ui-sref="home" nav-direction="none">-->
+                <!--<div class="yd-2018">-->
+                    <!--<img src="./img/yd-2018.png">-->
+                <!--</div>-->
+                <!--<p class="fs12 color-403d38" style="margin-top: 20px;">推荐</p>-->
+            <!--</div>-->
+            <!--<div class="col pos" ui-sref="activity" nav-direction="none">-->
+                <!--<div class="yd-ydkl">-->
+                    <!--<img src="./img/yd-y.png">-->
+                <!--</div>-->
+                <!--<p class="fs12" style="margin-top: 20px">活动</p>-->
+            <!--</div>-->
+            <!--<div class="col pos" ui-sref="mall" nav-direction="none">-->
+                <!--<div class="yd-ydkl">-->
+                    <!--<img src="./img/yd-d.png">-->
+                <!--</div>-->
+                <!--<p class="fs12" style="margin-top: 20px">商城</p>-->
+            <!--</div>-->
+            <!--<div class="col pos" ui-sref="forum" nav-direction="none">-->
+                <!--<div class="yd-ydkl">-->
+                    <!--<img src="./img/yd-k.png">-->
+                <!--</div>-->
+                <!--<p class="fs12" style="margin-top: 20px">圈子</p>-->
+            <!--</div>-->
+            <!--<div class="col pos" ui-sref="account" nav-direction="none">-->
+                <!--<div class="yd-ydkl">-->
+                    <!--<img src="./img/yd-l.png">-->
+                <!--</div>-->
+                <!--<p class="fs12" style="margin-top: 20px">我的</p>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</ion-footer-bar>-->
+</ion-view>

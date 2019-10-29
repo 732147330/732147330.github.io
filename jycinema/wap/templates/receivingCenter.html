@@ -1,0 +1,71 @@
+<ion-view view-title="领取中心">
+    <ion-header-bar align-title="center" class="top-xian">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">领取中心</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" has-bouncing="false" style="background: #f2f2f2">
+
+        <div class="flex mt10" style="height: 75px;border: 1px solid #ddd;background: white" ng-repeat="item in findReceivingCenterInfoData">
+            <div style="width: 80%;position: relative">
+
+                <div style="padding: 8px 20px;position: relative">
+                    <i class="ion jyicon fs60" style="color: #ef473a">&#xe68e;</i>
+                    <span class="rece-sp">{{item.prizeSourceName}}</span>
+                    <i class="ion jyicon" style="position: absolute;right: 8px;font-size: 20px;top: -10px;color: #f2f2f2;">&#xe683;</i>
+                    <i class="ion jyicon" style="position: absolute;right: 8px;font-size: 20px;top: 63px;color: #f2f2f2;">&#xe683;</i>
+                </div>
+
+            </div>
+            <div style="width: 20%;position: relative">
+                <div class="receiving-yuan1" on-tap="getRed(item)">
+                    <p style="margin-top: 3px;margin-left: 9px">点击领取</p>
+                </div>
+                <div class="receiving-yuan2"></div>
+            </div>
+        </div>
+
+    </ion-content>
+    <!--红包蒙版-->
+    <script id="templates/centerRedBad.html" type="text/ng-template">
+        <style>
+            .modal-backdrop, .modal-backdrop-bg{
+                top: 30%;
+                bottom: auto;
+                z-index: 100;
+                position: absolute;
+            }
+            .modal-backdrop .modal-wrapper{
+                max-height:100%;
+                height: 100%;
+            }
+        </style>
+        <div class="modal pos" style="background: transparent" >
+            <div class="redBad" on-tap="hideRed()" >
+                <i class="ion jyicon">&#xe688;</i>
+            </div>
+            <div style="width: 100%;left: 2%;position: relative;top: -100px;" >
+                <img src="./img/showRedBad.png">
+                <ion-content scrollbar-y="false" style="top: 46%;bottom: 53px;right: 46px;left: 40px" >
+                    <div style="position: relative;padding:0px 20px" ng-repeat="item in rcLineList" on-tap="choose(item)" ng-class="item.active==true?'redBad-active':''" ng-if="chooseActiveFlag==false">
+                        <i ng-if="item.active==false"  class="ion jyicon quan-ion">&#xe61e;</i>
+                        <img src="./img/quan.png">
+                        <p class="quan-redBad">{{item.giftName}}</p>
+                    </div>
+                    <div style="position: relative;padding:0px 20px" ng-repeat="item in rcLineList" ng-if="chooseActiveFlag==true">
+                        <i ng-if="item.active==false"  class="ion jyicon lingqu-ion">&#xe614;</i>
+                        <img src="./img/quan.png">
+                        <p class="quan-redBad">{{item.giftName}}</p>
+                    </div>
+                </ion-content>
+                <div class="ling-qu" on-tap="chooseActive()" ng-if="chooseActiveFlag==false">
+                    <p>领取</p>
+                </div>
+                <div class="ling-qu-s" ng-if="chooseActiveFlag==true">
+                    <p class="text-center">您已领取成功</p>
+                    <p class="fs12" ui-sref="myWallet"  nav-direction="forward">可在个人中心-我的钱包中查看</p>
+                </div>
+            </div>
+        </div>
+        <div style="background:#000;position: fixed;top:0;left:0;width:100%;z-index:8;height:100%;opacity: .5 "></div>
+    </script>
+</ion-view>

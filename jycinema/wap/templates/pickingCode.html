@@ -1,0 +1,20 @@
+
+<ion-view view-title="取货码" style="background: #998278;">
+    <ion-header-bar align-title="center" class="top-xian" style="background-image: none;background: #998278;">
+        <!--<a back-button="" nav-direction="back" class="backButton"><i style="color: #fff;" class="ion-ios-arrow-left fs30"></i></a>-->
+        <div class="h1 title" style="color: #fff;">我的取货码</div>
+    </ion-header-bar>
+    <ion-content class="hym" style="background: #998278;padding-top: 20px;" scrollbar-y="false" has-bouncing="false">
+
+    </ion-content>
+    <div class="pinWrap">
+        <div class="pinTit"><i style="position: absolute;left: 15px;font-size:22px;" class="ion-android-expand"></i>向影院员工出示</div>
+        <div ng-class="{true:'bigger',false:''}[qrcodeFlag && index==2]" class="initBarcode {{index==2?'z1001':''}}" on-tap="toggleQrcode(2)"><svg id="barcode"></svg></div>
+        <div on-tap="toggleQrcode(index)" ng-show="qrcodeFlag" class="qrcodeBg {{qrcodeFlag?'opac1':''}}"></div>
+        <div ng-class="{true:'bigger',false:''}[qrcodeFlag && index==1]" class="initQrcode {{index==1?'z1001':''}}" on-tap="toggleQrcode(1)" id="qrcode"></div>
+        <div style="position: absolute;bottom: 10px;margin-left: -41px;font-weight: 600;font-size: 16px;left: 50%">{{vistaBookingId}}</div>
+    </div>
+    <div class="pinDesc pos">
+        <div class="pt10 pb10 text-center fs12">温馨提示: 部分影城暂不支持扫码，可手动输入取票码或取货码（<span class="fs12">如有疑问请咨询影城工作人员</span>）</div>
+    </div>
+</ion-view>

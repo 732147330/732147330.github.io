@@ -1,0 +1,73 @@
+<ion-view view-title="我的竞猜">
+    <style>
+        .box{
+            height: 100%;
+        }
+    </style>
+    <ion-header-bar align-title="center" class="top-xian">
+        <a  back-button=""  nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">我的竞猜</div>
+        <button type="submit" class="button button-clear pg10 pg11" ui-sref="myRedemption">
+            兑奖
+        </button>
+    </ion-header-bar>
+    <div class="pos clearfix" tabs-click="" style="margin-top: 44px">
+        <a class="stap step1" ng-class="activeIndex==0?'active':''">已竞猜</a>
+        <a class="stap step2" ng-class="activeIndex==1?'active':''">已命中</a>
+        <a class="stap step3" ng-class="activeIndex==2?'active':''">未命中</a>
+    </div>
+    <ion-content overflow-scroll="false" scrollbar-y="false" has-bouncing="false" style="top: 88px">
+        <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+
+        <ion-slide-box active-slide="slideTo()" show-pager="false" on-slide-changed="slideHasChanged($index)">
+            <ion-slide class="slider-slide-vh myTicketsSlide">
+                <div ng-repeat="item in notSaleData">
+                    <p style="padding: 5px">{{item.guessingDate}}</p>
+                    <a class="item item-thumbnail-left" style="padding-left: 100px;margin-top: 1px">
+                        <img style="height: 50px;width: 70px;margin-top: 15px;margin-left: 2px" ng-src="{{item.playerTeamImgMain}}" >
+                        <p style="font-size: 16px;font-weight: 600;margin-top: 10px">{{item.matchSession}}</p>
+                        <p style="margin-top: 5px">{{item.matchName}}</p>
+                        <p>{{item.matchDate}}</p>
+                        <img style="height: 50px;width: 70px;position:absolute;top: 22px;right: 12px;" ng-src="{{item.playerTeamImgSecond}}" >
+                        <p>预猜结果 {{item.guessingResultName}}</p>
+                    </a>
+                </div>
+                <div ng-if="notSaleData.length==0 && !noMorePage1" class="text-center pt50 color-999">暂无数据！</div>
+                <div ng-if="noMorePage1" class="text-center pd20">暂无更多数据</div>
+            </ion-slide>
+
+            <ion-slide class="slider-slide-vh myTicketsSlide">
+                <div ng-repeat="item in TURNED_BACKData">
+                    <p style="padding: 5px">{{item.guessingDate}}</p>
+                    <a class="item item-thumbnail-left" style="padding-left: 100px;margin-top: 1px">
+                        <img style="height: 50px;width: 70px;margin-top: 15px;margin-left: 2px" ng-src="{{item.playerTeamImgMain}}" >
+                        <p style="font-size: 16px;font-weight: 600;margin-top: 10px">{{item.matchSession}}</p>
+                        <p style="margin-top: 5px">{{item.matchName}}</p>
+                        <p>{{item.matchDate}}</p>
+                        <img style="height: 50px;width: 70px;position:absolute;top: 22px;right: 12px;" ng-src="{{item.playerTeamImgSecond}}" >
+                        <p>比赛结果（{{item.matchScore}}） {{item.guessingResultName}}</p>
+                    </a>
+                </div>
+                <div ng-if="TURNED_BACKData.length==0 && !noMorePage2" class="text-center pt50 color-999">暂无数据！</div>
+                <div ng-if="noMorePage2" class="text-center pd20">暂无更多数据</div>
+            </ion-slide>
+
+            <ion-slide class="slider-slide-vh myTicketsSlide">
+                <div ng-repeat="item in EXPIREDData">
+                    <p style="padding: 5px">{{item.guessingDate}}</p>
+                    <a class="item item-thumbnail-left" style="padding-left: 100px;margin-top: 1px">
+                        <img style="height: 50px;width: 70px;margin-top: 15px;margin-left: 2px" ng-src="{{item.playerTeamImgMain}}" >
+                        <p style="font-size: 16px;font-weight: 600;margin-top: 10px">{{item.matchSession}}</p>
+                        <p style="margin-top: 5px">{{item.matchName}}</p>
+                        <p>{{item.matchDate}}</p>
+                        <img style="height: 50px;width: 70px;position:absolute;top: 22px;right: 12px;" ng-src="{{item.playerTeamImgSecond}}" >
+                        <p>比赛结果（{{item.matchScore}}） {{item.guessingResultName}}</p>
+                    </a>
+                </div>
+                    <div ng-if="EXPIREDData.length==0 && !noMorePage3" class="text-center pt50 color-999">暂无数据！</div>
+                    <div ng-if="noMorePage3" class="text-center pd20">暂无更多数据</div>
+            </ion-slide>
+        </ion-slide-box>
+        <ion-infinite-scroll ng-if="!noMorePage" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+    </ion-content>
+</ion-view>

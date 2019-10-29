@@ -1,0 +1,8 @@
+<ion-view view-title="支付订单">
+    <div class="wxPayLayer" ng-if="!showIsPay">
+        <div style="padding: 20px 0;">请确认微信支付是否已完成</div>
+        <div class="wxPayLayer-item" style="color: #ef473a;" ng-click="goSuccessPage()">已完成支付</div>
+        <div class="wxPayLayer-item" ng-click="closePay()">支付遇到问题，重新支付</div>
+    </div>
+    <div class="wxPayLayerBg" ng-if="showIsPay"></div>
+</ion-view>

@@ -1,0 +1,40 @@
+
+<ion-view view-title="分享页面">
+    <ion-content scrollbar-y="false" class="shareContent">
+        <div id="sharePage">
+            <div class="share01"><img ng-src="{{activityImg}}" alt=""></div>
+            <p class="text-center">{{activityData.promotionalCopy}}</p>
+            <div class="fs20 text-center color-000 mt5">{{activityData.activityGroupName}}</div>
+            <div ng-if="activityStatus=='START'" class="shareBlock">
+                <div class="mb15"><input type="number" ng-model="share.phoneNumber" class="shareInput" placeholder="输入手机号接受邀请"></div>
+                <button ng-if="!share.phoneNumber" ng-disabled="true" class="share-btn">领取优惠券</button>
+                <button ng-if="share.phoneNumber" on-tap="getVoucher()" class="share-btn">领取优惠券</button>
+            </div>
+            <div style="color: red;" ng-if="activityStatus=='END'" class="text-center mt10">
+                (该活动已结束)
+            </div>
+
+            <div style="color: red;" ng-if="activityStatus=='NOT_START'" class="text-center mt10">
+                (该活动未开始)
+            </div>
+            
+            <div class="share02-txt">每部大片不容错过</div>
+            <div class="share02"><img src="img/share02.jpg" alt=""></div>
+
+            <div class="share02-txt">100，000 +</div>
+            <p class="text-center">用户选择金逸电影</p>
+            <div class="text-center fs20 mt30">星级体验 极致享受</div>
+            <div class="share02"><img src="img/share03.jpg" alt=""></div>
+
+            <div class="share02-txt">100，000 +</div>
+            <p class="text-center">用户选择金逸电影</p>
+            <div class="text-center fs20 mt30">星级体验 极致享受</div>
+            <div class="share02"><img src="img/share04.jpg" alt=""></div>
+
+            <div class="ml20 mr20 mt30"><a style="display: block;background: #998278" href="http://www.jycinema.com/app/" class="share-btn">下载金逸APP</a></div>
+            <div class="share02"><img src="img/share05.jpg" alt=""></div>
+        </div>
+
+
+    </ion-content>
+</ion-view>
