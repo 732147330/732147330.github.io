@@ -4,7 +4,7 @@
 // console.log(new Date().getTime())
 var locals = {
   cur: 0,//0-正式环境，1-验证环境，其它-调试环境
-  isMobile: true,
+  isMobile: false,
   version: '2019102202',
   divisionTime: '1571728630084',//1535523774014每次发布重新生成 new Date().getTime()
   urlList: [

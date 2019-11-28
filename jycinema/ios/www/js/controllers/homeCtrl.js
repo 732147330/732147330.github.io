@@ -356,7 +356,6 @@ app.controller('homeCtrl', function ($scope, $rootScope, $interval, $cordovaStat
     //GPS定位
     $scope.getGpsPosition = function () {
         var posOptions = {timeout: 10000, enableHighAccuracy: false};
-        console.log(1111)
         $cordovaGeolocation
             .getCurrentPosition(posOptions)
             .then(function (position) {

@@ -677,7 +677,7 @@
   },
   {
     "file": "js/api.js",
-    "hash": "b51c265ce242d3ba8c9bb585bcf92582"
+    "hash": "76ea99ec628c9797b24ef147a96b4017"
   },
   {
     "file": "js/app.js",
@@ -881,7 +881,7 @@
   },
   {
     "file": "js/controllers/homeCtrl.js",
-    "hash": "4584dfa1434758a3d4cea0a582c5463e"
+    "hash": "d627e92e404deb2201725c2ea47cf440"
   },
   {
     "file": "js/controllers/homePageCtrl.js",
@@ -2229,7 +2229,7 @@
   },
   {
     "file": "templates/schedule.html",
-    "hash": "4fc5aeea4012d0e8fa2b947db7aeb43b"
+    "hash": "a86df050a99044441c6122a6e0f40fb8"
   },
   {
     "file": "templates/search.html",
