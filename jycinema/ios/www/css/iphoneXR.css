@@ -89,14 +89,19 @@
         margin-top: 96px !important;
     }
 
+    .iphone-x-top-20 {
+        top: 20px !important;
+    }
+
     .iphone-x-pt-20 {
         padding-top: 20px !important;
     }
     .iphone-x-pt-25 {
         padding-top: 25px !important;
     }
-    .iphone-x-top-20 {
-        top: 20px !important;
+
+    .iphone-x-mt-20 {
+        margin-top:20px !important;
     }
     .iphone-x-mt-45 {
         margin-top:45px !important;

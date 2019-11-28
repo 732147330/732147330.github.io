@@ -45,11 +45,11 @@
   },
   {
     "file": "css/iphoneX.css",
-    "hash": "86b1ef412f85f9ae9c65753e663cfb07"
+    "hash": "ea67d7908511377be94766c1e22833ce"
   },
   {
     "file": "css/iphoneXR.css",
-    "hash": "25b14ff61f9aea69d0648db9b6e62afd"
+    "hash": "875a9e35f24720284432d6c24078436c"
   },
   {
     "file": "css/LArea.min.css",
@@ -677,7 +677,7 @@
   },
   {
     "file": "js/api.js",
-    "hash": "76ea99ec628c9797b24ef147a96b4017"
+    "hash": "b51c265ce242d3ba8c9bb585bcf92582"
   },
   {
     "file": "js/app.js",
@@ -2229,7 +2229,7 @@
   },
   {
     "file": "templates/schedule.html",
-    "hash": "a86df050a99044441c6122a6e0f40fb8"
+    "hash": "3d1023325516986158a709a66acd4dcf"
   },
   {
     "file": "templates/search.html",

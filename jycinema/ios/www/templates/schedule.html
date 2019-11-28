@@ -13,9 +13,9 @@
         </div>
         <div style="margin-top: 0px;color: #998278;" class="theatreIcon"><i class="icon iconfont" style="margin-right: 5px" ng-repeat="subItem in cinemaInfo.screenTypeCode" ng-bind-html="subItem.code"></i></div>
       </div>
-      <div style="flex: .2;text-align: center;padding-top: 15px;" on-tap="theatrego()" class="iphone-x-pt-35">
+      <div style="flex: .2;text-align: center;padding-top: 15px;" on-tap="theatrego()" class="iphone-x-mt-20">
         <p><i class="ion jyicon fs18" style="color: #998278;">&#xe6a6;</i></p>
-        <p>切换影院1</p>
+        <p>切换影院</p>
       </div>
     </div>
   </ion-header-bar>
@@ -35,7 +35,7 @@
     </ion-scroll>
   </div>
 
-  <ion-content scrollbar-y="false" on-scroll="scrollContent()" class="iphone-x-content">
+  <ion-content style="top:60px;" scrollbar-y="false" on-scroll="scrollContent()" class="iphone-x-content">
     <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
     <div ng-show="cinemaInfo">
       <!--<div class="flex">-->
