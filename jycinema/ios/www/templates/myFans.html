@@ -1,0 +1,29 @@
+<ion-view view-title="我的粉丝">
+    <ion-header-bar align-title="center" class="iphone-x-head">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">我的粉丝</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" has-bouncing="false" class="iphone-x-content">
+        <div style="padding: 5px 16px;background-color: #f5f5f5">
+            全部粉丝
+        </div>
+        <div class="box" style="border-bottom: 1px solid #f5f5f5;position: relative;padding: 5px 8px;" ng-repeat="item in fanFollowData">
+            <div class="my-fans-img" ui-sref="homePage({'memberId':{{item.cmtMemberId}}})" nav-direction="forward">
+                <img ng-src="{{item.logoImageUrl}}" style="border-radius: 50px;" ng-if="item.logoImageUrl">
+                <img src="./img/user.png" style="border-radius: 50px;" ng-if="!item.logoImageUrl">
+            </div>
+            <div class="box1" style="margin-left: 8px;margin-top: 12px;margin-right: 68px;"  ui-sref="homePage({'memberId':{{item.cmtMemberId}}})" nav-direction="forward">
+                <h3 style="height: 20px;overflow: hidden;">{{item.cmtMmbName}}</h3>
+                <p class="mt15" style="height: 20px;overflow: hidden;">{{item.cmtSelfIntroduction}}</p>
+            </div>
+            <div class="take-care" on-tap="saveCmtFanFollowP({{item.cmtMemberId}})" ng-if="item.isFan=='N'">
+                +关注
+            </div>
+            <div class="take-care" style="font-size: 12px;padding: 2px 6px" ng-if="item.isFan=='Y'">
+                <i class="icon jyicon" style="margin-left: -4px; margin-right: -2px;">&#xe663;</i>
+                已关注
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

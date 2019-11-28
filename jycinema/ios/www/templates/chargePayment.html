@@ -1,0 +1,47 @@
+<ion-view view-title="修改手机">
+    <ion-header-bar align-title="center" class="top-xian iphone-x-head">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">支付</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" class="iphone-x-content">
+        <div class="payBlock">
+            <div class="calculateTit fs16 pt10">支付方式:</div>
+            <div class="list list-inset" tabs-click="">
+                <a class="item" style="background: none!important;border:none;">
+                    <div class="row">
+                        <div class="col-20 col" style="max-width:19%;">
+                            <img src="img/zfb1.png">
+                        </div>
+                        <div class="col-70 pl10 pr10 col text-left">
+                            <div class="pt14">支付宝支付</div>
+                        </div>
+                        <div class="col-10 pt17 col">
+                            <i ng-class="{true:'ion-ios-checkmark color-green',false:'ion-ios-circle-outline'}[payIndex==0]" class="fs30"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a class="item" style="background: none!important;border:none;" >
+                    <div class="row">
+                        <div class="col-20 col" style="max-width:19%;">
+                            <img src="img/weixin1.png">
+                        </div>
+                        <div class="col-70 pl10 pr10 col text-left">
+                            <div class="pt14">微信支付</div>
+                        </div>
+                        <div class="col-10 pt17 col">
+                            <i ng-class="{true:'ion-ios-checkmark color-green',false:'ion-ios-circle-outline'}[payIndex==1]" class="fs30"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </ion-content>
+    <div class="fixOrder">
+        <!--<p class="tip fs12">提示:请您在<span>6分钟</span>之内支付,超时系统将自动取消订单.3D眼镜需自费.</p>-->
+        <div class="text-right pr20 fs16">支付金额:<span class="color-ff5715">{{price | currency:'￥'}}</span></div>
+        <div class="pl10 pr10" nav-direction="forward">
+          <button on-tap="paySubmit()" class="button button-select fs16 button-block">去支付</button>
+        </div>
+    </div>
+</ion-view>

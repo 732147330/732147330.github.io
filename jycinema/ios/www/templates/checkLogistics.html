@@ -1,0 +1,48 @@
+<ion-view view-title="查看物流">
+    <ion-header-bar align-title="center" class="top-xian iphone-x-head">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">查看物流</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" overflow-scroll='false' scrollbar-x="false" class="iphone-x-content">
+        <div class="flex" style="padding: 6px 3px;">
+            <div style="width: 26%">
+                <img ng-src="{{accessPath}}">
+            </div>
+            <div style="width: 70%;margin-left: 5px">
+                <p>物流状态：<span style="color: red">{{transportState}}</span></p>
+                <p style="padding-top: 2px">承运来源：{{logisticsCompany}}</p>
+                <p style="padding-top: 2px">运单编号：{{LogisticCode}}</p>
+                <p style="padding-top: 2px">客服电话：400-000-8008</p>
+            </div>
+        </div>
+        <div class="checkLogis pos">
+            <i class="icon jyicon fs24">&#xe620;</i>
+            <span>物流进度</span>
+        </div>
+        <!--<div class="flex" style="padding: 8px 2px;" ng-repeat="item in tracesData">-->
+            <!--<div style="width: 20%">-->
+                <!--<div class="text-center pos">-->
+                    <!--<i class="ion jyicon fs20" style="color: #ff5715">&#xe683;</i>-->
+                        <!--<i class="ion jyicon fs60" style="color: #ddd;position: absolute;left: 50%;margin-left: -30px;top: 20px">&#xe684;</i>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div style="width: 80%;border-bottom: 1px solid #ddd;color: #ff5715;">-->
+                <!--<p class="fs14">{{item.AcceptStation}}</p>-->
+                <!--<p class="fs12 mb15">{{item.AcceptTime}}</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="flex" style="padding: 8px 2px;" ng-repeat="item in tracesData">
+            <div style="width: 20%">
+                <div class="text-center pos">
+                    <i class="ion jyicon fs20" style="color: #ddd">&#xe683;</i>
+                    <i class="ion jyicon" style="color: #ddd;position: absolute;left: 50%;margin-left: -45px;top: 20px;font-size: 90px">&#xe684;</i>
+                </div>
+            </div>
+            <div style="width: 80%;border-bottom: 1px solid #ddd;">
+                <p class="fs14">{{item.AcceptStation}}</p>
+                <p class="fs12 mb15">{{item.AcceptTime}}</p>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

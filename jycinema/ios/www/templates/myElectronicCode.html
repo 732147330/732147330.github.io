@@ -1,0 +1,18 @@
+<ion-view view-title="电子码" style="background: #998278;">
+  <ion-header-bar align-title="center" class="top-xian iphone-x-head" style="background-image: none;background: #998278;">
+    <a back-button="" nav-direction="back" class="backButton"><i style="color: #fff;" class="ion-ios-arrow-left fs30"></i></a>
+    <div class="h1 title" style="color: #fff;">我的电子码</div>
+  </ion-header-bar>
+  <ion-content class="hym" style="background: #998278;padding-top: 20px;" scrollbar-y="false" has-bouncing="false">
+
+  </ion-content>
+  <div class="pinWrap iphone-x-content">
+    <div class="pinTit"><i style="position: absolute;left: 15px;font-size:22px;" class="ion-android-expand"></i> 扫码识别</div>
+    <div ng-class="{true:'bigger',false:''}[qrcodeFlag && index==2]" class="initBarcode {{index==2?'z1001':''}}" on-tap="toggleQrcode(2)"><svg id="barcode"></svg></div>
+    <div on-tap="toggleQrcode(index)" ng-show="qrcodeFlag" class="qrcodeBg {{qrcodeFlag?'opac1':''}}"></div>
+    <div ng-class="{true:'bigger',false:''}[qrcodeFlag && index==1]" class="initQrcode {{index==1?'z1001':''}}" on-tap="toggleQrcode(1)" id="qrcode"></div>
+  </div>
+  <div class="pinDesc pos">
+    <div class="pt10 pb10 text-center fs12">温馨提示: 此电子码用于影院前台消费扫码使用</div>
+  </div>
+</ion-view>

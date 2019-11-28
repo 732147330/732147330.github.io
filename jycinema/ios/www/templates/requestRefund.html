@@ -1,0 +1,65 @@
+<ion-view view-title="申请退款">
+        <ion-header-bar align-title="center" class="top-xian">
+            <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+            <div class="h1 title">申请退款</div>
+        </ion-header-bar>
+        <ion-content scrollbar-y="false" overflow-scroll='false' scrollbar-x="false" >
+            <div ng-if="currentOrderDetailData">
+                <div>
+                    <a class="item item-thumbnail-left" style="background-color:#f8f8f8 ">
+                        <div class="refund-img" >
+                            <img ng-src="{{currentOrderDetailData.accessPath}}">
+                        </div>
+                        <div class="refund-p">
+                            <p style="height: 40px;overflow: hidden;">{{currentOrderDetailData.title}}</p>
+                            <p class="refund-p2">
+                                <span ng-repeat="item in currentOrderDetailData.salesData">
+                                    {{item.propName}}:{{item.propValue}}&nbsp;
+                                </span>
+                            </p>
+                            <p class="pt5" style="color: red">{{currentOrderDetailData.price | currency:'¥'}}</p>
+                            <p class="refund-p3">x{{currentOrderDetailData.num}}</p>
+                        </div>
+                    </a>
+                    <div class="bcr"></div>
+                    <div class="bbr"></div>
+                </div>
+                <div class="list" style="margin-bottom: 10px" >
+                    <a class="item item-icon-right item-da-xiao" on-tap="show()" style="padding: 10px">
+                        <span>退款原因</span>
+                        <span class="span-left1">{{selReason || '请选择'}}</span>
+                        <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+                    </a>
+                    <a class="item item-icon-right item-da-xiao" on-tap="show1()" style="padding: 10px">
+                        <span>退款类型</span>
+                        <span class="span-left1">{{codeReason || '请选择'}}</span>
+                        <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+                    </a>
+                    <div class="bbr"></div>
+                    <a class="item item-icon-right item-da-xiao" style="padding: 10px">
+                        <span>退款金额</span>
+                        <span class="span-left" style="color: red">{{currentOrderDetailData.num*currentOrderDetailData.price+currentOrderDetailData.postFee | currency:'¥'}}</span>
+                    </a>
+                    <a class="item item-icon-right item-da-xiao item-refund" style="padding: 10px">
+                        <span class="refund-sp">商品金额{{currentOrderDetailData.num*currentOrderDetailData.price|currency:'￥'}}，邮费（{{currentOrderDetailData.postFee|currency:'￥'}}）</span>
+                    </a>
+                    <div class="ml10 mt10">
+                        上传图片（最多3张)
+                        <input style="line-height: 10px !important;margin-top: 5px" id="fileBtn" type="file" onchange="angular.element(this).scope().upload('#fileBtn');" accept="image/*"  multiple="multiple" />
+                       <div id="imgWap" class="mt10"></div>
+                    </div>
+                </div>
+                <div class="list comment-refund">
+                    <label class="item item-input item-input-wrapper pg15">
+                        <textarea ng-model="Refund.applyForRefundDesc" required placeholder="退款说明：选填。" rows="4" cols="10" style="padding-left: 5px"></textarea>
+                    </label>
+                </div>
+            </div>
+
+<div style="height: 200px"></div>
+
+        </ion-content>
+    <div class="bar bar-footer" style="background-color: #998278">
+        <div class="title" style="color: white" on-tap="queryrefund()">确定</div>
+    </div>
+</ion-view>

@@ -1,0 +1,14 @@
+<ion-view view-title="问卷调查">
+    <ion-header-bar align-title="center" class="top-xian">
+        <a ui-sref="account" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">问卷调查</div>
+    </ion-header-bar>
+    <ion-content class="bg-f2f2f2" overflow-scroll="false" scrollbar-y="false" has-bouncing="false">
+        <div class="list">
+            <div ng-if="item.displayFlag=='Y'" class="item" ui-sref="questionDetail({surveyHeaderId:'{{item.surveyHeaderId}}',surveyTitle:'{{item.surveyTitle}}'})" nav-direction="forward" ng-repeat="item in questionListData">
+                <i class="icon jyicon item-icon" style="background: #28a54c">&#xe600;</i> {{item.surveyTitle}}
+                <span class="arrow-foward"><i class="ion-ios-arrow-forward"></i></span>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

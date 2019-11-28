@@ -1,0 +1,71 @@
+<ion-view view-title="考拉活动">
+  <ion-header-bar align-title="center" id="kaola-header" class="iphone-x-head">
+    <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+    <div class="h1 title">{{title}}</div>
+  </ion-header-bar>
+
+  <ion-content scrollbar-y="false" id="kaola-content" class="iphone-x-content">
+    <div class="scroll-wrapper">
+      <iframe id="kaola-frame"  width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>
+    </div>
+  </ion-content>
+
+
+  <!--footer-->
+  <script id="templates/sharePage.html" type="text/ng-template">
+    <style>
+      .modal-backdrop, .modal-backdrop-bg{
+        top: auto!important;
+        bottom: 0;
+        z-index: 100;
+        max-height:170px;
+      }
+      .modal-backdrop .modal-wrapper{
+        max-height:100%;
+        height: 100%;
+      }
+    </style>
+    <ion-modal-view class="layer">
+      <ion-content overflow-scroll="false" scrollbar-y="false">
+        <!-- 分享朋友 -->
+        <div class="pt10">
+          <h2 class="text-center fs16 mb20">分享给朋友</h2>
+          <div class="row" style="border-bottom: 1px solid #f5f5f5;">
+            <div class="col" on-tap="shareWechat()">
+              <div><i class="icon iconfont fs40" style="color: #4caf50;">&#xe693;</i></div>
+              <p class="mt5">微信</p>
+            </div>
+            <div class="col" on-tap="shareWechatFriend()">
+              <div><i class="icon iconfont fs40" style="color: #00bcd4;">&#xe694;</i></div>
+              <p class="mt5">朋友圈</p>
+            </div>
+            <div class="col" on-tap="shareWeibo()">
+              <div><i class="icon iconfont fs40" style="color: #ff9800;">&#xe641;</i></div>
+              <p class="mt5">新浪微博</p>
+            </div>
+            <div class="col" on-tap="shareQq()">
+              <div><i class="icon iconfont fs40" style="color: #03a9f4;">&#xe63e;</i></div>
+              <p class="mt5">QQ</p>
+            </div>
+
+          </div>
+          <div ng-click="hideShare($event)" class="text-center fs14 pt10 pb10 color-666">取消</div>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+</ion-view>
+
+<style>
+  ion-content .scroll{
+    height: 100%;
+  }
+  ion-content .scroll-wrapper {
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+    overflow: scroll;
+  }
+</style>
+
+

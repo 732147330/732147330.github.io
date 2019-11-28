@@ -1,0 +1,47 @@
+<ion-view view-title="猜你喜欢">
+    <ion-header-bar class="calm-border iphone-x-head" align-title="center">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">猜你喜欢</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" class="iphone-x-content">
+        <div class="tit-gess box pos" ng-if="recommendTwoData.length>0">
+            <i class="ion jyicon color-998278 fs24">&#xe67d;</i>
+            <div class="box1">电影</div>
+            <!--<div class="box1 text-right fs12 yd-color"><i class="ion jyicon fs24">&#xe611;</i></div>-->
+        </div>
+        <div class="flex" ng-repeat="item in recommendTwoData" style="border-bottom: 1px solid #f9f9f9;" on-tap="recommendGo(item)">
+            <div style="width: 30%;max-width: 100%;max-height: 100%;">
+                <img style="height: 100px" ng-src="{{item.accessPath}}">
+            </div>
+            <div style="width: 55%;margin-left: 5px">
+                <p style="height: 20px;overflow: hidden;margin-top: 10px;font-size: 16px">{{item.titleAlt}}</p>
+                <p style="height: 20px;overflow: hidden;margin-top: 10px">{{item.title}}</p>
+                <p style="height: 20px;overflow: hidden;margin-top: 10px;margin-left:2px" ng-if="item.sourceType=='FILM'">类型：{{item.filmtype}}</p>
+            </div>
+            <div style="width: 13%">
+                <!--<p style="color: red;margin-top: 30px;margin-left: 2px" ng-if="item.sourceType=='GOODS'">￥{{item.price/100}}起</p>-->
+                <i class="ion jyicon fs22" style="margin-top: 50px;margin-left: 18px">&#xe61d;</i>
+            </div>
+        </div>
+        <div class="tit-gess box pos" ng-if="recommendOneData.length>0">
+            <i class="ion jyicon color-998278 fs24">&#xe82f;</i>
+            <div class="box1">商品</div>
+            <!--<div class="box1 text-right fs12 yd-color"><i class="ion jyicon fs24">&#xe611;</i></div>-->
+        </div>
+        <div class="flex" ng-repeat="item in recommendOneData" style="border-bottom: 1px solid #f9f9f9;" on-tap="recommendGo(item)">
+            <div style="width: 30%;max-width: 100%;max-height: 100%;">
+                <img ng-src="{{item.accessPath}}">
+            </div>
+            <div style="width: 55%;margin-left: 5px">
+                <p style="height: 20px;overflow: hidden;margin-top: 10px;font-size: 16px">{{item.titleAlt}}</p>
+                <p style="height: 20px;overflow: hidden;margin-top: 10px">{{item.title}}</p>
+                <p style="height: 20px;overflow: hidden;margin-top: 10px;color: red;margin-left: 8px" ng-if="item.sourceType=='GOODS'">网购价：￥{{item.price/100}}</p>
+            </div>
+            <div style="width: 13%">
+                <!--<p style="color: red;margin-top: 30px;margin-left: 2px" ng-if="item.sourceType=='GOODS'">￥{{item.price/100}}起</p>-->
+                <i class="ion jyicon fs22" style="margin-top: 50px;margin-left: 18px">&#xe61d;</i>
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

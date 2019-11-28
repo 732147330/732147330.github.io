@@ -1,0 +1,64 @@
+<ion-view view-title="积分商城">
+    <ion-header-bar class="calm-border iphone-x-head" align-title="center">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">金逸积分商城</div>
+    </ion-header-bar>
+    <ion-content class="iphone-x-content" scrollbar-y="false">
+        <div class="swiper-container swiper-container-focus" style="height: 100%">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-slide-focus" ng-repeat="item in carouselData">
+                    <a href="javascript:"><img class="animated fadeIn" ng-src="{{item.url}}"></a>
+                </div>
+            </div>
+        </div>
+        <!--mall 导航-->
+<div class="points-box">
+    <div class="points-box1 mt10">
+        <i class="icon jyicon fs40" style="color: #ff5715">&#xe653;</i>
+        <p class="fs12">抽奖活动</p>
+    </div>
+    <div class="points-box1 mt10" ui-sref="allPointsGood" nav-direction="forward">
+        <i class="icon jyicon fs40" style="color: #ac8686">&#xe6f0;</i>
+        <p class="fs12">所有商品</p>
+    </div>
+</div>
+
+        <div class="mall-division">
+            <div class="box ml30 mr30">
+                <div class="mall-division-l box1 text-right mr10" ></div>
+                <div><i class="jyicon iconfont">&#xe632;</i> 精品推荐</div>
+                <div class="mall-division-l box1 text-left ml10"></div>
+            </div>
+        </div>
+
+        <div class="color-999 text-center fs12 pt100" ng-if="guessData.length==0">
+            <div class="color-cacaca">敬请期待...</div>
+        </div>
+
+        <div class="flex flexBox pos" style="min-height: 200px;"  ng-if="guessData.length!=0">
+            <div class="flex-50" ng-repeat="item in guessData" >
+                <div ui-sref="pointProductDetail({skuId:item.skuId})" nav-direction="forward" class="flexBoxInner {{$index%2==0?'flexBoxInner-r':'flexBoxInner-l'}} ">
+                    <div style="width: 135px;height: 145px;">
+                        <img ng-src="{{item.sourceSkuUrl}}" alt="">
+                    </div>
+                    <div class="fs14 color-000 mb5" style="height: 20px;overflow:hidden;">{{item.titleAlt}}</div>
+                    <div class="box">
+                        <div class="color-ff5715">
+                            <strong class="fs15">{{item.pointsExPoint}}积分</strong>
+                            <strong class="fs15" ng-if="item.pointsExPrice">+{{item.pointsExPrice/100 | currency:'¥'}}</strong>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="box1  color-999 fs14">月售：{{item.saleMonth?item.saleMonth:0}}</div>
+                    </div>
+                </div>
+            </div>
+            <!--<ion-spinner class="spinLoading" icon="ios-small" ng-if="!specialOfferData"></ion-spinner>-->
+        </div>
+
+
+        <!--<div ng-if="((currentPage-1)*pageSize+specialOfferData.length)<total" class="text-center pb30 mt20" ng-click="getMore()"><a>查看更多</a></div>-->
+
+    </ion-content>
+
+</ion-view>

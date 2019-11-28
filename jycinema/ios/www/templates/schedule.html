@@ -1,0 +1,207 @@
+<ion-view view-title="电影排期">
+  <!--<div ng-if="!cinemaInfo" style="background: white">-->
+  <!--<img src="./img/jylogo.gif">-->
+  <!--</div>-->
+  <ion-header-bar align-title="center" style="padding: 0px;" class="iphone-x-head">
+    <div class="flex" style="width: 100%;height: 100%;margin-top: 0px;position: absolute;top: 0px;">
+      <div style="flex: .1;">
+        <a back-button="" nav-direction="back" class="backButton iphone-x-button1" style="top:20px;"><i class="ion-ios-arrow-left fs28"></i></a>
+      </div>
+      <div style="flex: .7;margin-top: 30px;" class="iphone-x-mt-45">
+        <div>
+          <h2 class="fs16" style="text-align: center;">{{cinemaInfo.cinemaNameAlt}}</h2>
+        </div>
+        <div style="margin-top: 0px;color: #998278;" class="theatreIcon"><i class="icon iconfont" style="margin-right: 5px" ng-repeat="subItem in cinemaInfo.screenTypeCode" ng-bind-html="subItem.code"></i></div>
+      </div>
+      <div style="flex: .2;text-align: center;padding-top: 15px;" on-tap="theatrego()" class="iphone-x-pt-35">
+        <p><i class="ion jyicon fs18" style="color: #998278;">&#xe6a6;</i></p>
+        <p>切换影院</p>
+      </div>
+    </div>
+  </ion-header-bar>
+  <div class="fixBlockInit {{fixFLag?'fixBlock':''}}">
+    <div class="item item-icon-right schedule-item" nav-direction="forward" ui-sref="movieDetail({movieId:movieId,theatreId:theatreId})">
+      <strong><i class="icon ion-ios-arrow-right schedule-icon fs24"></i>{{filmData[mvIndex].titlealt || filmData[mvIndex].filmName}}</strong>
+      <p class="fs12">片长：{{filmData[mvIndex].runTime}}分钟</p>
+      <span class="item-note schedule-note fs12"></span>
+      <div class="triangle_border_up">
+        <span></span>
+      </div>
+    </div>
+    <ion-scroll delegate-handle="titleScroll" ng-if="scheduleTime.length>0" direction="x" scrollbar-x="false" scrollbar-y="false">
+      <div class="item schedule-item schedule-item2 schedule-item-date" tabs-click="">
+        <a ng-click="getCurrentData($index,$event)" class="fs12 mr10" ng-repeat="item in scheduleTime" ng-class="activeIndex.status==$index?'active':''">{{weekData[$index]}}{{item | date:'MM月dd日'}}</a>
+      </div>
+    </ion-scroll>
+  </div>
+
+  <ion-content style="padding-top: 7px;" scrollbar-y="false" on-scroll="scrollContent()" class="iphone-x-content">
+    <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+    <div ng-show="cinemaInfo">
+      <!--<div class="flex">-->
+      <!--<div style="width: 80%;padding-left: 10px">-->
+      <!--<div>-->
+      <!--<h2 class="fs16" style="margin-bottom: 5px">{{cinemaInfo.cinemaNameAlt}}</h2>-->
+      <!--</div>-->
+      <!--<div style="margin-top: 0px;color: #998278;" class="theatreIcon"><i class="icon iconfont" ng-repeat="subItem in cinemaInfo.screenTypeCode" ng-bind-html="subItem.code"></i></div>-->
+      <!--</div>-->
+      <!--<div style="width:20%;text-align: center" on-tap="theatrego()">-->
+      <!--<p><i class="ion jyicon fs18" style="color: #998278;">&#xe6a6;</i></p>-->
+      <!--<p>切换影院</p>-->
+      <!--</div>-->
+      <!--</div>-->
+      <div class="schedule">
+        <div class="tag" ng-if="nowDate<endNoticeTime">未读</div>
+        <div class="item item-icon-left item-icon-right schedule-banner fs14" ui-sref="theatreDetail({movieId:movieId,theatreId:theatreId})" nav-direction="forward">
+          <i class="icon ion-android-pin fs22" style="left: 26px;"></i>
+          <div class="schedule-address">{{cinemaInfo.address1}}</div>
+          <i class="icon ion-ios-arrow-right fs24"></i>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-50">
+          <div ng-if="cinemaInfo" class="meal pos" style="height: 40px" ui-sref="mealList({cinemaOutId:cinemaInfo.cinemaOuterId})" nav-direction="forward">
+            <div class="box">
+              <div class="box1 fs15" style="color: #e4a387;margin-top: 2px">
+                <p>观影套餐</p>
+                <!--<p class="fs12">小吃、周边19、8元起</p>-->
+              </div>
+              <div class="icon-schedule" style="margin-top: 2px"><i class="jyicon iconfont">&#xe610;</i></div>
+            </div>
+          </div>
+        </div>
+        <div class="col col-50">
+          <div ng-if="cinemaInfo" class="meal pos" style="height: 40px" ui-sref="category({'skuId':item.skuId,'catName':'超值礼包'})" nav-direction="forward">
+            <div class="box">
+              <div class="box1 fs15" style="color: #e4a387;margin-top: 2px">
+                <p>权益卡</p>
+                <!--<p class="fs12">首单最高立减30元</p>-->
+              </div>
+              <div class="icon-schedule-zhe"><i class="jyicon iconfont">&#xe61f;</i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-container schedule-swiper-container" style="background:#46423f;">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" style="width: 80px" ng-click="slidesTo($index)" ng-class="mvIndex==$index?'swiper-slide-active':''" ng-repeat="item in filmData">
+            <!--<img class="animated fadeIn" ng-src="{{item.posterUrl || defaultPic}}" alt=""/>-->
+            <div class="animated fadeIn" style="background: url('{{item.posterUrl}}') no-repeat center;background-size: 100%;height: 100%;overflow: hidden; position: relative;">
+              <span class="hui" ng-if="item.activityFlag=='Y'" style="width: 50px;font-size: 12px; left: -19px;top: -4px;">惠</span>
+              <span class="yushou" ng-if="item.preSaleFlag=='Y'" style="width: 30px;height: 15px;line-height: 15px;font-size: 12px">预售</span>
+            </div>
+          </div>
+        </div>
+        <div style="width: 100%;height: 100%;position: absolute;z-index:0;top:0;-webkit-filter: blur(15px);filter: blur(15px);opacity:.5;" ng-style="{'background':'url('+filmData[mvIndex].posterUrl+') no-repeat','backgroundSize':'cover'}"></div>
+      </div>
+      <div ng-if="!fixFLag" class="item item-icon-right schedule-item" nav-direction="forward" ui-sref="movieDetail({movieId:movieId,theatreId:theatreId})">
+        <strong><i class="icon ion-ios-arrow-right schedule-icon fs24"></i>{{filmData[mvIndex].titlealt || filmData[mvIndex].filmName}}</strong>
+        <p class="fs12">片长：{{filmData[mvIndex].runTime}}分钟</p>
+        <span class="item-note schedule-note fs12"></span>
+        <div class="triangle_border_up">
+          <span></span>
+        </div>
+      </div>
+      <ion-scroll ng-if="!fixFLag" delegate-handle="titleScroll" direction="x" scrollbar-x="true" scrollbar-y="false">
+        <div class="item schedule-item schedule-item2 schedule-item-date" tabs-click="">
+          <!--<a ng-click="getCurrentData($index,$event)" class="fs12 mr10 schedule-item-a" ng-repeat="item in scheduleTime" ng-class="activeIndex.status==$index?'active':''">{{weekData[$index]}}{{item | date:'MM月dd日'}}</a>-->
+          <a ng-click="getCurrentData($index,$event)" class="fs12 mr10 schedule-item-a" ng-repeat="item in scheduleTime" ng-class="activeIndex.status==$index?'active':''">{{weekData[$index]}}{{item | date:'MM月dd日'}}</a>
+        </div>
+      </ion-scroll>
+    </div>
+
+    <div ng-if="scheduleData.length>0" active-slide="activeIndex.status" show-pager="false" on-slide-changed="slideHasChanged($index)" class="slideSchedule">
+      <div class="slideHeight">
+        <div on-tap="showActivity($event)" ng-if="activityCurrentData.length>0" class="pl10 pr30 fs12 pt5 pb5" style="border-bottom: 1px solid #f5f5f5;border-top: 1px solid #f5f5f5;position: relative;">
+          <span class="activityTag">特惠活动</span>
+          <p class="activityTit">{{activityCurrentDataNew.promotionalCopy}}</p>
+          <div class="activity-arrow"><i class="ion-ios-arrow-right"></i></div>
+        </div>
+        <div class="pl10 pr30 fs12 pt5 pb5" style="border-bottom: 1px solid #f5f5f5;border-top: 1px solid #f5f5f5;position: relative;" ng-repeat="subItem in scheduleData" ng-if="subItem.schedulingTypeName" ui-sref="meeting({skuId:subItem.skuId})">
+          <div style="position: absolute;color: #998278;">
+            <i class="ion jyicon">&#xe6a1;</i>
+          </div>
+          <p class="activityTit" style="padding-left: 22px;padding-right: 16px;overflow: hidden;height: 18px">{{subItem.schedulingTypeName}}{{subItem.actorNameArr?' | 到场明星：'+subItem.actorNameArr:''}}</p>
+          <div class="activity-arrow"><i class="ion-ios-arrow-right"></i></div>
+        </div>
+
+        <div class="list schedule-list">
+          <div ng-repeat="subItem in currentSchedule[activeIndex.status].data" class="item schedule-item schedule-item-first pos"
+               ui-sref="selectSeat({movieId:'{{subItem.filmId}}',theatreId:'{{theatreId}}',scheduleTime:'{{scheduleTime[activeIndex.status]}}',curIndex:'{{$index}}',sessionOutId:'{{scheduleData[$index].sessionOutId}}',cinemaOuterId:'{{scheduleData[$index].cinemaOuterId}}',filmIdAlt:'{{subItem.filmIdAlt}}'})">
+            <div class="row">
+              <div class="col col-25" style="flex: .2;">
+                <div class="fs15">{{subItem.showtime | date:'HH:mm'}}</div>
+                <p style="font-size: 10px;">{{Number(subItem.showtime)+Number(subItem.runTime*60*1000) | date:'HH:mm'}}散场</p>
+                <div style="font-size: 12px;color: #998278;">
+                  <span style="border: 1px solid #998278;border-radius: 7px;padding: 1px;margin-left: 5px" ng-repeat="row in subItem.schedulingTypeNameArr">{{row}}</span>
+                </div>
+              </div>
+              <div class="col col-35" style="flex: .5;">
+                <div class="sessionAttribute text-center" style="margin: 0 auto;font-size: 12px;">{{subItem.sessionAttribute}}</div>
+                <p class="text-center" style="margin: 0 auto;font-size: 10px;">{{subItem.screenName}}</p>
+              </div>
+              <div class="col col-15 text-right" style="flex: .1;">
+                <i class="icon {{subItem.iconClass}} fs16" style="position:relative;top: 3px;" ng-bind-html="subItem.iconType"></i>
+              </div>
+              <div class="col col-35 schedule-price clearfix" style="flex: .2;padding: 0px;line-height: 53px;">
+                <!--style="flex: 1.7;background: url('img/yfy.png') no-repeat 100% 0;background-size: 30px 30px; padding: 20px 20px 0 0"-->
+                <div style="position: relative;top: -3px;" class="fs20" ng-if="subItem.activityInfo.length>0"><span class="fs12">￥</span>{{subItem.activityLowPrice.newPriceincents}} <span class="fs12" style="position: relative;right: 3px;">起</span></div>
+                <div style="position: relative;top: -3px;" class="fs20" ng-if="!subItem.activityInfo || subItem.activityInfo.length==0"><span class="fs12">￥</span>{{subItem.priceincents/100}}</div>
+                <div class="yh-desc box" ng-if="subItem.activityInfo.length>0">
+                  <div class="oldP">优惠价</div>
+                  <div class="oldp-v">{{subItem.priceincents/100 | number:1}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="timeTag" ng-if="$index==0 && subItem.flag=='Y'"><i class="icon iconfont">&#xe623;</i></div>
+            <div class="timeTag timeTag-night" ng-if="$index==0 && subItem.flag=='N'"><i class="icon iconfont">&#xe61a;</i></div>
+            <div class="timeTag" ng-if="subItem.flag=='Y' && subItem.flag!=item.data[$index-1].flag"><i class="icon iconfont">&#xe623;</i></div>
+            <div class="timeTag timeTag-night" ng-if="subItem.flag=='N' && subItem.flag!=item.data[$index-1].flag"><i class="icon iconfont">&#xe61a;</i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-if="nofilm==true" style="position: absolute;left: 50%;margin-left: -80px;margin-top: 30px;width: 150px">
+      <img src="img/nofilm.png">
+      <p style="color: #ccc;text-align: center;font-size: 16px;margin-top: 10px">当天暂无场次</p>
+    </div>
+    <!--<div ng-if="scheduleTime.length==0">-->
+    <!--<img src="./img/jylogo.gif">-->
+    <!--</div>-->
+
+  </ion-content>
+  <script id="activityModal" type="text/ng-template">
+    <style>
+      .modal-backdrop, .modal-backdrop-bg {
+        top: auto !important;
+        bottom: 0;
+        z-index: 100;
+        max-height: 300px;
+      }
+      .modal-backdrop .modal-wrapper {
+        max-height: 100%;
+        height: 100%;
+      }
+    </style>
+    <ion-modal-view class="layer">
+      <ion-header-bar class="bar bar-header bar-filter">
+        <div class="text-center fs18" style="padding-top: 7px;width:100%;">特惠活动</div>
+        <span class="close" on-tap="hideShare()"><i class="ion-ios-close-empty"></i></span>
+      </ion-header-bar>
+      <ion-content style="background: #fff" overflow-scroll="false" scrollbar-y="false" stop-propagation="">
+        <ul class="activity-ul">
+          <li on-tap="toggleActivityDetail($index)" ng-repeat="item in activityCurrentData">
+            <div class="pos">
+              <span class="activityTag">特惠活动</span>
+              <div class="activityList-tit" style="padding-left: 70px;">{{item.promotionalCopy}}</div>
+              <p class="fs12 color-666 pr20" style="padding-left: 70px;" ng-if="item.startDateActive">时间: {{item.startDateActive | date:'yyyy/MM/dd'}} — {{item.endDateActive | date:'yyyy/MM/dd'}}</p>
+              <p ng-if="item.activityFlag" class="fs12 pt10 color-999 pr20 pl10" ng-bind-html="item.ruleDesc"></p>
+              <div class="activityToggle"><i class="{{item.activityFlag?'ion-ios-arrow-up':'ion-ios-arrow-down'}} fs20"></i></div>
+            </div>
+          </li>
+        </ul>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+</ion-view>

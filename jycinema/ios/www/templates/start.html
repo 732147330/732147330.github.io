@@ -1,0 +1,31 @@
+<ion-view view-title="启动页">
+  <style>
+    #startSpinner svg{
+      width:35px;
+      height:35px;
+      stroke: #998278;
+      fill: #998278;
+    }
+    #loading_start{
+      /*position: absolute;*/
+      /*top:50%;*/
+      /*left:50%;*/
+      text-align: center;
+        margin-top:100px;
+      /*margin-left:-17px;*/
+      /*margin-top:-17px;*/
+    }
+  </style>
+  <ion-content>
+    <div style="padding-top: 50px;width: 100px;margin: 0 auto;"><img src="./img/icon.png" alt=""></div>
+    <div style="padding-top: 100px;margin: 0 auto;text-align: center">
+      <ion-spinner id="startSpinner" icon="bubbles"></ion-spinner>
+      <div class="text-center fs12 pt10">{{startTip}}</div>
+    </div>
+
+    <div class="fs14" on-tap="exitApp()" style="position: absolute;bottom: 30px;left:50%;margin-left:-45px;color: #999;width:100%;width: 90px;height:30px;line-height:30px;text-align:center;border-radius:15px;border:1px solid #d4d4d4">
+      退出应用
+    </div>
+
+  </ion-content>
+</ion-view>

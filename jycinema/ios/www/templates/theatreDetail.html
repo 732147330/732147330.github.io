@@ -1,0 +1,60 @@
+<ion-view view-title="影院详情">
+    <ion-header-bar align-title="center" class="iphone-x-head">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">{{theatreList.cinemaName}}</div>
+        <a href="tel:400 000 8008" class="icon iconfont scan fs22 iphone-x-icon2" style="color: #998278;">&#xe603;</a>
+    </ion-header-bar>
+
+    <!--幻灯展示-->
+    <div class="slideBg" ng-if="showSlideF" ng-class="{true:'animated fadeIn',false:'animated fadeOut'}[showSlideFlag]"></div>
+    <ion-slide-box style="z-index:100000" class="slideScreen" ng-if="showSlideF" active-slide="activeIndex" show-pager="true" ng-click="hideSlide($event)" on-slide-changed="slideHasChanged($index)">
+      <ion-slide style="display: table;text-align:center;" ng-repeat="item in theatreDetailBanner">
+        <span style="display:table-cell;vertical-align:middle;"><img ng-src="{{item.url}}" ng-class="{true:'animated zoomIn',false:'animated zoomOut'}[showSlideFlag]" ></span>
+      </ion-slide>
+    </ion-slide-box>
+
+    <ion-content scrollbar-y="false" lazy-scroll="" class="iphone-x-content">
+        <div class="scrollWrap">
+            <ion-scroll zooming="false" scrollbar-x="false" direction="x" >
+                <div class="row theatre-scroll">
+                    <div class="col col-33" on-tap="showSlideBox($index)" ng-repeat="item in theatreDetailBanner"><img class="animated fadeIn" image-lazy-src="{{item.url}}" image-lazy-loader="ios-small" image-lazy-distance-from-right-to-load="600"></div>
+                </div>
+            </ion-scroll>
+        </div>
+        <h2 class="mv-tit fs16">{{theatreList.cinemaName}}</h2>
+        <div class="emptyLine"></div>
+        <div class="mv-address pos" ui-sref="mapPage({theatreId:'{{theatreId}}'})">
+            <div class="listIcon"><i class="icon iconfont fs20">&#xe600;</i></div>
+            <p>{{theatreList.address1}}</p>
+        </div>
+        <div class="emptyLine"></div>
+        <h2 class="mv-tit fs16">影城简介</h2>
+        <div class="mv-block" style="line-height: 1.8;">
+            <div ng-class="{true:'tBlock'}[vFlag]">
+                {{theatreList.descrition}}
+            </div>
+            <div class="text-center" on-tap="toggle()"><i class="fs24 color-999" ng-class="{true:'ion-ios-arrow-down',false:'ion-ios-arrow-up'}[vFlag]"></i></div>
+        </div>
+        <div class="emptyLine"></div>
+        <h2 class="mv-tit fs16">特色信息</h2>
+        <p class="mv-block">
+            <a class="button-info movie-tag mr10 fs12">优惠信息</a>{{theatreList.promotionInformation}}
+        </p>
+        <p class="mv-block"><a class="button-info movie-tag mr10 fs12">可停车</a>{{theatreList.parkingInfo}}</p>
+        <div class="mv-block bor-bottom pb50" ng-if="notice.length>0">
+            <a class="button-info movie-tag mr10 fs12">公告</a>
+            <div class="mt10 pl15 pr15" ng-repeat="item in notice">
+                <p>{{$index+1}}. <strong>{{item.noticeTitle}}</strong></p>
+                <div ng-bind-html="item.noticeContent"></div>
+            </div>
+        </div>
+        <p class="mv-block">
+            <a class="button-info movie-tag mr10 fs12">公交路线</a>{{theatreList.route}}
+        </p>
+        <div style="height: 24px;"></div>
+    </ion-content>
+    <ion-footer-bar align-title="center" style="z-index:110;height:55px!important;">
+      <button ng-if="theatreId" ui-sref="schedule({movieId:movieId,theatreId:theatreId})"  nav-direction="forward" class="button button-select fs16">立即购票</button>
+      <button ng-if="!theatreId" ui-sref="theatre({movieId:movieId})"  nav-direction="forward" class="button button-select fs16">立即购票</button>
+    </ion-footer-bar>
+</ion-view>

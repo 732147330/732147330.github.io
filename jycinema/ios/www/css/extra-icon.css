@@ -1,0 +1,66 @@
+.rights-card-price {
+  margin-top: 10px;
+}
+.ion-glasses {
+  display: inline-block;
+  width: 30px;
+  height: 100%;
+  font-size: 24px;
+  background: url("../img/symbols-glasses.png") no-repeat 50% 50%;
+  background-size: 100% auto;
+  vertical-align: middle;
+}
+.ion-popcorn {
+  display: inline-block;
+  width: 25px;
+  height: 100%;
+  font-size: 24px;
+  background: url("../img/symbols-popcorn.png") no-repeat 50% 50%;
+  background-size: 100% auto;
+  vertical-align: middle;
+}
+.ion-clockTime {
+  display: inline-block;
+  width: 30px;
+  height: 100%;
+  font-size: 24px;
+  background: url("../img/symbols-clock.png") no-repeat 50% 50%;
+  background-size: 100% auto;
+  /*vertical-align: middle;*/
+}
+.ion-rule{
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  font-size: 24px;
+  background: url("../img/symbols-rule.png") no-repeat 50% 50%;
+  background-size: 100% auto;
+  vertical-align: middle;
+}
+.ion-up{
+  display: inline-block;
+  width: 30px;
+  height: 100%;
+  font-size: 24px;
+  background: url("../img/symbols-up.png") no-repeat 50% 50%;
+  background-size: 100% auto;
+  /*vertical-align: middle;*/
+}
+.ion-package {
+  display: inline-block;
+  width: 30px;
+  height: 100%;
+  font-size: 24px;
+  background: url("../img/symbols-star.png") no-repeat 50% 50%;
+  background-size: 100% auto;
+  /*vertical-align: middle;*/
+}
+.ion-identity {
+  display: inline-block;
+  width: 30px;
+  height: 100%;
+  font-size: 24px;
+  background: url("../img/symbols-user.png") no-repeat 50% 50%;
+  background-size: 100% auto;
+  /*vertical-align: middle;*/
+}

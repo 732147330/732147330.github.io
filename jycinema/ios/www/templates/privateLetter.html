@@ -1,0 +1,27 @@
+<ion-view view-title="消息中心">
+    <ion-header-bar align-title="center" class="top-xian">
+        <a href="#/tab/account" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">消息中心</div>
+    </ion-header-bar>
+
+    <ion-content scrollbar-y="false">
+        <div class="list-info">
+            <div class="list">
+                <div class="button-bar row" style="border-bottom: 1px solid #ddd;">
+                    <div class="col col50">
+                        <a href="#/messageCenter"  nav-direction="none" style="color:#af292d;font-siez:14px" class="button button-small button-clear fs14">通告</a>
+                    </div>
+                    <div class="col col50">
+                        <a href="#/privateLetter"  class="button button-small button-clear info-active fs14">私信</a>
+                    </div>
+                </div>
+                <div class="item-divider my-divider"></div>
+                <a class="item" href="{{item.href}}" ng-repeat="item in privateLetters">
+                    <h2>{{item.title}}</h2>
+                    <p>今天{{item.time}}</p>
+                </a>
+            </div>
+        </div>
+        <div class="privateletter-pg"></div>
+    </ion-content>
+</ion-view>

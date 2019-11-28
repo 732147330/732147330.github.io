@@ -1,0 +1,37 @@
+<ion-view view-title="意见反馈">
+    <ion-header-bar class="calm-border iphone-x-head" align-title="center">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">意见反馈</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" class="iphone-x-content">
+        <form novalidate name="myForm" ng-submit="submitFeedBack(myForm)">
+            <div class="list comment-pr">
+                <label class="item item-input item-input-wrapper pg15">
+                    <span style="color: red;">*</span>
+                    <textarea ng-model="user.complaintContent" required placeholder="感谢您关注金逸电影，希望您多提意见和建议。" rows="3" cols="10" style="padding-left: 5px"></textarea>
+                </label>
+                <label class="item item-input item-input-wrapper pg15">
+                    <input ng-model="user.emailAddress" ng-pattern="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/" type="email" name="email" placeholder="联系邮箱">
+                </label>
+                <label class="item item-input item-input-wrapper pg15">
+                    <span style="color: red;">*</span>
+                    <input ng-pattern="/^1[3587]\d{9}$/" required="" name="phone" type="tel" ng-model="user.phoneNumber" placeholder="手机号码">
+                </label>
+            </div>
+
+            <div class="uploadImg">
+                <div style="width:82px;float: left;margin-left:10px;" class="pos"  ng-repeat="item in uploadImgData">
+                    <div class="rap"><img ng-src="{{item.imgSrc}}" alt=""></div>
+                    <i on-tap="closeUploadImg($index)" class="ion-android-cancel close"></i>
+                </div>
+                <div style="border:0;width: 80px !important;float: left;margin-left:20px;" on-tap="uploadImg()"><img src="./img/add.png" alt=""></div>
+            </div>
+
+            <div class="item-borderless pt0 pl10 pr10">
+                <button type="submit" ng-disabled="myForm.$invalid" class="button button-block button-jy">
+                    提交
+                </button>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

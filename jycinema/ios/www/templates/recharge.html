@@ -1,0 +1,30 @@
+<ion-view view-title="充值">
+    <ion-header-bar align-title="center" class="iphone-x-head">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">充值</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" class="iphone-x-content">
+            <div class="list recharge-list">
+                <form name="recharge" novalidate ng-submit="rechargeSubmit(recharge)">
+                    <div class="item" style="background-color:#f8f8f8;font-size: 14px;">
+                        <span>充值后可使用余额进行交易支付</span>
+                    </div>
+                    <div class="row rechargeTit" tabs-click="">
+                        <a class="col"><button class="button button-jy-default">100元</button></a>
+                        <a class="col"><button class="button button-jy-default">200元</button></a>
+                        <a class="col"><button class="button button-jy-default">300元</button></a>
+                        <a class="col"><button class="button button-jy-default">500元</button></a>
+                    </div>
+
+                    <div class="item light-border item-borderless">
+                        <label class="item item-input item-money">
+                            <input ng-focus="clearRechargeByType()" ng-model="rechargeByInput.num" min="100" step="100" type="number" placeholder="自定义充值金额(100的倍数)">
+                        </label>
+                     </div>
+                    <div class="pl15 pt20 pr15">
+                        <button type="submit" ng-disabled="{true:'button-jy-disabled'}[!rechargeByType && !rechargeByInput.num || rechargeByInput.num%100!=0]" class="button button-full button-jy" >立即充值</button>
+                    </div>
+                </form>
+            </div>
+    </ion-content>
+</ion-view>

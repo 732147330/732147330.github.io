@@ -1,0 +1,29 @@
+<ion-view view-title="关于我们">
+    <ion-header-bar class="calm-border iphone-x-head" align-title="center">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">关于我们</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" class="iphone-x-content">
+        <div class="logo-aboutUs"><img src="img/icon1.png" alt=""/></div>
+        <div class="list pt20">
+            <a ng-if="appNewVersion" class="item item-icon-right fs14" on-tap="isUpdate()">
+                <span>最新版本：</span>
+                <div class="icon fs14" style="right: 22px">版本号 {{appNewVersion}} <sup ng-if="appNewVersion!=appVersion" class="updateDot"></sup></div>
+            </a>
+            <a class="item item-icon-right fs14" >
+                <span>当前版本：</span>
+                <div class="icon fs14" style="right: 22px">版本号 {{appVersion}}</div>
+            </a>
+            <a class="item item-icon-right fs14" >
+                <span> 金逸客服电话:</span>
+                <div class="icon fs14" style="right: 22px">400-000-8008</div>
+            </a>
+            <a class="item item-icon-right fs14" ui-sref="privacyMent" nav-direction="forward">
+                <span>隐私政策</span>
+                <i class="ion-ios-arrow-right fs28" style="position: absolute;top: 12px;right: 16px;color: #d8d8d8;"></i>
+            </a>
+        </div>
+        <span class="ban-quan fs12 color-999">Copyright © JinYi. All Rights Reserved.</span>
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,35 @@
+<ion-view view-title="权益卡设置">
+  <ion-header-bar align-title="center" class="top-xian">
+    <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+    <div class="h1 title">权益卡设置</div>
+  </ion-header-bar>
+  <ion-content scrollbar-y="false">
+    <form novalidate name="myForm" ng-submit="changePassword(myForm)">
+      <div class="list passlist item-pg pg16">
+        <label class="item item-input">
+          <span class="input-label">绑定手机号：</span>
+          <div style="margin-right: 110px;" type="text">{{rightsDetailData.mobileNumber}}</div>
+          <div ng-if="yzmFlag" stop-propagation="" class="button button-small button-register rights-yzm" on-tap="getYzm()">获取验证码</div>
+          <button ng-if="!yzmFlag" stop-propagation="" disabled="disabled" class="button button-small button-register rights-yzm">{{leftTime}}s后重新获取</button>
+        </label>
+        <label class="item item-input">
+          <span class="input-label">验证码：</span>
+          <input type="text" ng-pattern="/\d{6}/" maxlength="6" required ng-model="user.changeYzm" placeholder="请输入验证码">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">密码设置:</span>
+          <input ng-model="user.newPassword" ng-pattern="/^[a-zA-Z0-9]+$/" ng-minlength="6" ng-maxlength="18" required="" name="password6_18" type="password" placeholder="密码(6-18位)">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">确认密码:</span>
+          <input ng-model="user.reNewPassword" required name="repeatPassword6_18" type="password" placeholder="重复密码">
+        </label>
+      </div>
+      <div class="btn-cp">
+        <button type="submit" ng-disabled="myForm.$invalid" class="button button-block button-full button-buildCard" >
+          保存设置
+        </button>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>

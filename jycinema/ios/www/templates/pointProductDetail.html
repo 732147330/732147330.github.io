@@ -1,0 +1,147 @@
+<ion-view view-title="积分商品详情">
+    <div class="mall-fix-nav">
+        <div class="box">
+            <div class="box1"><div class="mall-iconWrap" nav-direction="back" back-button=""><i class="jyicon iconfont fs20">&#xe638;</i></div></div>
+        </div>
+    </div>
+    <ion-content overflow-scroll='false' scrollbar-y="false" style="z-index:100;">
+        <div class="swiper-container swiper-container-mall-productDetail" style="min-height:375px;">
+            <div class="swiper-wrapper" >
+                <div class="swiper-slide swiper-slide-product" ng-repeat="item in productFocusData"><img style="min-height:375px;" ng-src="{{item}}" alt=""></div>
+            </div>
+            <div class="swiper-pagination swiper-pagination-product"></div>
+        </div>
+
+        <div class="mall-p-wrap" style="border-bottom: 10px solid #f2f2f2;">
+            <div class="box mb10">
+                <div class="box1">
+                    <div class="mall-p-tit">
+                        {{productDetailData.title}}
+                    </div>
+                </div>
+                <!--<div class="ml30">-->
+                <!--<div class="text-center">-->
+                <!--<div class="mt5"><i class="iconfont jyicon fs24">&#xe623;</i></div>-->
+                <!--<div class="fs12">分享</div>-->
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+            <div class="color-ff5715 mb10"><span class="fs22">{{productDetailData.pointsExPoint}}积分<span class="fs22" ng-if="productDetailData.pointsExPrice">+{{productDetailData.pointsExPrice/100 | currency:'¥'}}</span></span></div>
+            <div class="fs14 mb5">市场价:<span style="text-decoration: line-through;">{{productDetailData.mktPrice/100 |currency:'¥'}}</span></div>
+            <!--<div class="box fs14 mb5">-->
+            <!--<div class="box1">快递:包邮</div>-->
+            <!--<div class="box1 text-center">月销{{productDetailData.monthSale}}笔</div>-->
+            <!--<div class="box1 text-right">广东广州</div>-->
+            <!--</div>-->
+        </div>
+
+        <div class="mall-p-wrap" style="border-bottom:10px solid #f2f2f2;" ng-if="productDetailData.skuItemType!='GROUND_GOODS'">
+            <div class="box" on-tap="showShare($event)" stop-propagation="">
+                <div class="box1" ng-if="chooseFlag==false">选择:  已选{{chooseName}}</div>
+                <div class="box1" ng-if="chooseFlag==true">选择:  已选{{chooseNameActive}}</div>
+                <div><i class="iconfont jyicon">&#xe61d;</i></div>
+            </div>
+        </div>
+
+        <div class="mall-p-wrap" style="border-bottom:10px solid #f2f2f2;" ng-if="productDetailData.skuItemType=='GROUND_GOODS'">
+            <div class="box" ui-sref="sinceTheater({itemId:{{itemId}},skuId:{{skuId}}})" nav-direction="forward">
+                <div class="box1">选择(影院): {{address.selCinemaName}}</div>
+                <div><i class="iconfont jyicon">&#xe61d;</i></div>
+            </div>
+        </div>
+
+        <div class="mall-p-wrap" style="padding-bottom: 70px;">
+            <div class="box text-center mall-p-detail">
+                <div on-tap="getCurrentIndex($index)" ng-repeat="item in tabs" class="box1 {{currentIndex==$index?'active':''}}">{{item.name}}</div>
+                <!--<div ng-repeat="item in tabs" class="box1 active">图文详情</div>-->
+                <!--<div class="box1">规格参数</div>-->
+                <!--<div class="box1">购买须知</div>-->
+            </div>
+
+            <div ng-if="currentIndex==0" class="my-flex">
+                <div ng-bind-html="productDetailData.specInfoDetail"></div>
+            </div>
+            <div ng-if="currentIndex==1">
+                <div class="product-p" ng-repeat="row in specificationsData">
+                    <p>{{row.propName}} :<span class="pl20">{{row.propValue}}</span></p>
+                </div>
+            </div>
+            <div ng-if="currentIndex==2">
+                <div class="product-p">
+                    <p>1.预售说明：金逸所有的预售商品将在用户购买成功后，正常情况下15天后会安排发货到影城；如果遇到特殊情况，我们会及时与买家联系，亲们在购买时也可以咨询客服。</p>
+                    <p style="padding-top: 10px">2.取货说明：用户购买的物品到达对应的取货影城后，会短信沟通买家尽快取货，物品可在影城保留7天存放，请买家收到通知到尽快领取。</p>
+                    <p style="padding-top: 10px">3.退货说明：用户在未领取之前可在领取影城当面签收和查验，若商品本身无质量问题，一旦领取就无法退货。</p>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+    <div class="mall-p-group-btn">
+        <div class="box">
+            <div on-tap="buy()" class="box1" style="background: #998278;color: #fff;" >立即兑换</div>
+        </div>
+    </div>
+
+    <script id="templates/pointProductDetail.html" type="text/ng-template">
+        <style>
+            .modal-backdrop, .modal-backdrop-bg{
+                top: auto!important;
+                bottom: 0;
+                z-index: 100;
+                max-height:70%;
+            }
+            .modal-backdrop .modal-wrapper{
+                max-height:100%;
+                height: 100%;
+            }
+        </style>
+        <ion-modal-view class="layer">
+            <ion-content overflow-scroll="false" scrollbar-y="false" stop-propagation="" style="overflow: inherit;">
+                <div class="specWrap">
+                    <div class="box">
+                        <div class="p-img-thumb mr10"><img ng-src="{{productDetailModalData.appAbbImg}}" alt=""></div>
+                        <div class="box1 mt20">
+                            <div class="color-ff5715"><span class="fs16">{{productDetailModalData.pointsExPoint}}积分</span>
+                                <span class="fs16" ng-if="productDetailData.pointsExPrice">+{{productDetailData.pointsExPrice/100 | currency:'¥'}}</span></div>
+                            <div>库存{{productDetailModalData.storeQty}}件</div>
+                        </div>
+                        <div class="mt10" on-tap="hideShare($event)"><i class="jyicon iconfont fs20 color-999">&#xe692;</i></div>
+                    </div>
+                </div>
+
+                <div class="specWrap" ng-repeat="item in attributesData" ng-init="index=$index">
+                    <div class="mb10">{{item.name}}</div>
+                    <div class="box">
+                        <div class="box" ng-repeat="subItem in item.value">
+                            <div ng-click="getActiveStatus($index,index)" class="btn-color {{subItem.active?'active':''}} mr10">{{subItem.propValue}}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="specWrap" ng-show="productDetailData.skuSourceType!='ONLINE_EQUITY_CARD'&&productDetailData.skuSourceType!='ONLINE_GIFT_CARDS'">
+                    <div class="box">
+                        <div class="box1">购买数量</div>
+                        <div class="sales-qty" style="position: inherit">
+                            <span on-tap="reduce()" class="reduce fs24">-</span>
+                            <span class="sales-qty-value">{{qty?qty:1}}</span>
+                            <span on-tap="add()" class="add fs22">+</span>
+                        </div>
+                    </div>
+                </div>
+            </ion-content>
+            <!--<button class="button button-assertive button-block specButton" on-tap="confirm($event)">确定</button>-->
+            <div class="mall-p-group-btn">
+                <div class="box">
+                    <div on-tap="buy()" class="box1" style="background: #998278;color: #fff;">立即兑换</div>
+                </div>
+            </div>
+            <div class="p-tip {{tipFlag?'active':''}}">
+                <div class="mb5"><i class="jyicon iconfont fs28 color-ff5715">&#xe640;</i></div>
+                <div>{{text}}</div>
+            </div>
+        </ion-modal-view>
+
+    </script>
+
+</ion-view>
+

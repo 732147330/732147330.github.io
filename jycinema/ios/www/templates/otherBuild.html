@@ -1,0 +1,26 @@
+<ion-view view-title="第三方绑定">
+    <ion-header-bar align-title="center" class="top-xian iphone-x-head">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">第三方绑定</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" class="iphone-x-content">
+        <div class="list passlist">
+            <a on-tap="qqBind()" class="item item-avatar item-icon-right">
+                <div class="img-pg {{qqBindStatus?'color-03a9f4':'color-999'}}" style="top: 28px;left: 20px;"><i class="iconfont icon fs34">&#xe63e;</i></div>
+                <span class="right-biao">{{qqBindStatus?'解绑':'立即绑定'}}</span>
+                <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+            </a>
+            <a on-tap="wxBind()" class="item item-avatar item-icon-right">
+                <span style="color: red;position: absolute;left: 8px;top: 5px">*</span>
+                <div class="img-pg {{wxBindStatus?'color-4caf50':'color-999'}}" style="top: 28px;left: 20px;"><i class="iconfont icon fs34">&#xe693;</i></div>
+                <span class="right-biao">{{wxBindStatus?'解绑':'立即绑定'}}</span>
+                <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+            </a>
+            <a on-tap="weiboBind()" class="item item-avatar item-icon-right">
+                <div class="img-pg {{weiboBindStatus?'color-ff9800':'color-999'}}" style="top: 28px;left: 20px;"><i class="iconfont icon fs34">&#xe641;</i></div>
+                <span class="right-biao">{{weiboBindStatus?'解绑':'立即绑定'}}</span>
+                <div class="icon ion-ios-arrow-right ion-tu-biao"></div>
+            </a>
+        </div>
+    </ion-content>
+</ion-view>

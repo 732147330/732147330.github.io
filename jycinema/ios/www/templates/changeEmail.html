@@ -1,0 +1,21 @@
+    <ion-view view-title="编辑邮箱">
+        <form ng-submit="save(myForm)" novalidate name="myForm" >
+            <ion-header-bar align-title="center" class="top-xian iphone-x-head">
+                <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+                <div class="h1 title">编辑邮箱</div>
+
+                <button type="submit" class="button button-clear pg10 pg11 iphone-x-button">
+                    保存
+                </button>
+            </ion-header-bar>
+            <ion-content scrollbar-y="false" class="iphone-x-content">
+
+                <div class="list passlist">
+                    <label class="item item-input label-pg">
+                        <span class="input-label">邮箱:</span>
+                        <input ng-model="user.email"  ng-pattern="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/" type="email" name="email" required="">
+                    </label>
+                </div>
+            </ion-content>
+        </form>
+    </ion-view>

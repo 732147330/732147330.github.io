@@ -1,0 +1,99 @@
+<ion-view view-title="影院列表">
+    <ion-header-bar align-title="center" class="iphone-x-head">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">影院</div>
+        <span class="scan iphone-x-icon2">
+            <a ui-sref="selectCity" style="color: #998278;"  nav-direction="forward" class=" fs14">{{currentCity}} <i ui-sref="selectCity" nav-direction="forward" class="ion-chevron-down"></i></a>
+        </span>
+    </ion-header-bar>
+    <div class="theatreImg iphonex-banner" ng-if="theatreBanner&&!gpsFlag"><img class="animated fadeIn" style="display: block;" ng-src="{{theatreBanner}}"></div>
+    <ion-content class="bxjg-currentLine iphone-x-content" scrollbar-y="false" style="margin-bottom: 30px;" on-scroll="hideGpsTip()" on-scroll-complete="showGpsTip()">
+        <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+        <ion-list ng-if="theatreListBySort.length>=0" ng-class="theatreBanner?'currentLineSlide':''">
+            <!--<ion-item class="theatre-item" ng-if="resort&&!gpsFlag">-->
+                <!--<div class="listCon">-->
+                    <!--<div ui-sref="theatreDetail({movieId:'{{resort.filmId}}',theatreId:'{{resort.cinemaId}}',flag:true})" nav-direction="forward">-->
+                        <!--<h2 class="fs16">{{resort.cinemaNameAlt}}-->
+                            <!--<i class="ion jyicon fs20" style="color: #998278">&#xe698;</i>-->
+                        <!--</h2>-->
+                        <!--<p class="listCon-address fs12">{{resort.address1}}</p>-->
+                    <!--</div>-->
+                    <!--<div class="theatreIcon"><i class="icon iconfont" ng-repeat="subItem in resort.screenTypeCode" ng-bind-html="subItem.code"></i></div>-->
+                <!--</div>-->
+                <!--<div class="listOpt">-->
+                    <!--<button ui-sref="schedule({movieId:movieId,theatreId:'{{resort.cinemaId}}'})" class="jyBtn-m">购票</button>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;<div class="yd-btn" ui-sref="schedule({movieId:movieId,theatreId:'{{item.cinemaId}}'})" >&ndash;&gt;-->
+                <!--&lt;!&ndash;<img src="./img/yd-btn.png">&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--<p class="fs12 distanceVlue" ng-if="resort.distance>=1000">{{resort.distance/1000 | number:2}}km</p>-->
+                <!--<p class="fs12 distanceVlue" ng-if="resort.distance<1000">{{resort.distance | number:2}}m</p>-->
+            <!--</ion-item>-->
+            <ion-item class="theatre-item" ng-repeat="item in theatreListBySort ">
+                <div class="listCon">
+                    <div ui-sref="theatreDetail({movieId:'{{item.filmId}}',theatreId:'{{item.cinemaId}}',flag:true})" nav-direction="forward">
+                        <h2 class="fs16">{{item.cinemaNameAlt}}</h2>
+                        <p class="listCon-address fs12">{{item.address1}}</p>
+                    </div>
+                    <div class="theatreIcon"><i class="icon iconfont" ng-repeat="subItem in item.screenTypeCode" ng-bind-html="subItem.code"></i></div>
+                </div>
+                <div class="listOpt">
+                    <button ui-sref="schedule({movieId:movieId,theatreId:'{{item.cinemaId}}'})" class="jyBtn-m">购票</button>
+                </div>
+                <!--<div class="yd-btn" ui-sref="schedule({movieId:movieId,theatreId:'{{item.cinemaId}}'})">-->
+                    <!--<img src="./img/yd-btn.png">-->
+                <!--</div>-->
+                <p class="fs12 distanceVlue" ng-if="item.distance>=1000">{{item.distance/1000 | number:2}}km</p>
+                <p class="fs12 distanceVlue" ng-if="item.distance<1000">{{item.distance | number:2}}m</p>
+            </ion-item>
+        </ion-list>
+
+        <!--<ion-spinner style="position: absolute;top:150px;left: 50%;margin-left: -14px;" ng-if="gpsFlag" icon="ios-small"></ion-spinner>-->
+        <div ng-if="gpsFlag">
+            <img src="./img/jylogo.gif">
+        </div>
+        <div ng-if='noData' class="noData">
+            <i class="ion-android-alert fs48"></i>
+            <p class="fs12">暂无影院信息!</p>
+        </div>
+    </ion-content>
+    <div class="bxjg-account-bg"></div>
+    <div id="allmap"></div>
+    <div ng-if="gpsTip" class="positionBlock" on-tap="getGPSInfo()"><i class="ion-refresh"></i> 我的位置: {{address}}</div>
+    <script id="templates/modal2.html" type="text/ng-template">
+        <style>
+            .modal-backdrop, .modal-backdrop-bg{
+                bottom: 0;
+                z-index: 100;
+                max-height: 100%;
+            }
+            .modal-backdrop .modal-wrapper{
+                max-height:100%;
+                height: 100%;
+            }
+        </style>
+        <ion-modal-view class="layer" style="background: none;height:100vh;">
+            <ion-header-bar align-title="center">
+                <a on-tap="hideFilter()" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+                <div class="h1 title">影院</div>
+                <span class="scan"><i on-tap="showFilter($event)" ng-if="!modalFlag" class="icon iconfont fs20">&#xe685;</i><i on-tap="hideFilter()" ng-if="modalFlag" class="icon iconfont color-af292d fs20">&#xe692;</i></span>
+            </ion-header-bar>
+            <ion-content overflow-scroll="false" scrollbar-y="false" scroll="false" style="background: #fff;height:100vh;">
+                <div class="subTittle">区域 <span class="fs12 ml5 color-af292d">{{currentData['area'].careaname || '不限'}}</span></div>
+                <ul class="filterArea clearfix fs13">
+                    <li ng-repeat="item in areaData"><div get-current data-area="{{item}}">{{item.careaname}}</div></li>
+                </ul>
+                <div class="subTittle">影厅 <span class="fs12 ml5 color-af292d">{{currentData['theatre'].name || '不限'}}</span></div>
+                <ul class="filterArea clearfix fs13">
+                    <li ng-repeat="item in theatreData"><div get-current data-theatre="{{item}}">{{item.name}}</div></li>
+                </ul>
+            </ion-content>
+            <div class="footerFilter">
+                <div class="row">
+                    <div class="col mr5"><button class="btn btn-filterBtn" on-tap="hideFilter()">取消筛选</button></div>
+                    <div class="col"><button class="btn btn-filterBtn btn-filterBtn-active" on-tap="searchTheatre()">确定</button></div>
+                </div>
+            </div>
+        </ion-modal-view>
+    </script>
+</ion-view>

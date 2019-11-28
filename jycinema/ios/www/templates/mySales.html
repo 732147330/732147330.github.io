@@ -1,0 +1,66 @@
+<ion-view view-title="我的卖品">
+    <style>
+        .box{
+            height: 100%;
+        }
+    </style>
+    <ion-header-bar align-title="center" class="top-xian iphone-x-head">
+        <a ui-sref="myOrder" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">我的卖品</div>
+    </ion-header-bar>
+    <div class="pos clearfix iphonex-mt" tabs-click="" style="margin-top: 64px">
+        <a class="stap step1" style="width: 50%;" ng-class="activeIndex==0?'active':''">未领取</a>
+        <a class="stap step2" style="width: 50%;" ng-class="activeIndex==1?'active':''">已领取</a>
+    </div>
+    <ion-content overflow-scroll="false" scrollbar-y="false" has-bouncing="false" class="iphone-x-content" style="top: 114px">
+        <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+
+        <ion-slide-box active-slide="slideTo()" show-pager="false" on-slide-changed="slideHasChanged($index)">
+            <ion-slide class="slider-slide-vh myTicketsSlide">
+              <div ui-sref="orderSuccessfully({ordNum:'{{item.orderCode}}',fromPage:'mySales'})" ng-if="item.goods && item.goods.length>0" class="list" ng-repeat="item in untakeData">
+                <a class="item item-thumbnail-left" ng-repeat="subItem in item.goods">
+                    <img style="height: auto!important;" ng-src="{{subItem.accessPath}}">
+                    <h2 style="font-weight:normal;margin-top: 10px;">{{subItem.title}}</h2>
+                    <p>{{subItem.specNatureInfo}}</p>
+                    <p>{{subItem.price | currency:'￥'}} X {{subItem.num}}</p>
+                    <i class="mySalesTag icon jyicon">&#xe625;</i>
+                </a>
+                <p class="color-999">
+                    <div class="row" style="padding: 0 10px;">
+                        <div class="col col-60 fs12 text-left">
+                            下单时间: {{item.orderTime}}
+                          <div>取货码:<span class="color-998278"> {{item.vistaBookingId}}</span></div>
+                        </div>
+                        <div class="col col-40 fs12 text-right" style="line-height: 40px;">小计:{{item.paymentAmount | currency:'￥'}}</div>
+                    </div>
+                </p>
+                <div class="my-divider"></div>
+              </div>
+              <div ng-if="untakeData.length==0" class="text-center pt100 color-999">{{languageSetting.noDataTip}}</div>
+            </ion-slide>
+
+            <ion-slide class="slider-slide-vh myTicketsSlide">
+              <div ui-sref="orderSuccessfully({ordNum:'{{item.orderCode}}',fromPage:'mySales'})" ng-if="item.goods && item.goods.length>0" class="list" ng-repeat="item in takedData">
+                <a class="item item-thumbnail-left" ng-repeat="subItem in item.goods">
+                  <img style="height: auto!important;" ng-src="{{subItem.accessPath}}">
+                  <h2 style="font-weight:normal;margin-top: 10px;">{{subItem.title}}</h2>
+                  <p>{{subItem.specNatureInfo}}</p>
+                  <p>{{subItem.price | currency:'￥'}} X {{subItem.num}}</p>
+                  <i class="mySalesTag icon jyicon" style="color: #ccc;font-size:42px;">&#xe614;</i>
+                </a>
+                <p class="color-999">
+                  <div class="row" style="padding: 0 10px;">
+                    <div class="col col-60 fs12 text-left">
+                      下单时间: {{item.orderTime}}
+                      <div>取货码:<span class="color-ccc" style="text-decoration: line-through"> {{item.vistaBookingId}}</span></div>
+                    </div>
+                    <div class="col col-40 fs12 text-right" style="line-height: 40px;">小计:{{item.paymentAmount | currency:'￥'}}</div>
+                  </div>
+                </p>
+                <div class="my-divider"></div>
+              </div>
+              <div ng-if="takedData.length==0" class="text-center pt100 color-999">{{languageSetting.noDataTip}}</div>
+            </ion-slide>
+        </ion-slide-box>
+    </ion-content>
+</ion-view>

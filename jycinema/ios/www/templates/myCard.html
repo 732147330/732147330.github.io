@@ -1,0 +1,23 @@
+<ion-view view-title="我的卡包">
+    <ion-header-bar align-title="center" class="top-xian iphone-x-head">
+        <a back-button="" nav-direction="back" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">我的卡包</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" has-bouncing="true" class="iphone-x-content">
+        <ion-refresher spinner="ios-small" pulling-icon="" on-refresh="doRefresh()"></ion-refresher>
+        <div class="list cardList" ng-repeat="item in MyVoucherData">
+            <a class="item item-thumbnail-left" on-tap="checkGoUrl($index)">
+                <span class="cardText" ng-class="{true:'cardText_active'}[item.voucherStatus=='NOT_USED' && item.endDateActive>=currentTime]">
+                    <h2 class="fs14">￥<strong class="fs24">{{item.voucherValues}}</strong> 抵扣券</h2>
+                    <p></p>
+                </span>
+                <h2>金逸{{item.voucherValues}}元电影票抵扣券</h2>
+                <p class="fs12">有效日期:</p>
+                <div class="fs12">{{item.startDateActive | date:'yyyy-MM-dd'}} 至 {{item.endDateActive | date:'yyyy-MM-dd'}}</div>
+            </a>
+        </div>
+    </ion-content>
+    <ion-footer-bar ng-if="fromPage=='queryOrder' && isShow=='Y'" align-title="center" style="padding: 12px 15px;z-index:110;height:68px;">
+        <button on-tap="beginGo()" class="button button-select fs16">立即使用</button>
+    </ion-footer-bar>
+</ion-view>

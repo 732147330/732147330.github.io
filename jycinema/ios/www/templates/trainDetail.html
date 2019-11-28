@@ -1,0 +1,12 @@
+<ion-view view-title="走进金逸">
+    <ion-header-bar align-title="center" class="top-xian">
+        <a back-button="" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">培训分享</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false">
+        <div style="padding: 15px;">
+            <h2 style="padding:20px 30px;border-bottom: 1px solid #f5f5f5;text-align: center;color: #000;font-size:20px;">{{trainData[id].tit}}</h2>
+            <div class="businessContent" ng-bind-html="trainData[id].content"></div>
+        </div>
+    </ion-content>
+</ion-view>

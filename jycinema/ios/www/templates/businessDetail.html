@@ -1,0 +1,23 @@
+<ion-view view-title="走进金逸">
+    <ion-header-bar align-title="center" class="top-xian iphone-x-head">
+        <a back-button="" class="backButton"><i class="ion-ios-arrow-left fs30"></i></a>
+        <div class="h1 title">{{name}}</div>
+    </ion-header-bar>
+    <ion-content scrollbar-y="false" class="iphone-x-content">
+
+        <div ng-if="id=='SHARE_TRAINING'||id=='JINYI_DONATION'||id=='JINYI_STYLE'||id=='JINYI_DYNAMIC'">
+            <ul class="list">
+                <li class="item" ng-repeat="item in jydtTit">
+                    <a ui-sref="JinyiCulture({id:'{{item.articleId}}'})">{{item.articleTitle}}</a>
+                </li>
+            </ul>
+        </div>
+
+        <div ng-if="id=='INTRODUCTION'|| id=='TRAINING_NOTICE'||id=='JINYI_VIEW' ||id=='TRAINING' || id=='SOICIAL_REC'||id=='INTERNAL_REC' ||id=='CAMPUS_REC'||id=='BUSINESS_CONSULTANT'||id=='HR_RECRUIT'||id=='COMPLAINT_ADVISE'">
+            <div style="padding: 15px;" ng-repeat="item in jydtTit">
+                <div ng-bind-html="item.articleContent"></div>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

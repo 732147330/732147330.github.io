@@ -1,0 +1,42 @@
+<ion-view view-title="砸金蛋">
+    <div class="wheelObj-nav" ng-if="resData">
+        <div class="box">
+            <div class="wheelObj-nav-arrow" back-button="" nav-direction="back"><i class="jyicon fs22 color-fff">&#xe638;</i></div>
+        </div>
+    </div>
+    <ion-content class="wheelObj" ng-style="guaguaObj">
+        <div ng-style="guaguaBgObj" style="height: 100vh;" ng-if="resData">
+            <div style="padding-top: 55%;"></div>
+            <div class="flex mt30">
+                <div class="flex-33" ng-repeat="item in eggrr">
+                    <div class="eggPic pos" on-tap="startDrawLottery($index)">
+                        <div ng-style="item.egg"></div>
+                        <img class="hammer {{item.hammerFlag?'active':''}}" ng-src="{{resData.hammerPic}}" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt10" style="color: white;">剩余刮奖次数: {{remainingFrequency?remainingFrequency:0}}次</div>
+
+            <div class="mt20"><img src="./img/award-line.png" alt=""></div>
+            <div class="ruleText" ng-bind-html="ruleText"></div>
+            <div class="text-center color-fff fs20 mb20">中奖名单公布</div>
+            <marquee align="middle" behavior="scroll" direction="up" height="250"  hspace="0" vspace="0" loop="-1" scrollamount="6" scrolldelay="0">
+            　  <div class="ruleText text-center mt30 color-fff" ng-bind-html="winText"></div>
+        　  </marquee >
+        </div>
+    </ion-content>
+    <div ng-if="flag" class="showPrize animated zoomIn">
+        <div class="prizeImg"><img ng-src="{{prizePic}}" alt=""></div>
+        <!--<div class="text-center" style="height: 20px;overflow: hidden;">{{prizeText}}</div>-->
+        <div class="text-center mt20" style="position: absolute;bottom: 20px;left:50%;margin-left:-97px">
+            <button style="background: #ef473a;color: #fff;padding:10px 15px;border: none;" id="resetBtn" on-tap="restart()">再砸一次</button>
+            <button ng-if="prizeId>0&&isJump=='NONE_JUMP'" style="background: #ef473a;color: #fff;padding:10px 15px;border: none;margin-left: 38px"  on-tap="look()">去查看</button>
+            <button ng-if="prizeId>0&&isJump=='JUMP_TO_CONFIRM'" style="background: #ef473a;color: #fff;padding:10px 15px;border: none;"  on-tap="goAddress()">确认收货地址</button>
+            <button ng-if="prizeId>0&&isJump=='JUMP_TO_ADD'" style="background: #ef473a;color: #fff;padding:10px 15px;border: none;"  on-tap="goAddress()">填写收货地址</button>
+        </div>
+    </div>
+    <div class="showPrizeMask" ng-if="flag">
+
+    </div>
+</ion-view>
