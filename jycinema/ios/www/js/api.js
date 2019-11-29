@@ -1,5 +1,9 @@
 /**
  * Created by xiongshengzhong on 16/8/28.
+ * app环境
+ * node 8.0.0
+ * cordova 6.5.0
+ * ionic 2.2.3
  */
 // console.log(new Date().getTime())
 var locals = {

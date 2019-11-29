@@ -930,14 +930,14 @@ app.controller('homeCtrl', function ($scope, $rootScope, $interval, $cordovaStat
         }
     }
 
-    /*
+    /**
      *  二维码扫描地址跳转
      *  参数格式：
      *  ?param=value
      *  ?param1=value1&param2=value2
      *  ?param1=value1&param2=value2&param3=value3
      *  .....
-     */
+     **/
     $scope.qcCodeUrlGo = function (paramUrl) {
         var url = paramUrl.split('wap/');//正式地址切换
         //var url = paramUrl.split('wapprivate/');//私有独立节点
